@@ -14,4 +14,8 @@ public interface LoginView extends BaseView {
     void showErrorLogin(String message);
 
     void navigateToMain();
+
+    void showPhoneNumberFieldError(String message);
+
+    void showCredentialsFieldError(String message);
 }

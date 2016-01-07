@@ -1,6 +1,6 @@
 package com.fslab.android.patungan.login;
 
-import android.content.Context;
+import android.text.TextUtils;
 
 import com.fslab.android.patungan.BasePresenterImpl;
 import com.fslab.android.patungan.Injector;
@@ -19,26 +19,42 @@ public class LoginPresenterImp extends BasePresenterImpl<LoginView> implements L
 
     @Inject LoginService loginService;
 
-    @Inject
     public LoginPresenterImp() {
         Injector.INSTANCE.getApplicationGraph().inject(this);
     }
 
     @Override
     public void loginMember() {
-        getView().showLoading(true);
+
+        if (getView() == null) {
+            throw new NullPointerException("View is null");
+        }
 
         String phoneNumber = getView().getPhoneNumber();
         String UID = getView().getUID();
         String credentials = getView().getCredentials();
 
+        if (TextUtils.isEmpty(phoneNumber)) {
+            getView().showPhoneNumberFieldError("Please provide your phone number");
+            return;
+        }
+
+        if (TextUtils.isEmpty(credentials)) {
+            getView().showCredentialsFieldError("Please provide your password");
+            return;
+        }
+
+        getView().showLoading(true);
         Call<LoginResponse> call = loginService.login(phoneNumber, UID, credentials);
         call.enqueue(new Callback<LoginResponse>() {
             @Override
             public void onResponse(Response<LoginResponse> response, Retrofit retrofit) {
                 getView().showLoading(false);
                 if (response.body() != null) {
-                    if (isViewAttached()) {
+                    LoginResponse loginResponse = response.body();
+                    if (loginResponse.status.equals(LoginResponse.STATUS_LOGIN_FAILED)) {
+                        getView().showErrorLogin("Invalid phone number or password.");
+                    } else {
                         getView().navigateToMain();
                     }
                 }

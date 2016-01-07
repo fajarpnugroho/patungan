@@ -1,6 +1,8 @@
 package com.fslab.android.patungan.services.response;
 
 public class LoginResponse {
+    public static final String STATUS_LOGIN_FAILED = "LOGIN_FAILED";
+
     public final String token;
     public final String status;
     public final String msisdn;

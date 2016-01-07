@@ -10,7 +10,7 @@ public class BasePresenterImpl<V extends BaseView> implements BasePresenter<V> {
 
     @Override
     public void attachView(V view) {
-        viewRef = new WeakReference<V>(view);
+        viewRef = new WeakReference<>(view);
     }
 
     @Override
