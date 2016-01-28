@@ -17,4 +17,9 @@
     <string name="permission_rationale">"Contacts permissions are needed for providing email
         completions."
     </string>
+    <string name="label_button_login">Login with mandiri e-cash</string>
+    <string name="label_phone_number">Phone number</string>
+    <string name="label_password">Password</string>
+    <string name="label_text_onboarding">Collecting cash with less worries</string>
+    <string name="label_powered_by">Powered by</string>
 </resources>

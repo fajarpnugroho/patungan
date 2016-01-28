@@ -1,4 +1,4 @@
-package com.fslab.android.patungan;
+package com.chefcode.android.patungan;
 
 import org.junit.Test;
 
