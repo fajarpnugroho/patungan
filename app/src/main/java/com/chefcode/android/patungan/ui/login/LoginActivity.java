@@ -14,5 +14,11 @@ public class LoginActivity extends BaseActivity {
     }
 
     public void onLoginClick(View view) {
+        DialogLoginFragment dialogLoginFragment = DialogLoginFragment.newInstance();
+        dialogLoginFragment.show(getSupportFragmentManager(), "ShowLoginDialog");
+    }
+
+    public void loginWithPhoneNumber(View view) {
+
     }
 }
