@@ -1,23 +1,36 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@android:color/transparent"
-    android:orientation="vertical"
-    android:padding="@dimen/activity_horizontal_margin"
-    tools:context=".ui.login.LoginActivity">
+    android:background="@android:color/transparent">
 
-    <include layout="@layout/layout_login" />
-
-    <Button
-        android:id="@+id/button_login"
-        style="@style/Widget.Udacity.Button.Login"
+    <LinearLayout
+        android:id="@+id/login_container"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/input_field_height"
-        android:layout_marginBottom="@dimen/lv_header_text_size"
-        android:background="@drawable/button_login"
-        android:text="Login"
-        android:textColor="@android:color/white" />
+        android:layout_height="250dp"
+        android:orientation="vertical"
+        android:padding="@dimen/activity_horizontal_margin"
+        tools:context=".ui.login.LoginActivity">
 
-</LinearLayout>
+        <include layout="@layout/layout_login" />
+
+        <Button
+            android:id="@+id/button_login"
+            style="@style/Widget.Udacity.Button.Login"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/input_field_height"
+            android:layout_marginBottom="@dimen/lv_header_text_size"
+            android:background="@drawable/button_login"
+            android:text="Login"
+            android:textColor="@android:color/white" />
+
+    </LinearLayout>
+
+    <com.chefcode.android.patungan.ui.widget.LoadingView
+        android:id="@+id/view_loading"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="gone"/>
+
+</FrameLayout>

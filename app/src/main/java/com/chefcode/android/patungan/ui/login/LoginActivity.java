@@ -1,12 +1,13 @@
 package com.chefcode.android.patungan.ui.login;
 
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.View;
 
 import com.chefcode.android.patungan.BaseActivity;
 import com.chefcode.android.patungan.R;
 
-public class LoginActivity extends BaseActivity {
+public class LoginActivity extends BaseActivity implements DialogOnDismissListener {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -18,7 +19,8 @@ public class LoginActivity extends BaseActivity {
         dialogLoginFragment.show(getSupportFragmentManager(), "ShowLoginDialog");
     }
 
-    public void loginWithPhoneNumber(View view) {
+    @Override
+    public void handleDialogClose(DialogInterface dialog) {
 
     }
 }

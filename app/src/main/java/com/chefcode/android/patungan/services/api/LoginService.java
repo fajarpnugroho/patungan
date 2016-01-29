@@ -9,6 +9,6 @@ import retrofit.http.Query;
 public interface LoginService {
     @GET("loginMember")
     Call<LoginResponse> login(@Query("msisdn") String phoneNumber,
-                              @Query("UID") String UID,
+                              @Query("uid") String uid,
                               @Query("credentials") String userCredentials);
 }

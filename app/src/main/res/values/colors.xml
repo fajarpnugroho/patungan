@@ -7,9 +7,13 @@
 
     <color name="accent">#DF4A32</color>
 
-    <color name="primary">#FFC90D</color>
-    <color name="primary_dark">#927B0D</color>
-    <color name="primary_light">#FADF83</color>
+    <color name="primary">#41BA2A</color>
+    <color name="primary_dark">#349421</color>
+    <color name="primary_light">#77DF64</color>
+
+    <color name="secondary">#FFC90D</color>
+    <color name="secondary_dark">#927B0D</color>
+    <color name="secondary_light">#FADF83</color>
 
     <color name="light_black">#747474</color>
     <color name="black">#616161</color>

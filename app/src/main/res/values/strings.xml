@@ -22,4 +22,5 @@
     <string name="label_password">Password</string>
     <string name="label_text_onboarding">Collecting cash with less worries</string>
     <string name="label_powered_by">Powered by</string>
+    <string name="label_sign_up">I don\'t have mandiri e-cash account. <a>Sign up</a></string>
 </resources>

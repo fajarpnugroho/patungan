@@ -1,6 +1,10 @@
 package com.chefcode.android.patungan.ui.login;
 
+import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.app.Dialog;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.DialogFragment;
@@ -8,10 +12,14 @@ import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
+import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import com.chefcode.android.patungan.Injector;
 import com.chefcode.android.patungan.R;
+import com.chefcode.android.patungan.ui.widget.LoadingView;
 
 import javax.inject.Inject;
 
@@ -21,8 +29,10 @@ import butterknife.OnClick;
 
 public class DialogLoginFragment extends DialogFragment implements DialogLoginView {
 
+    @Bind(R.id.login_container) LinearLayout loginContainer;
     @Bind(R.id.edit_text_phone) EditText editTextPhone;
     @Bind(R.id.edit_text_password) EditText editTextPassword;
+    @Bind(R.id.view_loading) LoadingView loading;
 
     @Inject DialogLoginPresenter presenter;
 
@@ -52,6 +62,7 @@ public class DialogLoginFragment extends DialogFragment implements DialogLoginVi
 
     @NonNull
     @Override
+    @SuppressLint("InflateParams")
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity(),
                 R.style.CustomTheme_Dialog);
@@ -65,7 +76,13 @@ public class DialogLoginFragment extends DialogFragment implements DialogLoginVi
     }
 
     @OnClick(R.id.button_login)
-    void onBtnLoginClick() {
+    void onBtnLoginClick(View view) {
+        // Close keyboard when click login button
+        if (view != null) {
+            InputMethodManager imm = (InputMethodManager) getContext()
+                    .getSystemService(Context.INPUT_METHOD_SERVICE);
+            imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+        }
         presenter.loginMandiriEcash();
     }
 
@@ -80,16 +97,6 @@ public class DialogLoginFragment extends DialogFragment implements DialogLoginVi
     }
 
     @Override
-    public boolean isPhoneNumberEmpty() {
-        return getInputPhoneNumber().isEmpty() || getInputPhoneNumber().length() < 0;
-    }
-
-    @Override
-    public boolean isPasswordEmpty() {
-        return getInputPassword().isEmpty() || getInputPassword().length() < 0;
-    }
-
-    @Override
     public void phoneNumberError() {
         editTextPhone.setError("Phone number is empty!");
         editTextPhone.requestFocus();
@@ -99,5 +106,45 @@ public class DialogLoginFragment extends DialogFragment implements DialogLoginVi
     public void passwordError() {
         editTextPassword.setError("Password is empty!");
         editTextPassword.requestFocus();
+    }
+
+    @Override
+    public void onLogin(boolean login) {
+        if (login) {
+            loginContainer.setVisibility(View.GONE);
+            loading.show();
+        } else {
+            loginContainer.setVisibility(View.VISIBLE);
+            loading.hide();
+        }
+    }
+
+    @Override
+    public void dismissDialogLogin() {
+        dismiss();
+    }
+
+    @Override
+    public void showLoginContainer(boolean show) {
+        if (show) {
+            loginContainer.setVisibility(View.VISIBLE);
+        } else {
+            loginContainer.setVisibility(View.GONE);
+        }
+    }
+
+    @Override
+    public void showToastError(String message) {
+        Toast.makeText(getActivity(), message, Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onDismiss(DialogInterface dialog) {
+        super.onDismiss(dialog);
+        Activity activity = getActivity();
+
+        if (activity instanceof DialogOnDismissListener) {
+            ((DialogOnDismissListener) activity).handleDialogClose(dialog);
+        }
     }
 }

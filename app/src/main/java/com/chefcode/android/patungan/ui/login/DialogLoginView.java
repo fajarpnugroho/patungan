@@ -4,12 +4,16 @@ public interface DialogLoginView {
     String getInputPhoneNumber();
 
     String getInputPassword();
-    
-    boolean isPhoneNumberEmpty();
-
-    boolean isPasswordEmpty();
 
     void phoneNumberError();
 
     void passwordError();
+
+    void onLogin(boolean login);
+
+    void dismissDialogLogin();
+
+    void showLoginContainer(boolean show);
+
+    void showToastError(String message);
 }
