@@ -139,6 +139,11 @@ public class DialogLoginFragment extends DialogFragment implements DialogLoginVi
     }
 
     @Override
+    public void setDialogCancelable(boolean canceled) {
+        setCancelable(canceled);
+    }
+
+    @Override
     public void onDismiss(DialogInterface dialog) {
         super.onDismiss(dialog);
         Activity activity = getActivity();

@@ -2,6 +2,8 @@ package com.chefcode.android.patungan;
 
 import android.app.Application;
 import android.content.Context;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 
 import dagger.Module;
 import dagger.Provides;
@@ -22,5 +24,10 @@ public class ApplicationModule {
     @Provides
     public Context provideContext() {
         return  application;
+    }
+
+    @Provides
+    SharedPreferences provideSharePreferences(Context context) {
+        return PreferenceManager.getDefaultSharedPreferences(context);
     }
 }

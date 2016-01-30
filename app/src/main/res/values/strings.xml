@@ -23,4 +23,6 @@
     <string name="label_text_onboarding">Collecting cash with less worries</string>
     <string name="label_powered_by">Powered by</string>
     <string name="label_sign_up">I don\'t have mandiri e-cash account. <a>Sign up</a></string>
+    <string name="error_message_failed_sign_in_no_network">There was a problem with the network connection.\nAre you sure you\'re connected to the internet?</string>
+    <string name="error_auth_with_mandiri_ecash">Error authenticating with Mandiri E-Cash</string>
 </resources>

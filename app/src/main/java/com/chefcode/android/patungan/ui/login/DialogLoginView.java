@@ -16,4 +16,6 @@ public interface DialogLoginView {
     void showLoginContainer(boolean show);
 
     void showToastError(String message);
+
+    void setDialogCancelable(boolean canceled);
 }
