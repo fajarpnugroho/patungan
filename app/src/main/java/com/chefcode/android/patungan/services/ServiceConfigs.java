@@ -5,4 +5,10 @@ public class ServiceConfigs {
     public static final String CLIENT_SECRET = "P6lA4wS6yV6gU3aS2nM3rH2jF2rT6kY0sV2oV6rG7lL6gM4bW5";
 
     public static final String SERVICE_BASE_URL = "https://api.apim.ibmcloud.com/ex-icha-fmeirisidibmcom-ecash-be/sb/emoney/v1/";
+
+    public static final String RESPONSE_VALID = "valid";
+    public static final String RESPONSE_SUCCESS = "success";
+    public static final String RESPONSE_ACCESS_VIOLATION = "access_violation";
+    public static final String RESPONSE_LOGIN_FAILED = "login_failed";
+    public static final String RESPONSE_TOKEN_EXPIRED = "token_expired";
 }

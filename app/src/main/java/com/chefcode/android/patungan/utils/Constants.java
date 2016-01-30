@@ -4,6 +4,10 @@ public class Constants {
     public static final String MANDIRI_TOKEN = "mandiriToken";
     public static final String MSISDN = "msisdn";
     public static final String ENCODED_EMAIL = "encoded_email";
+    public static final String CREDENTIALS = "123456";
+    public static final String UNAUTHORIZED = "Unauthorized";
+    public static final String DEFAULT_ACCOUNT_BALANCE = "Rp 0,00";
+    public static final String ACCOUNT_BALANCE = "account_balance";
 
     public Constants() {}
 
@@ -18,5 +22,7 @@ public class Constants {
 
     // property
     public static final String FIREBASE_TIMESTAMP_PROPERTY = "timestamp";
+    public static final String FIREBASE_ACCOUNT_BALANCE_PROPERTY = "accountBalance";
+
 
 }

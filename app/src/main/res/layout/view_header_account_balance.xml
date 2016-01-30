@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.chefcode.android.patungan.ui.paymentgrouplist.HeaderViewComponent xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/primary">
+
+    <TextView
+        android:id="@+id/text_account"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="50dp"
+        android:fontFamily="sans-serif-condensed-light"
+        android:lineSpacingMultiplier="1.2"
+        android:textColor="@android:color/white"
+        android:layout_gravity="center"
+        android:textSize="28sp"
+        tools:ignore="UnusedAttribute"
+        tools:text="082143207721" />
+
+    <TextView
+        android:id="@+id/text_account_balance"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="sans-serif-condensed"
+        android:textColor="@android:color/white"
+        android:layout_gravity="center"
+        android:textSize="37sp"
+        android:textStyle="bold"
+        android:visibility="gone"
+        tools:ignore="UnusedAttribute"
+        tools:text="Rp 5.000.000,00" />
+
+    <com.chefcode.android.patungan.ui.widget.LoadingView
+        android:id="@+id/view_loading"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="center"/>
+
+</com.chefcode.android.patungan.ui.paymentgrouplist.HeaderViewComponent>

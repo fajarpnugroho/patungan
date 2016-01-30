@@ -5,7 +5,8 @@ import android.content.SharedPreferences;
 import android.provider.Settings;
 
 import com.chefcode.android.patungan.R;
-import com.chefcode.android.patungan.firebase.User;
+import com.chefcode.android.patungan.firebase.model.User;
+import com.chefcode.android.patungan.services.ServiceConfigs;
 import com.chefcode.android.patungan.services.api.LoginService;
 import com.chefcode.android.patungan.services.response.LoginResponse;
 import com.chefcode.android.patungan.utils.Constants;
@@ -74,7 +75,7 @@ public class DialogLoginPresenter {
                 // Success response (2xx code)
                 if (response.isSuccess()) {
                     LoginResponse loginResponse = response.body();
-                    if (loginResponse.status.toLowerCase().equals("valid")) {
+                    if (loginResponse.status.toLowerCase().equals(ServiceConfigs.RESPONSE_VALID)) {
 
                         preferences.edit().putString(Constants.MANDIRI_TOKEN,
                                 loginResponse.token).apply();
@@ -101,10 +102,11 @@ public class DialogLoginPresenter {
                                 });
 
                     } else {
-                        handleError(loginResponse.status);
+                        handleError(context.getString(R.string.error_auth_with_mandiri_ecash));
                     }
                 } else {
-                    handleError(context.getString(R.string.error_auth_with_mandiri_ecash));
+                    // TODO handle error properly
+                    handleError("Server error.");
                 }
             }
 
@@ -170,6 +172,7 @@ public class DialogLoginPresenter {
                     User user = new User(encodedEmail,
                             view.getInputPhoneNumber(),
                             tokenEcash,
+                            Constants.DEFAULT_ACCOUNT_BALANCE,
                             timestampJoin);
 
                     userLocation.setValue(user);

@@ -1,4 +1,4 @@
-package com.chefcode.android.patungan.firebase;
+package com.chefcode.android.patungan.firebase.model;
 
 import com.chefcode.android.patungan.utils.Constants;
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -9,15 +9,17 @@ public class User {
     public String email;
     public String msisdn;
     public String tokenEcash;
+    public String accountBalance;
     public HashMap<String, Object> timestampJoin;
 
     public User() {}
 
-    public User(String email, String msisdn, String tokenEcash,
+    public User(String email, String msisdn, String tokenEcash, String accountBalance,
                 HashMap<String, Object> timestampJoin) {
         this.email = email;
         this.msisdn = msisdn;
         this.tokenEcash = tokenEcash;
+        this.accountBalance = accountBalance;
         this.timestampJoin = timestampJoin;
     }
 
@@ -31,6 +33,10 @@ public class User {
 
     public String getTokenEcash() {
         return tokenEcash;
+    }
+
+    public String getAccountBalance() {
+        return accountBalance;
     }
 
     public HashMap<String, Object> getTimestampJoin() {

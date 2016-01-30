@@ -2,6 +2,7 @@ package com.chefcode.android.patungan.services;
 
 import com.chefcode.android.patungan.services.api.LoginService;
 import com.chefcode.android.patungan.services.api.LogoutService;
+import com.chefcode.android.patungan.services.api.UserService;
 import com.google.gson.FieldNamingPolicy;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -21,7 +22,7 @@ public class ServiceModule {
     @Singleton
     Gson provideGson() {
         GsonBuilder gsonBuilder = new GsonBuilder();
-        gsonBuilder.setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES);
+        gsonBuilder.setFieldNamingPolicy(FieldNamingPolicy.IDENTITY);
         return gsonBuilder.create();
     }
 
@@ -53,6 +54,12 @@ public class ServiceModule {
     @Provides
     LogoutService provideLogoutService(Retrofit retrofit) {
         return retrofit.create(LogoutService.class);
+    }
+
+    @Singleton
+    @Provides
+    UserService provideUserService(Retrofit retrofit) {
+        return retrofit.create(UserService.class);
     }
 
 }
