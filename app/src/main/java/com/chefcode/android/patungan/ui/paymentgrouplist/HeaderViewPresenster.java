@@ -4,12 +4,13 @@ import android.content.Context;
 import android.content.SharedPreferences;
 
 import com.chefcode.android.patungan.R;
-import com.chefcode.android.patungan.delegate.PatunganAccount;
+import com.chefcode.android.patungan.delegate.AccountManager;
 import com.chefcode.android.patungan.services.ServiceConfigs;
 import com.chefcode.android.patungan.services.api.UserService;
 import com.chefcode.android.patungan.services.response.BalancesInquiryResponse;
 import com.chefcode.android.patungan.utils.Constants;
 import com.firebase.client.Firebase;
+import com.firebase.client.FirebaseError;
 
 import java.util.HashMap;
 
@@ -19,6 +20,7 @@ import retrofit.Call;
 import retrofit.Callback;
 import retrofit.Response;
 import retrofit.Retrofit;
+import timber.log.Timber;
 
 public class HeaderViewPresenster {
 
@@ -27,7 +29,8 @@ public class HeaderViewPresenster {
     private UserService service;
     private SharedPreferences sharedPreferences;
 
-    @Inject PatunganAccount patunganAccount;
+    @Inject
+    AccountManager patunganAccount;
 
     @Inject
     public HeaderViewPresenster(Context context, UserService service,
@@ -103,19 +106,22 @@ public class HeaderViewPresenster {
     }
 
     private void updateBalanceWithFirebaseHelper(String accountBalance) {
+        Firebase userFirebase = new Firebase(Constants.FIREBASE_BASE_URL);
 
-        if (!accountBalance.equals(sharedPreferences.getString(Constants.ACCOUNT_BALANCE, "-"))) {
+        HashMap<String, Object> updateBalanceInquery = new HashMap<>();
+        updateBalanceInquery.put("/"
+                + Constants.FIREBASE_USER_LOCATION + "/"
+                + sharedPreferences.getString(Constants.ENCODED_EMAIL, "") + "/"
+                + Constants.FIREBASE_ACCOUNT_BALANCE_PROPERTY, accountBalance);
 
-            Firebase userFirebase = new Firebase(Constants.FIREBASE_BASE_URL);
-
-            HashMap<String, Object> updateBalanceInquery = new HashMap<>();
-            updateBalanceInquery.put("/"
-                    + Constants.FIREBASE_USER_LOCATION + "/"
-                    + sharedPreferences.getString(Constants.ENCODED_EMAIL, "") + "/"
-                    + Constants.FIREBASE_ACCOUNT_BALANCE_PROPERTY, accountBalance);
-
-            userFirebase.updateChildren(updateBalanceInquery);
-        }
+        userFirebase.updateChildren(updateBalanceInquery, new Firebase.CompletionListener() {
+            @Override
+            public void onComplete(FirebaseError firebaseError, Firebase firebase) {
+                if (firebaseError != null) {
+                    Timber.e(firebaseError.getMessage());
+                }
+            }
+        });
     }
 
 }

@@ -16,9 +16,11 @@ public class Constants {
 
     // location
     public static final String FIREBASE_USER_LOCATION = "users";
+    public static final String FIREBASE_PAYMENT_GROUP_LOCATION = "paymentGroup";
 
     // url
     public static final String FIREBASE_USER_URL = FIREBASE_BASE_URL + "/" + FIREBASE_USER_LOCATION;
+    public static final String FIREBASE_PAYMENT_GROUP_URL = FIREBASE_BASE_URL + "/" + FIREBASE_PAYMENT_GROUP_LOCATION;
 
     // property
     public static final String FIREBASE_TIMESTAMP_PROPERTY = "timestamp";

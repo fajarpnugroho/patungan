@@ -13,16 +13,27 @@
     <string name="error_invalid_password">This password is too short</string>
     <string name="error_incorrect_password">This password is incorrect</string>
     <string name="error_field_required">This field is required</string>
+    <string name="error_message_failed_sign_in_no_network">There was a problem with the network connection.\nAre you sure you\'re connected to the internet?</string>
+    <string name="error_auth_with_mandiri_ecash">Error authenticating with Mandiri E-Cash</string>
 
-    <string name="permission_rationale">"Contacts permissions are needed for providing email
-        completions."
-    </string>
+    <string name="permission_rationale">"Contacts permissions are needed for providing email completions."</string>
+
     <string name="label_button_login">Login with mandiri e-cash</string>
     <string name="label_phone_number">Phone number</string>
     <string name="label_password">Password</string>
     <string name="label_text_onboarding">Collecting cash with less worries</string>
     <string name="label_powered_by">Powered by</string>
-    <string name="label_sign_up">I don\'t have mandiri e-cash account. <a>Sign up</a></string>
-    <string name="error_message_failed_sign_in_no_network">There was a problem with the network connection.\nAre you sure you\'re connected to the internet?</string>
-    <string name="error_auth_with_mandiri_ecash">Error authenticating with Mandiri E-Cash</string>
+    <string name="label_sign_up"><u>Show me how to get mandiri e-cash account.</u></string>
+
+    <string name="notice_sign_up_title">Bagaimana cara mendapatkan layanan mandiri e-cash?</string>
+    <string name="notice_sign_up_message_1">Pengguna telepon seluler dapat mengakses mandiri e-cash menggunakan USSD dengan mengetik *141*6# kemudian pilih call/panggil. Bagi pengguna smartphone, mandiri e-cash dapat diakses dengan men-download aplikasi di Apps Store, Google Play, Nokia Store, Blackberry World, dan Windows Store.</string>
+    <string name="notice_sign_up_message_2">Setelah itu, pengguna dapat melakukan pendaftaran mandiri e-cash terlebih dahulu dengan mengisi beberapa data singkat seperti :</string>
+    <string name="notice_sign_up_message_3">USSD  : Nama, Kata Rahasia, dan PIN</string>
+    <string name="notice_sign_up_message_4">Aplikasi : Nama, No. KTP, Alamat, Tanggal Lahir, Kata Rahasia, dan PIN</string>
+    <string name="notice_sign_up_message_5">Pengguna yang telah melakukan pendaftaran akan terdaftar sebagai pemegang Unregistered. Untuk dapat menjadi pemegang Registered, pengguna harus melakukan upgrade layanan mandiri e-cash terlebih dahulu.</string>
+    <string name="notice_sign_up_message_6">Untuk selengkapnya bisa dilihat pada tautan berikut <u>http://mandiriecash.co.id</u></string>
+    <string name="label_button_ok">OK</string>
+    <string name="label_button_dialog_login">Login</string>
+    <string name="label_chooser_open_with">Open with</string>
+
 </resources>

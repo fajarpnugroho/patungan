@@ -54,4 +54,10 @@ public class LoginActivity extends BaseActivity implements DialogOnDismissListen
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(intent);
     }
+
+    public void onSignupClick(View view) {
+        DialogSignupNoticeFragment dialogSignupNoticeFragment =
+                DialogSignupNoticeFragment.newInstance();
+        dialogSignupNoticeFragment.show(getSupportFragmentManager(), "ShowSignupNoticeDialog");
+    }
 }

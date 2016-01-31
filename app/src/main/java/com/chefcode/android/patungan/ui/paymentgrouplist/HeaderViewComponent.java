@@ -5,6 +5,7 @@ import android.util.AttributeSet;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.chefcode.android.patungan.Injector;
 import com.chefcode.android.patungan.R;
@@ -67,6 +68,6 @@ public class HeaderViewComponent extends FrameLayout implements HeaderView {
     @Override
     public void showErrorMessage(String message) {
         accountBalance.setVisibility(VISIBLE);
-        accountBalance.setText(message);
+        Toast.makeText(getContext(), message, Toast.LENGTH_SHORT).show();
     }
 }

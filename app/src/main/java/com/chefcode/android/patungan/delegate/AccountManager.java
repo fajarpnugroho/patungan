@@ -10,12 +10,12 @@ import com.firebase.client.Firebase;
 
 import javax.inject.Inject;
 
-public class PatunganAccount {
+public class AccountManager {
     private SharedPreferences preferences;
     private Application application;
 
     @Inject
-    public PatunganAccount(SharedPreferences preferences, Application application) {
+    public AccountManager(SharedPreferences preferences, Application application) {
         this.preferences = preferences;
         this.application = application;
     }
