@@ -14,4 +14,5 @@ public interface ApplicationGraph {
 
     void inject(ContentViewComponent contentViewComponent);
 
+    void inject(MainActivity mainActivity);
 }

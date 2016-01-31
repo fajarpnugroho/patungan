@@ -19,7 +19,8 @@ import butterknife.OnClick;
 public class ContentViewComponent extends FrameLayout implements ContentView {
     @Bind(R.id.recyclerview) RecyclerView recyclerView;
 
-    @Inject ContentViewPresenter presenter;
+    @Inject
+    ContentViewPresenter presenter;
 
     public ContentViewComponent(Context context) {
         this(context, null);
@@ -45,11 +46,6 @@ public class ContentViewComponent extends FrameLayout implements ContentView {
             presenter.init(this);
             presenter.loadContentThenSetAdapter();
         }
-    }
-
-    @OnClick(R.id.button_create_payment_group)
-    void onCreatePaymentGroupClick() {
-        presenter.addPaymentGroup();
     }
 
     @Override

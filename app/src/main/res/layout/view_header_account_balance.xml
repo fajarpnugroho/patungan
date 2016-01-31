@@ -2,19 +2,18 @@
 <com.chefcode.android.patungan.ui.paymentgrouplist.HeaderViewComponent xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="match_parent"
     android:background="@color/primary">
 
     <TextView
         android:id="@+id/text_account"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="50dp"
-        android:fontFamily="sans-serif-condensed-light"
-        android:lineSpacingMultiplier="1.2"
-        android:textColor="@android:color/white"
         android:layout_gravity="center"
-        android:textSize="28sp"
+        android:layout_marginBottom="35dp"
+        android:fontFamily="sans-serif-condensed-light"
+        android:textColor="@android:color/white"
+        android:textSize="18sp"
         tools:ignore="UnusedAttribute"
         tools:text="082143207721" />
 
@@ -22,19 +21,20 @@
         android:id="@+id/text_account_balance"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_gravity="center"
         android:fontFamily="sans-serif-condensed"
         android:textColor="@android:color/white"
-        android:layout_gravity="center"
-        android:textSize="37sp"
+        android:textSize="28sp"
         android:textStyle="bold"
-        android:visibility="gone"
         tools:ignore="UnusedAttribute"
         tools:text="Rp 5.000.000,00" />
 
-    <com.chefcode.android.patungan.ui.widget.LoadingView
+    <ProgressBar
         android:id="@+id/view_loading"
+        style="?android:progressBarStyleHorizontal"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_gravity="center"/>
+        android:layout_height="wrap_content"
+        android:layout_gravity="top"
+        android:indeterminate="true" />
 
 </com.chefcode.android.patungan.ui.paymentgrouplist.HeaderViewComponent>

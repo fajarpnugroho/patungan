@@ -29,6 +29,7 @@ public class PaymentGroupViewHolder extends RecyclerView.ViewHolder {
         paymentGroupName.setText(paymentGroup.getGroupName());
         invoiceText.setText(StringUtils.convertToRupiah(paymentGroup.getInvoice()));
 
+        // TODO change with real encoded email
         List<String> fake = new ArrayList<>();
         fake.add("b70979cdb6958d768e413eb2504ec009");
         fake.add("9cb69afa8d72c24d1ceaf63da11a4f6e");

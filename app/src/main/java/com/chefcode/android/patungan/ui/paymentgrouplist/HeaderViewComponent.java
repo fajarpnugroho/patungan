@@ -4,6 +4,7 @@ import android.content.Context;
 import android.util.AttributeSet;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -20,7 +21,7 @@ public class HeaderViewComponent extends FrameLayout implements HeaderView {
 
     @Bind(R.id.text_account) TextView account;
     @Bind(R.id.text_account_balance) TextView accountBalance;
-    @Bind(R.id.view_loading) LoadingView loadingView;
+    @Bind(R.id.view_loading) ProgressBar loadingView;
 
     @Inject HeaderViewPresenster presenster;
 
@@ -48,9 +49,9 @@ public class HeaderViewComponent extends FrameLayout implements HeaderView {
     @Override
     public void onLoading(boolean loading) {
         if (loading) {
-            loadingView.show();
+            loadingView.setVisibility(VISIBLE);
         } else {
-            loadingView.hide();
+            loadingView.setVisibility(GONE);
         }
     }
 
