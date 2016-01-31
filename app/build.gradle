@@ -101,4 +101,6 @@ dependencies {
     compile 'com.google.android.gms:play-services-analytics:8.4.0'
     compile 'com.google.android.gms:play-services-safetynet:8.4.0'
     compile 'com.google.android.gms:play-services-auth:8.4.0'
+
+    compile 'de.hdodenhof:circleimageview:2.0.0'
 }
