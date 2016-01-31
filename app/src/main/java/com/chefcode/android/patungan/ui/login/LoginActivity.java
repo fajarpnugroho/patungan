@@ -22,6 +22,15 @@ public class LoginActivity extends BaseActivity implements DialogOnDismissListen
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+
+        Bundle extra = getIntent().getExtras();
+        if (extra != null) {
+            if (extra.containsKey(Constants.EXTRA_ERROR_MESSAGE)) {
+                Toast.makeText(this,
+                        extra.getString(Constants.EXTRA_ERROR_MESSAGE), Toast.LENGTH_SHORT).show();
+            }
+        }
+
         firebaseRef = new Firebase(Constants.FIREBASE_BASE_URL);
         authStateListener = new Firebase.AuthStateListener() {
             @Override

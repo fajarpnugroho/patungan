@@ -8,6 +8,7 @@ public class Constants {
     public static final String UNAUTHORIZED = "Unauthorized";
     public static final String DEFAULT_ACCOUNT_BALANCE = "Rp 0,00";
     public static final String ACCOUNT_BALANCE = "account_balance";
+    public static final String EXTRA_ERROR_MESSAGE = "extra_error_message";
 
     public Constants() {}
 

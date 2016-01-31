@@ -4,6 +4,7 @@ import android.app.Application;
 import android.content.Intent;
 import android.content.SharedPreferences;
 
+import com.chefcode.android.patungan.R;
 import com.chefcode.android.patungan.ui.login.LoginActivity;
 import com.chefcode.android.patungan.utils.Constants;
 import com.firebase.client.Firebase;
@@ -28,6 +29,8 @@ public class AccountManager {
 
         Intent intent = new Intent(application.getApplicationContext(), LoginActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        intent.putExtra(Constants.EXTRA_ERROR_MESSAGE,
+                application.getString(R.string.message_error_token_expired));
         application.startActivity(intent);
     }
 }
