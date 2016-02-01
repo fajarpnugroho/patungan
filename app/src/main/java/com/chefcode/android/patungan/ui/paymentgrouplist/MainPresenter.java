@@ -12,6 +12,7 @@ import java.util.Random;
 
 import javax.inject.Inject;
 
+@Deprecated
 public class MainPresenter {
 
     private MainView view;

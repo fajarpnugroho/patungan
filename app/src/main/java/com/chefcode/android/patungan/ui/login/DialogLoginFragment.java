@@ -77,7 +77,6 @@ public class DialogLoginFragment extends DialogFragment implements DialogLoginVi
 
     @OnClick(R.id.button_login)
     void onBtnLoginClick(View view) {
-        // Close keyboard when click login button
         if (view != null) {
             InputMethodManager imm = (InputMethodManager) getContext()
                     .getSystemService(Context.INPUT_METHOD_SERVICE);

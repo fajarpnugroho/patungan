@@ -6,10 +6,7 @@ import android.view.LayoutInflater;
 import android.widget.FrameLayout;
 
 import com.chefcode.android.patungan.BaseActivity;
-import com.chefcode.android.patungan.Injector;
 import com.chefcode.android.patungan.R;
-
-import javax.inject.Inject;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -21,25 +18,15 @@ public class MainActivity extends BaseActivity implements MainView {
     @Bind(R.id.header_container) FrameLayout headerContainer;
     @Bind(R.id.content_container) FrameLayout contentContainer;
 
-    @Inject MainPresenter presenter;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        Injector.INSTANCE.getApplicationGraph().inject(this);
 
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
 
         setToolbar();
         setContent();
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        presenter.init(this);
     }
 
     private void setContent() {
@@ -67,6 +54,9 @@ public class MainActivity extends BaseActivity implements MainView {
 
     @OnClick(R.id.button_create_payment_group)
     void onCreatePaymentGroupClick() {
-        presenter.addPaymentGroup();
+        DialogNewPaymentGroup dialogNewPaymentGroup = DialogNewPaymentGroup
+                .newInstance(encodedEmail);
+        dialogNewPaymentGroup.show(getSupportFragmentManager(), "ShowDialogNewPaymentGroup");
     }
+
 }

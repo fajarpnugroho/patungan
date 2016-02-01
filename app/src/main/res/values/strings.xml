@@ -36,5 +36,6 @@
     <string name="label_button_dialog_login">Login</string>
     <string name="label_chooser_open_with">Open with</string>
     <string name="message_error_token_expired">Your session has been expired. Please login again with your account</string>
+    <string name="message_error_empty">Cannot be empty!</string>
 
 </resources>

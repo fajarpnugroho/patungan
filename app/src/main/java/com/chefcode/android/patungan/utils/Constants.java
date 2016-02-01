@@ -10,6 +10,7 @@ public class Constants {
     public static final String ACCOUNT_BALANCE = "account_balance";
     public static final String EXTRA_ERROR_MESSAGE = "extra_error_message";
     public static final String DEFAULT_PROFILE_IMAGES = "http://www.gravatar.com/avatar/%s?s=45&d=identicon";
+    public static final String PUSH_ID = "push_id";
 
 
     public Constants() {}
