@@ -37,5 +37,11 @@
     <string name="label_chooser_open_with">Open with</string>
     <string name="message_error_token_expired">Your session has been expired. Please login again with your account</string>
     <string name="message_error_empty">Cannot be empty!</string>
+    <string name="label_payment_group_name_hint">I\'m collection money for</string>
+    <string name="label_total_cost">Totat cost</string>
+    <string name="label_desc_total_amount">The total amount is automatically divided by the number of people who join this group</string>
+    <string name="label_invite_member">Inivite member</string>
+    <string name="action_title_done">Done</string>
+    <string name="message_unsufficient_account_balance">Your account balance is not sufficient. At least you must have %s. Try to invite more people or top up your account balance</string>
 
 </resources>

@@ -3,8 +3,9 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:orientation="vertical">
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="10dp">
 
     <LinearLayout
         android:layout_width="0px"
@@ -14,19 +15,19 @@
         tools:ignore="UselessLeaf" />
 
     <android.support.design.widget.TextInputLayout
-        android:id="@+id/til_email"
+        android:id="@+id/til_payment_group_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="@dimen/lists_title_bottom_margin"
         app:hintTextAppearance="@style/HintText">
 
         <EditText
-            android:id="@+id/edit_text_phone"
+            android:id="@+id/edit_text_payment_group_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/grey"
-            android:hint="@string/label_phone_number"
-            android:inputType="phone"
+            android:hint="@string/label_payment_group_name_hint"
+            android:inputType="text"
             android:nextFocusDown="@+id/edit_text_password"
             android:padding="@dimen/edit_text_padding"
             android:textColor="@color/black"
@@ -35,24 +36,42 @@
     </android.support.design.widget.TextInputLayout>
 
     <android.support.design.widget.TextInputLayout
-        android:id="@+id/til_password"
+        android:id="@+id/til_cost"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/margin_normal"
+        android:layout_marginBottom="@dimen/lists_title_bottom_margin"
         app:hintTextAppearance="@style/HintText">
 
         <EditText
-            android:id="@+id/edit_text_password"
+            android:id="@+id/edit_text_total_cost"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/grey"
-            android:hint="@string/label_password"
-            android:imeOptions="actionDone|flagNoExtractUi"
-            android:inputType="numberPassword"
+            android:hint="@string/label_total_cost"
+            android:inputType="number"
+            android:nextFocusDown="@+id/edit_text_password"
             android:padding="@dimen/edit_text_padding"
             android:textColor="@color/black"
             android:textColorHint="@color/dark_grey"
             android:textSize="@dimen/login_buttons_text_size" />
     </android.support.design.widget.TextInputLayout>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/lists_title_bottom_margin"
+        android:fontFamily="sans-serif-thin"
+        android:text="@string/label_desc_total_amount"
+        android:textStyle="italic"
+        tools:ignore="UnusedAttribute" />
+
+    <include layout="@layout/layout_invite_member" />
+
+    <LinearLayout
+        android:id="@+id/invite_member_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/lists_title_bottom_margin"
+        android:orientation="vertical" />
 
 </LinearLayout>

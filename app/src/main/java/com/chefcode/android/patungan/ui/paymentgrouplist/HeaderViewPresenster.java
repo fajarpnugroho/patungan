@@ -76,7 +76,9 @@ public class HeaderViewPresenster {
                     BalancesInquiryResponse balancesInquiryResponse = response.body();
 
                     if (balancesInquiryResponse.status.toLowerCase()
-                            .equals(ServiceConfigs.RESPONSE_TOKEN_EXPIRED)) {
+                            .equals(ServiceConfigs.RESPONSE_TOKEN_EXPIRED)
+                            || balancesInquiryResponse.status.toLowerCase()
+                                    .equals(ServiceConfigs.RESPONSE_ACCESS_VIOLATION)) {
                         patunganAccount.forceLogout();
                         return;
                     }

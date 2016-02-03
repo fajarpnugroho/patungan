@@ -11,6 +11,9 @@ public class Constants {
     public static final String EXTRA_ERROR_MESSAGE = "extra_error_message";
     public static final String DEFAULT_PROFILE_IMAGES = "http://www.gravatar.com/avatar/%s?s=45&d=identicon";
     public static final String PUSH_ID = "push_id";
+    public static final String FIREBASE_GROUP_NAME_PROPERTY = "groupName";
+    public static final String FIREBASE_INVOICE_PROPERTY = "invoice";
+    public static final String FIREBASE_TIMESTAMP_MODIFIED_PROPERTY = "timestampModified";
 
 
     public Constants() {}

@@ -22,4 +22,11 @@ public class StringUtils {
                 + rupiahFormat.format(Double.parseDouble(invoiceString)).replace(",", ".")
                 + ", 00";
     }
+
+    public static int getNumberOfAccountBalance(String accountBalance) {
+        String[] splitSpace = accountBalance.split(" ");
+        String[] splitComma = splitSpace[1].split(",");
+        String removeDot = splitComma[0].replace(".","");
+        return Integer.parseInt(removeDot);
+    }
 }
