@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.Toast;
@@ -36,6 +37,10 @@ public class EditPaymentGroupActivity extends BaseActivity implements EditPaymen
         Injector.INSTANCE.getApplicationGraph().inject(this);
         setContentView(R.layout.activity_payment_group_edit);
         ButterKnife.bind(this);
+
+        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
+
+        paymentGroupNameEdit.requestFocus();
 
         bundle = getIntent().getExtras();
         setToolbar();

@@ -63,7 +63,7 @@ public class PaymentGroup {
     }
 
     @JsonIgnore
-    public long getTimestampJoinedLong() {
+    public long getTimestampCreatedLong() {
         return (long) timestampCreated.get(Constants.FIREBASE_TIMESTAMP_PROPERTY);
     }
 

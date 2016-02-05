@@ -10,6 +10,7 @@ import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.EditText;
 
 import com.chefcode.android.patungan.Injector;
@@ -52,6 +53,9 @@ public class DialogNewPaymentGroup extends DialogFragment implements DialogNewPa
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+        getDialog().getWindow()
+                .setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
+
         encodedEmail = getArguments().getString(Constants.ENCODED_EMAIL, "");
     }
 
@@ -67,10 +71,19 @@ public class DialogNewPaymentGroup extends DialogFragment implements DialogNewPa
 
         ButterKnife.bind(this, view);
 
-        builder.setView(view).setPositiveButton("SAVE", new DialogInterface.OnClickListener() {
+        paymentGroupNameEdit.requestFocus();
+
+        builder.setView(view).setPositiveButton(getActivity()
+                .getString(R.string.label_dialog_create), new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 presenter.addPaymentGroup(encodedEmail);
+            }
+        }).setNegativeButton(getActivity().getString(R.string.label_dialog_cancel),
+                new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
             }
         });
         return builder.create();

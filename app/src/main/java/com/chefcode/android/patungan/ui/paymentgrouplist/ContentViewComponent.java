@@ -40,8 +40,6 @@ public class ContentViewComponent extends FrameLayout implements ContentView {
             LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
             linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
             recyclerView.setLayoutManager(linearLayoutManager);
-            recyclerView.addItemDecoration(new DividerItemDecoration(getContext(),
-                    DividerItemDecoration.VERTICAL_LIST));
 
             presenter.init(this);
             presenter.loadContentThenSetAdapter();
