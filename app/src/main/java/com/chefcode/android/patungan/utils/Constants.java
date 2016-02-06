@@ -14,6 +14,7 @@ public class Constants {
     public static final String FIREBASE_GROUP_NAME_PROPERTY = "groupName";
     public static final String FIREBASE_INVOICE_PROPERTY = "invoice";
     public static final String FIREBASE_TIMESTAMP_MODIFIED_PROPERTY = "timestampModified";
+    public static final String AVATAR = "avatar";
 
 
     public Constants() {}

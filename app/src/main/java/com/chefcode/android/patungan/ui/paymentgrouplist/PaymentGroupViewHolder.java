@@ -71,8 +71,7 @@ public class PaymentGroupViewHolder extends RecyclerView.ViewHolder {
         invoiceText.setText(StringUtils.convertToRupiah(paymentGroup.getInvoice()));
 
         Picasso.with(itemView.getContext())
-                .load(String.format(Constants.DEFAULT_PROFILE_IMAGES,
-                        "0bb6883c2b66289c7816c0c6bb9192fe"))
+                .load(paymentGroup.getAvatarOwner())
                 .into(ownerPict);
 
         memberText.setText(String.valueOf(fake.size()));

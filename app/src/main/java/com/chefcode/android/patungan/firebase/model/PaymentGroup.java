@@ -9,6 +9,7 @@ import java.util.HashMap;
 public class PaymentGroup {
     public String groupName;
     public String owner;
+    public String avatarOwner;
     public int invoice;
     public int bucket;
     public HashMap<String, Object> timestampCreated;
@@ -19,10 +20,11 @@ public class PaymentGroup {
     public PaymentGroup() {
     }
 
-    public PaymentGroup(String groupName, String owner, int invoice, int bucket,
+    public PaymentGroup(String groupName, String owner, String avatarOwner, int invoice, int bucket,
                         HashMap<String, Object> timestampCreated) {
         this.groupName = groupName;
         this.owner = owner;
+        this.avatarOwner = avatarOwner;
         this.invoice = invoice;
         this.bucket = bucket;
         this.timestampCreated = timestampCreated;
@@ -38,8 +40,8 @@ public class PaymentGroup {
         return groupName;
     }
 
-    public String getOwner() {
-        return owner;
+    public String getAvatarOwner() {
+        return avatarOwner;
     }
 
     public int getInvoice() {

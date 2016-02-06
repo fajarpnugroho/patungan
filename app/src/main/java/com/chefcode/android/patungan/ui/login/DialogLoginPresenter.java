@@ -10,6 +10,7 @@ import com.chefcode.android.patungan.services.ServiceConfigs;
 import com.chefcode.android.patungan.services.api.LoginService;
 import com.chefcode.android.patungan.services.response.LoginResponse;
 import com.chefcode.android.patungan.utils.Constants;
+import com.chefcode.android.patungan.utils.MD5Utils;
 import com.chefcode.android.patungan.utils.StringUtils;
 import com.firebase.client.AuthData;
 import com.firebase.client.DataSnapshot;
@@ -145,7 +146,7 @@ public class DialogLoginPresenter {
             public void onAuthenticated(AuthData authData) {
                 if (authData != null) {
                     String encodedEmail  = StringUtils.encodedEmail(phoneMail);
-                    createUserWithFirebaseHelper(encodedEmail);
+                    createUserWithFirebaseHelper(encodedEmail, phoneMail);
 
                     preferences.edit().putString(Constants.ENCODED_EMAIL, encodedEmail).apply();
                 }
@@ -158,7 +159,7 @@ public class DialogLoginPresenter {
         });
     }
 
-    private void createUserWithFirebaseHelper(final String encodedEmail) {
+    private void createUserWithFirebaseHelper(final String encodedEmail, final String phoneMail) {
         final Firebase userLocation = new Firebase(Constants.FIREBASE_USER_URL).child(encodedEmail);
         userLocation.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -168,11 +169,16 @@ public class DialogLoginPresenter {
                     timestampJoin.put(Constants.FIREBASE_TIMESTAMP_PROPERTY, ServerValue.TIMESTAMP);
 
                     String tokenEcash = preferences.getString(Constants.MANDIRI_TOKEN, null);
+                    String generateProfilePict = String.format(Constants.DEFAULT_PROFILE_IMAGES,
+                            MD5Utils.md5Hex(phoneMail));
+
+                    preferences.edit().putString(Constants.AVATAR, generateProfilePict).apply();
 
                     User user = new User(encodedEmail,
                             view.getInputPhoneNumber(),
                             tokenEcash,
                             Constants.DEFAULT_ACCOUNT_BALANCE,
+                            generateProfilePict,
                             timestampJoin);
 
                     userLocation.setValue(user);

@@ -10,16 +10,18 @@ public class User {
     public String msisdn;
     public String tokenEcash;
     public String accountBalance;
+    public String profilePict;
     public HashMap<String, Object> timestampJoin;
 
     public User() {}
 
     public User(String email, String msisdn, String tokenEcash, String accountBalance,
-                HashMap<String, Object> timestampJoin) {
+                String profilePict, HashMap<String, Object> timestampJoin) {
         this.email = email;
         this.msisdn = msisdn;
         this.tokenEcash = tokenEcash;
         this.accountBalance = accountBalance;
+        this.profilePict = profilePict;
         this.timestampJoin = timestampJoin;
     }
 
@@ -37,6 +39,10 @@ public class User {
 
     public String getAccountBalance() {
         return accountBalance;
+    }
+
+    public String getProfilePict() {
+        return profilePict;
     }
 
     public HashMap<String, Object> getTimestampJoin() {

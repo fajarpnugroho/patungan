@@ -1,5 +1,7 @@
 package com.chefcode.android.patungan.ui.paymentgrouplist;
 
+import android.content.SharedPreferences;
+
 import com.chefcode.android.patungan.firebase.model.PaymentGroup;
 import com.chefcode.android.patungan.utils.Constants;
 import com.firebase.client.Firebase;
@@ -12,9 +14,12 @@ import javax.inject.Inject;
 public class DialogNewPaymentGroupPresenter {
     private DialogNewPaymentGroupView view;
     private Firebase paymentGroupRef;
+    private SharedPreferences sharedPreferences;
 
     @Inject
-    public DialogNewPaymentGroupPresenter() {}
+    public DialogNewPaymentGroupPresenter(SharedPreferences sharedPreferences) {
+        this.sharedPreferences = sharedPreferences;
+    }
 
     public void init(DialogNewPaymentGroupView view) {
         this.view = view;
@@ -33,7 +38,8 @@ public class DialogNewPaymentGroupPresenter {
 
 
         PaymentGroup paymentGroup = new PaymentGroup(view.getPaymentGroupName(),
-                null,
+                sharedPreferences.getString(Constants.ENCODED_EMAIL, ""),
+                sharedPreferences.getString(Constants.AVATAR, null),
                 0,
                 0,
                 timestampCreated);
