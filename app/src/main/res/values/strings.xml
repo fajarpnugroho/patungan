@@ -43,7 +43,7 @@
     <string name="label_invite_member">Inivite member</string>
     <string name="action_title_done">Done</string>
     <string name="message_unsufficient_account_balance">Your account balance is not sufficient. At least you must have %s. Try to invite more people or top up your account balance</string>
-    <string name="label_jmlh_dibayar">JUMLAH DIBAYAR</string>
+    <string name="label_jmlh_dibayar">TOTAL BIAYA</string>
     <string name="label_dialog_create">CREATE</string>
     <string name="label_dialog_cancel">CANCEL</string>
 

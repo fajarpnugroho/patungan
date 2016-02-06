@@ -17,6 +17,7 @@
 
     <color name="light_black">#747474</color>
     <color name="black">#616161</color>
+    <color name="black_black">#212121</color>
     <color name="google">#C6412C</color>
 
     <!-- Mask for light theme-->
