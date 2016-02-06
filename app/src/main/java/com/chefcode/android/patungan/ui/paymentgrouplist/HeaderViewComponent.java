@@ -1,16 +1,15 @@
 package com.chefcode.android.patungan.ui.paymentgrouplist;
 
 import android.content.Context;
+import android.support.v4.content.ContextCompat;
 import android.util.AttributeSet;
 import android.widget.FrameLayout;
-import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.chefcode.android.patungan.Injector;
 import com.chefcode.android.patungan.R;
-import com.chefcode.android.patungan.ui.widget.LoadingView;
 
 import javax.inject.Inject;
 

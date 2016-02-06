@@ -28,6 +28,7 @@ public class PaymentGroupViewHolder extends RecyclerView.ViewHolder {
     @Bind(R.id.payment_group) TextView paymentGroupName;
     @Bind(R.id.invoice) TextView invoiceText;
     @Bind(R.id.member) TextView memberText;
+    @Bind(R.id.already_transfer) TextView transferText;
 
     private TextAppearanceSpan paymentGroupNameTextAppearance;
     private TextAppearanceSpan dateCreatedTextAppearance;
@@ -55,13 +56,13 @@ public class PaymentGroupViewHolder extends RecyclerView.ViewHolder {
                 .convertTimestamp(paymentGroup.getTimestampCreatedLong());
 
         SpannableString paymentGroupHeaderText = new SpannableString(
-                paymentGroup.getGroupName() + "\n" + timeCreated);
+                paymentGroup.getGroupName().toUpperCase() + "\n" + timeCreated);
 
         paymentGroupHeaderText.setSpan(paymentGroupNameTextAppearance,
                 0, paymentGroup.getGroupName().length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
 
         paymentGroupHeaderText.setSpan(dateCreatedTextAppearance,
-                paymentGroup.getGroupName().length(), timeCreated.length(),
+                paymentGroup.getGroupName().length() + 1, paymentGroupHeaderText.length(),
                 Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
 
         paymentGroupName.setText(paymentGroupHeaderText, TextView.BufferType.SPANNABLE);
@@ -75,5 +76,7 @@ public class PaymentGroupViewHolder extends RecyclerView.ViewHolder {
                 .into(ownerPict);
 
         memberText.setText(String.valueOf(fake.size()));
+
+        transferText.setText("2");
     }
 }

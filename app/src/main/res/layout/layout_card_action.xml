@@ -15,7 +15,7 @@
         android:background="?attr/selectableItemBackground"
         android:clickable="true"
         android:drawableLeft="@drawable/ic_people_outline_black_24dp"
-        android:drawablePadding="8dp"
+        android:drawablePadding="4dp"
         android:fontFamily="sans-serif-light"
         android:gravity="center_vertical"
         android:paddingLeft="8dp"
@@ -24,5 +24,22 @@
         android:textSize="18sp"
         tools:ignore="RtlHardcoded,UnusedAttribute"
         tools:text="5" />
+
+    <TextView
+        android:id="@+id/already_transfer"
+        android:layout_width="60dp"
+        android:layout_height="48dp"
+        android:background="?attr/selectableItemBackground"
+        android:clickable="true"
+        android:drawableLeft="@drawable/ic_swap_horiz_black_24dp"
+        android:drawablePadding="4dp"
+        android:fontFamily="sans-serif-light"
+        android:gravity="center_vertical"
+        android:paddingLeft="8dp"
+        android:paddingRight="8dp"
+        android:textColor="#000000"
+        android:textSize="18sp"
+        tools:ignore="RtlHardcoded,UnusedAttribute"
+        tools:text="2" />
 
 </LinearLayout>

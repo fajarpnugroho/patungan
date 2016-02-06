@@ -20,6 +20,6 @@ public final class TimeUtils {
         return "";*/
         Calendar cal = Calendar.getInstance(Locale.ENGLISH);
         cal.setTimeInMillis(timestamp);
-        return DateFormat.format("dd/MMM/yyyy, h:m:s a", cal).toString();
+        return DateFormat.format("dd/MMM/yyyy, hh:mm:ss a", cal).toString();
     }
 }

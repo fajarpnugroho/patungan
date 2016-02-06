@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item>
+        <shape>
+            <solid android:color="@color/secondary"/>
+            <corners android:radius="20dp"/>
+            <size android:width="20dp" android:height="20dp"/>
+        </shape>
+    </item>
+    <item android:drawable="@drawable/ic_swap_horiz_white_24dp">
+        <shape>
+
+        </shape>
+    </item>
+</layer-list>
