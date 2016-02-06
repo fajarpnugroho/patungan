@@ -6,6 +6,7 @@ import com.chefcode.android.patungan.R;
 import com.chefcode.android.patungan.firebase.model.PaymentGroup;
 import com.chefcode.android.patungan.utils.Constants;
 import com.firebase.client.Firebase;
+import com.firebase.client.Query;
 import com.firebase.client.ServerValue;
 
 import java.util.HashMap;
@@ -32,11 +33,12 @@ public class ContentViewPresenter {
 
     public void loadContentThenSetAdapter() {
         Firebase userPaymentGroupRef = paymentGroupRef.child(encodedMail);
+        Query orderedUserPaymentGroupRef = userPaymentGroupRef.orderByKey();
 
         ContentViewAdapter adapter =
                 new ContentViewAdapter(PaymentGroup.class,
                         R.layout.view_content_list_item, PaymentGroupViewHolder.class,
-                        userPaymentGroupRef);
+                        orderedUserPaymentGroupRef);
 
         view.getRecyclerView().setAdapter(adapter);
     }
