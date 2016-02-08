@@ -14,7 +14,6 @@
         android:layout_height="wrap_content"
         android:hint="@string/label_payment_group_name_hint"
         android:imeOptions="actionDone|flagNoExtractUi"
-        android:inputType="textCapWords"
         android:textColor="@color/black"
         android:textColorHint="@color/dark_grey" />
 </RelativeLayout>

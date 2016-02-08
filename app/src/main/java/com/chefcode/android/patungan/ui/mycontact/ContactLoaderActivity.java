@@ -8,24 +8,26 @@ import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.view.MenuItem;
 import android.widget.EditText;
 
 import com.chefcode.android.patungan.BaseActivity;
 import com.chefcode.android.patungan.R;
 import com.chefcode.android.patungan.ui.widget.DividerItemDecoration;
-import com.chefcode.android.patungan.ui.widget.LoadingView;
 import com.chefcode.android.patungan.utils.ContactQuery;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import timber.log.Timber;
 
 public class ContactLoaderActivity extends BaseActivity implements
-        LoaderManager.LoaderCallbacks<Cursor> {
+        LoaderManager.LoaderCallbacks<Cursor>, MyContactAdapter.Listener {
 
+    @Bind(R.id.toolbar) Toolbar toolbar;
     @Bind(R.id.contact_list) RecyclerView contactList;
-    @Bind(R.id.view_loading) LoadingView loadingView;
     @Bind(R.id.edit_text_contact_name) EditText contactNameEdit;
 
     private MyContactAdapter adapter;
@@ -38,11 +40,32 @@ public class ContactLoaderActivity extends BaseActivity implements
         setContentView(R.layout.activity_contact);
         ButterKnife.bind(this);
 
-        adapter = new MyContactAdapter();
+        adapter = new MyContactAdapter(this);
 
+        setToolbar();
         setContent();
 
         getSupportLoaderManager().initLoader(ContactQuery.QUERY_ID, null, this);
+    }
+
+    private void setToolbar() {
+        setSupportActionBar(toolbar);
+        if (getSupportActionBar() == null) {
+            throw new IllegalStateException("Must implement toolbar");
+        }
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setHomeButtonEnabled(true);
+        getSupportActionBar().setTitle(R.string.title_invite_member);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                onBackPressed();
+                break;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     private void setContent() {
@@ -61,8 +84,13 @@ public class ContactLoaderActivity extends BaseActivity implements
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                keyword = s.toString();
-                filterByName();
+                if (s.length() > 0 ){
+                    keyword = s.toString();
+                    filterByName();
+                } else {
+                    keyword = null;
+                    filterByName();
+                }
             }
 
             @Override
@@ -80,7 +108,6 @@ public class ContactLoaderActivity extends BaseActivity implements
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {
         // If this is the loader for finding contacts in the Contacts Provider
         // (the only one supported)
-        loadingView.show();
         if (id == ContactQuery.QUERY_ID) {
             Uri contentUri;
 
@@ -116,7 +143,6 @@ public class ContactLoaderActivity extends BaseActivity implements
 
     @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
-        loadingView.hide();
         if (loader.getId() == ContactQuery.QUERY_ID) {
             adapter.swapCursor(data);
         }
@@ -128,6 +154,13 @@ public class ContactLoaderActivity extends BaseActivity implements
             // When the loader is being reset, clear the cursor from the adapter. This allows the
             // cursor resources to be freed.
             adapter.swapCursor(null);
+        }
+    }
+
+    @Override
+    public void invitedMember(boolean invited, String phoneNumber) {
+        if (invited) {
+            Timber.i("INVITE " + phoneNumber);
         }
     }
 }

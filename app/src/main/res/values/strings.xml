@@ -47,5 +47,6 @@
     <string name="label_dialog_create">CREATE</string>
     <string name="label_dialog_cancel">CANCEL</string>
     <string name="label_hint_contact">Enter your contact name</string>
+    <string name="title_invite_member">Invite member</string>
 
 </resources>

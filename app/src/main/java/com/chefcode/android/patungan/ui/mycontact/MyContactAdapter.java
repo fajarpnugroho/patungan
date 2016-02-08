@@ -25,7 +25,11 @@ import butterknife.ButterKnife;
 
 public class MyContactAdapter extends RecyclerViewLoader<RecyclerView.ViewHolder> {
 
-    public MyContactAdapter() {}
+    private Listener listener;
+
+    public MyContactAdapter(Listener listener) {
+        this.listener = listener;
+    }
 
     @Override
     public ContactViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -71,22 +75,9 @@ public class MyContactAdapter extends RecyclerViewLoader<RecyclerView.ViewHolder
                 public void onClick(View v) {
                     toggle();
                     checkBox.setChecked(checked);
+                    listener.invitedMember(checked, (String) itemView.getTag());
                 }
             });
-        }
-
-
-        public void populate(Contact contact) {
-            SpannableString spannableString = new SpannableString(contact.name + "\n"
-                    + contact.phoneNumber);
-
-            spannableString.setSpan(contactNameTextAppearance, 0, contact.name.length(),
-                    Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-            spannableString.setSpan(contactNumberTextAppearance, contact.name.length()+1,
-                    spannableString.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-
-            contactTextView.setText(spannableString, TextView.BufferType.SPANNABLE);
-            contactTextView.setMovementMethod(new LinkMovementMethod());
         }
 
         public void populate(Cursor cursor) {
@@ -104,6 +95,8 @@ public class MyContactAdapter extends RecyclerViewLoader<RecyclerView.ViewHolder
 
             contactTextView.setText(spannableString, TextView.BufferType.SPANNABLE);
             contactTextView.setMovementMethod(new LinkMovementMethod());
+
+            itemView.setTag(phoneNumber);
         }
 
         @Override
@@ -120,5 +113,9 @@ public class MyContactAdapter extends RecyclerViewLoader<RecyclerView.ViewHolder
         public void toggle() {
             setChecked(!checked);
         }
+    }
+
+    public interface Listener {
+        void invitedMember(boolean invited, String phoneNumber);
     }
 }

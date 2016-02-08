@@ -9,7 +9,6 @@ import android.widget.FrameLayout;
 import com.chefcode.android.patungan.BaseActivity;
 import com.chefcode.android.patungan.R;
 import com.chefcode.android.patungan.ui.mycontact.ContactLoaderActivity;
-import com.chefcode.android.patungan.ui.mycontact.MyContactActivity;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -57,12 +56,9 @@ public class MainActivity extends BaseActivity implements MainView {
 
     @OnClick(R.id.button_create_payment_group)
     void onCreatePaymentGroupClick() {
-        Intent intent = new Intent(this, ContactLoaderActivity.class);
-        startActivity(intent);
-
-        /*DialogNewPaymentGroup dialogNewPaymentGroup = DialogNewPaymentGroup
+        DialogNewPaymentGroup dialogNewPaymentGroup = DialogNewPaymentGroup
                 .newInstance(encodedEmail);
-        dialogNewPaymentGroup.show(getSupportFragmentManager(), "ShowDialogNewPaymentGroup");*/
+        dialogNewPaymentGroup.show(getSupportFragmentManager(), "ShowDialogNewPaymentGroup");
     }
 
 }

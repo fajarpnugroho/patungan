@@ -52,8 +52,6 @@
             android:name=".ui.paymentgroupedit.EditPaymentGroupActivity"
             android:label="@string/app_name" />
 
-        <activity android:name=".ui.mycontact.MyContactActivity" />
-
         <activity android:name=".ui.mycontact.ContactLoaderActivity" />
 
     </application>

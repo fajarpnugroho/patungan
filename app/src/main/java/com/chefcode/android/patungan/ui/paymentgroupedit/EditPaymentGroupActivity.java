@@ -13,7 +13,7 @@ import android.widget.Toast;
 import com.chefcode.android.patungan.BaseActivity;
 import com.chefcode.android.patungan.Injector;
 import com.chefcode.android.patungan.R;
-import com.chefcode.android.patungan.ui.mycontact.MyContactActivity;
+import com.chefcode.android.patungan.ui.mycontact.ContactLoaderActivity;
 import com.chefcode.android.patungan.ui.widget.ErrorDialogFragment;
 import com.chefcode.android.patungan.utils.Constants;
 
@@ -53,7 +53,7 @@ public class EditPaymentGroupActivity extends BaseActivity implements EditPaymen
 
     @OnClick(R.id.button_invite_member)
     void onInviteMemberClick() {
-        Intent intent = new Intent(this, MyContactActivity.class);
+        Intent intent = new Intent(this, ContactLoaderActivity.class);
         startActivity(intent);
     }
 
