@@ -46,5 +46,6 @@
     <string name="label_jmlh_dibayar">TOTAL BIAYA</string>
     <string name="label_dialog_create">CREATE</string>
     <string name="label_dialog_cancel">CANCEL</string>
+    <string name="label_hint_contact">Enter your contact name</string>
 
 </resources>

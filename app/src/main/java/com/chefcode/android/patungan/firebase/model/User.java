@@ -8,18 +8,16 @@ import java.util.HashMap;
 public class User {
     public String email;
     public String msisdn;
-    public String tokenEcash;
     public String accountBalance;
     public String profilePict;
     public HashMap<String, Object> timestampJoin;
 
     public User() {}
 
-    public User(String email, String msisdn, String tokenEcash, String accountBalance,
+    public User(String email, String msisdn, String accountBalance,
                 String profilePict, HashMap<String, Object> timestampJoin) {
         this.email = email;
         this.msisdn = msisdn;
-        this.tokenEcash = tokenEcash;
         this.accountBalance = accountBalance;
         this.profilePict = profilePict;
         this.timestampJoin = timestampJoin;
@@ -31,10 +29,6 @@ public class User {
 
     public String getMsisdn() {
         return msisdn;
-    }
-
-    public String getTokenEcash() {
-        return tokenEcash;
     }
 
     public String getAccountBalance() {

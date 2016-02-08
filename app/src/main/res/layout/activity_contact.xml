@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".ui.mycontact.MyContactActivity">
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="?attr/colorPrimary"
+        app:layout_scrollFlags="scroll|enterAlways" />
+
+    <android.support.design.widget.TextInputLayout
+        android:id="@+id/til_payment_group_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/lists_title_bottom_margin"
+        android:layout_marginBottom="@dimen/lists_title_bottom_margin"
+        app:hintTextAppearance="@style/HintText">
+
+        <EditText
+            android:id="@+id/edit_text_contact_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/grey"
+            android:hint="@string/label_hint_contact"
+            android:inputType="text"
+            android:padding="@dimen/edit_text_padding"
+            android:textColor="@color/black"
+            android:textColorHint="@color/dark_grey"
+            android:textSize="@dimen/login_buttons_text_size" />
+    </android.support.design.widget.TextInputLayout>
+
+
+    <include layout="@layout/layout_contact_list" />
+
+</LinearLayout>

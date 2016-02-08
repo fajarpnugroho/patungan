@@ -49,4 +49,15 @@
         <item name="android:fontFamily" tools:ignore="NewApi">sans-serif-light</item>
     </style>
 
+    <style name="ContactName">
+        <item name="android:textSize">@dimen/title_payment_group_name</item>
+        <item name="android:textColor">@color/black_black</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="ContactNumber">
+        <item name="android:textColor">@color/light_black</item>
+        <item name="android:fontFamily" tools:ignore="NewApi">sans-serif-light</item>
+    </style>
+
 </resources>

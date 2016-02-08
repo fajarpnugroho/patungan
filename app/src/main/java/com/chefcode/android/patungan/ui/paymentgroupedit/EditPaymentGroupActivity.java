@@ -1,5 +1,6 @@
 package com.chefcode.android.patungan.ui.paymentgroupedit;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
@@ -12,6 +13,7 @@ import android.widget.Toast;
 import com.chefcode.android.patungan.BaseActivity;
 import com.chefcode.android.patungan.Injector;
 import com.chefcode.android.patungan.R;
+import com.chefcode.android.patungan.ui.mycontact.MyContactActivity;
 import com.chefcode.android.patungan.ui.widget.ErrorDialogFragment;
 import com.chefcode.android.patungan.utils.Constants;
 
@@ -19,6 +21,7 @@ import javax.inject.Inject;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 public class EditPaymentGroupActivity extends BaseActivity implements EditPaymentGroupView {
 
@@ -46,6 +49,12 @@ public class EditPaymentGroupActivity extends BaseActivity implements EditPaymen
         setToolbar();
 
         presenter.init(this);
+    }
+
+    @OnClick(R.id.button_invite_member)
+    void onInviteMemberClick() {
+        Intent intent = new Intent(this, MyContactActivity.class);
+        startActivity(intent);
     }
 
     @Override

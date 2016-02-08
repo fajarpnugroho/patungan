@@ -168,7 +168,6 @@ public class DialogLoginPresenter {
                     HashMap<String, Object> timestampJoin = new HashMap<>();
                     timestampJoin.put(Constants.FIREBASE_TIMESTAMP_PROPERTY, ServerValue.TIMESTAMP);
 
-                    String tokenEcash = preferences.getString(Constants.MANDIRI_TOKEN, null);
                     String generateProfilePict = String.format(Constants.DEFAULT_PROFILE_IMAGES,
                             MD5Utils.md5Hex(phoneMail));
 
@@ -176,7 +175,6 @@ public class DialogLoginPresenter {
 
                     User user = new User(encodedEmail,
                             view.getInputPhoneNumber(),
-                            tokenEcash,
                             Constants.DEFAULT_ACCOUNT_BALANCE,
                             generateProfilePict,
                             timestampJoin);

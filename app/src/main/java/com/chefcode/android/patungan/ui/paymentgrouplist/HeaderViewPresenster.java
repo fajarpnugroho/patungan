@@ -108,12 +108,11 @@ public class HeaderViewPresenster {
     }
 
     private void updateBalanceWithFirebaseHelper(String accountBalance) {
-        Firebase userFirebase = new Firebase(Constants.FIREBASE_BASE_URL);
+        String encodedEmail = sharedPreferences.getString(Constants.ENCODED_EMAIL, "");
+        Firebase userFirebase = new Firebase(Constants.FIREBASE_USER_URL).child(encodedEmail);
 
         HashMap<String, Object> updateBalanceInquery = new HashMap<>();
         updateBalanceInquery.put("/"
-                + Constants.FIREBASE_USER_LOCATION + "/"
-                + sharedPreferences.getString(Constants.ENCODED_EMAIL, "") + "/"
                 + Constants.FIREBASE_ACCOUNT_BALANCE_PROPERTY, accountBalance);
 
         userFirebase.updateChildren(updateBalanceInquery, new Firebase.CompletionListener() {
