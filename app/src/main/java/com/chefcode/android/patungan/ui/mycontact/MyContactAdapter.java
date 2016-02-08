@@ -1,5 +1,6 @@
 package com.chefcode.android.patungan.ui.mycontact;
 
+import android.database.Cursor;
 import android.support.annotation.LayoutRes;
 import android.support.v7.widget.RecyclerView;
 import android.text.SpannableString;
@@ -15,21 +16,16 @@ import android.widget.TextView;
 
 import com.chefcode.android.patungan.R;
 import com.chefcode.android.patungan.firebase.model.Contact;
-
-import java.util.List;
+import com.chefcode.android.patungan.ui.widget.RecyclerViewLoader;
+import com.chefcode.android.patungan.utils.ContactQuery;
+import com.chefcode.android.patungan.utils.StringUtils;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
-public class MyContactAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
-
-    private List<Contact> contactList;
+public class MyContactAdapter extends RecyclerViewLoader<RecyclerView.ViewHolder> {
 
     public MyContactAdapter() {}
-
-    public void init(List<Contact> contactList) {
-        this.contactList = contactList;
-    }
 
     @Override
     public ContactViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -37,16 +33,11 @@ public class MyContactAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
     }
 
     @Override
-    public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-        if (holder instanceof ContactViewHolder) {
-            ContactViewHolder viewHolder = (ContactViewHolder) holder;
-            viewHolder.populate(contactList.get(position));
+    public void onBindViewHolder(RecyclerView.ViewHolder viewHolder, Cursor cursor) {
+        if (viewHolder instanceof ContactViewHolder) {
+            ContactViewHolder holder = (ContactViewHolder) viewHolder;
+            holder.populate(cursor);
         }
-    }
-
-    @Override
-    public int getItemCount() {
-        return contactList == null ? 0 :contactList.size();
     }
 
     public static class Holder extends RecyclerView.ViewHolder {
@@ -92,6 +83,23 @@ public class MyContactAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             spannableString.setSpan(contactNameTextAppearance, 0, contact.name.length(),
                     Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
             spannableString.setSpan(contactNumberTextAppearance, contact.name.length()+1,
+                    spannableString.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+
+            contactTextView.setText(spannableString, TextView.BufferType.SPANNABLE);
+            contactTextView.setMovementMethod(new LinkMovementMethod());
+        }
+
+        public void populate(Cursor cursor) {
+            String name = cursor.getString(ContactQuery.DISPLAY_NAME);
+            String phoneNumber = StringUtils
+                    .normalizePhoneNumber(cursor.getString(ContactQuery.NUMBER));
+
+            SpannableString spannableString = new SpannableString(name + "\n"
+                    + phoneNumber);
+
+            spannableString.setSpan(contactNameTextAppearance, 0, name.length(),
+                    Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+            spannableString.setSpan(contactNumberTextAppearance, name.length()+1,
                     spannableString.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
 
             contactTextView.setText(spannableString, TextView.BufferType.SPANNABLE);

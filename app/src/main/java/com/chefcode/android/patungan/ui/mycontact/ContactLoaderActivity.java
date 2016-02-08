@@ -1,0 +1,133 @@
+package com.chefcode.android.patungan.ui.mycontact;
+
+import android.database.Cursor;
+import android.net.Uri;
+import android.os.Bundle;
+import android.support.v4.app.LoaderManager;
+import android.support.v4.content.CursorLoader;
+import android.support.v4.content.Loader;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.widget.EditText;
+
+import com.chefcode.android.patungan.BaseActivity;
+import com.chefcode.android.patungan.R;
+import com.chefcode.android.patungan.ui.widget.DividerItemDecoration;
+import com.chefcode.android.patungan.ui.widget.LoadingView;
+import com.chefcode.android.patungan.utils.ContactQuery;
+
+import butterknife.Bind;
+import butterknife.ButterKnife;
+
+public class ContactLoaderActivity extends BaseActivity implements
+        LoaderManager.LoaderCallbacks<Cursor> {
+
+    @Bind(R.id.contact_list) RecyclerView contactList;
+    @Bind(R.id.view_loading) LoadingView loadingView;
+    @Bind(R.id.edit_text_contact_name) EditText contactNameEdit;
+
+    private MyContactAdapter adapter;
+    private String keyword;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        setContentView(R.layout.activity_contact);
+        ButterKnife.bind(this);
+
+        adapter = new MyContactAdapter();
+
+        setContent();
+
+        getSupportLoaderManager().initLoader(ContactQuery.QUERY_ID, null, this);
+    }
+
+    private void setContent() {
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
+        linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+        contactList.setLayoutManager(linearLayoutManager);
+        contactList.setAdapter(adapter);
+        contactList.addItemDecoration(new DividerItemDecoration(this,
+                DividerItemDecoration.VERTICAL_LIST));
+
+        contactNameEdit.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                keyword = s.toString();
+                filterByName();
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+    }
+
+    private void filterByName() {
+        getSupportLoaderManager().restartLoader(ContactQuery.QUERY_ID, null, this);
+    }
+
+    @Override
+    public Loader<Cursor> onCreateLoader(int id, Bundle args) {
+        // If this is the loader for finding contacts in the Contacts Provider
+        // (the only one supported)
+        loadingView.show();
+        if (id == ContactQuery.QUERY_ID) {
+            Uri contentUri;
+
+            // There are two types of searches, one which displays all contacts and
+            // one which filters contacts by a search query. If mSearchTerm is set
+            // then a search query has been entered and the latter should be used.
+
+            if (keyword == null) {
+                // Since there's no search string, use the content URI that searches the entire
+                // Contacts table
+                contentUri = ContactQuery.CONTENT_URI;
+            } else {
+                // Since there's a search string, use the special content Uri that searches the
+                // Contacts table. The URI consists of a base Uri and the search string.
+                contentUri =
+                        Uri.withAppendedPath(ContactQuery.FILTER_URI, Uri.encode(keyword));
+            }
+
+            // Returns a new CursorLoader for querying the Contacts table. No arguments are used
+            // for the selection clause. The search string is either encoded onto the content URI,
+            // or no contacts search string is used. The other search criteria are constants. See
+            // the ContactsQuery interface.
+            return new CursorLoader(this,
+                    contentUri,
+                    ContactQuery.PROJECTION,
+                    ContactQuery.SELECTION,
+                    null,
+                    ContactQuery.SORT_ORDER);
+        }
+
+        return null;
+    }
+
+    @Override
+    public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
+        loadingView.hide();
+        if (loader.getId() == ContactQuery.QUERY_ID) {
+            adapter.swapCursor(data);
+        }
+    }
+
+    @Override
+    public void onLoaderReset(Loader<Cursor> loader) {
+        if (loader.getId() == ContactQuery.QUERY_ID) {
+            // When the loader is being reset, clear the cursor from the adapter. This allows the
+            // cursor resources to be freed.
+            adapter.swapCursor(null);
+        }
+    }
+}

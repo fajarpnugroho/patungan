@@ -54,6 +54,8 @@
 
         <activity android:name=".ui.mycontact.MyContactActivity" />
 
+        <activity android:name=".ui.mycontact.ContactLoaderActivity" />
+
     </application>
 
 </manifest>

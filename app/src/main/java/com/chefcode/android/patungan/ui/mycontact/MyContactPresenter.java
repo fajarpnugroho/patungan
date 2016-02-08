@@ -9,6 +9,7 @@ import android.provider.ContactsContract;
 import android.support.annotation.Nullable;
 
 import com.chefcode.android.patungan.firebase.model.Contact;
+import com.chefcode.android.patungan.utils.ContactQuery;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -69,19 +70,18 @@ public class MyContactPresenter {
         protected List<Contact> doInBackground(String... params) {
             ContentResolver cr = context.getContentResolver();
 
-            String sortOrder = ContactsContract.Contacts.DISPLAY_NAME +
-                    " COLLATE LOCALIZED ASC";
-
-            String selection = ContactsContract.Contacts.IN_VISIBLE_GROUP + "=1 AND " +
-                    ContactsContract.Contacts.HAS_PHONE_NUMBER + "=1";
+            String selection = ContactQuery.SELECTION;
 
             if (params[0] != null) {
                 selection = "AND " + ContactsContract.Contacts.DISPLAY_NAME + "=" + "'%"
-                        + params[0] + "%'";
+                        + params[0] + "?%'";
             }
 
             Cursor cur = cr.query(ContactsContract.Contacts.CONTENT_URI,
-                    null, selection, null, sortOrder);
+                    ContactQuery.PROJECTION,
+                    selection,
+                    null,
+                    ContactQuery.SORT_ORDER);
 
             if (cur == null) {
                 return null;
@@ -90,9 +90,6 @@ public class MyContactPresenter {
             if (cur.getCount() > 0) {
                 while (cur.moveToNext()) {
                     String id = cur.getString(cur.getColumnIndex(ContactsContract.Contacts._ID));
-
-                    String name = cur
-                            .getString(cur.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME));
 
                     if (Integer.parseInt(cur.getString(
                             cur.getColumnIndex(ContactsContract.Contacts.HAS_PHONE_NUMBER))) > 0) {

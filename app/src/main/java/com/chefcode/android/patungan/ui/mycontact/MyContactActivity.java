@@ -86,7 +86,7 @@ public class MyContactActivity extends BaseActivity implements MyContactView {
 
     @Override
     public void showListContact(List<Contact> contacts) {
-        adapter.init(contacts);
+        //adapter.init(contacts);
         adapter.notifyDataSetChanged();
     }
 

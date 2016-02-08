@@ -26,7 +26,12 @@ public class StringUtils {
     public static int getNumberOfAccountBalance(String accountBalance) {
         String[] splitSpace = accountBalance.split(" ");
         String[] splitComma = splitSpace[1].split(",");
-        String removeDot = splitComma[0].replace(".","");
+        String removeDot = splitComma[0].replace(".", "");
         return Integer.parseInt(removeDot);
+    }
+
+    public static String normalizePhoneNumber(String phoneNumber) {
+        phoneNumber = phoneNumber.replace("+62", "0");
+        return phoneNumber;
     }
 }
