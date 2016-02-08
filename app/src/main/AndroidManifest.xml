@@ -52,7 +52,7 @@
             android:name=".ui.paymentgroupedit.EditPaymentGroupActivity"
             android:label="@string/app_name" />
 
-        <activity android:name=".ui.mycontact.ContactLoaderActivity" />
+        <activity android:name=".ui.contact.ContactLoaderActivity" />
 
     </application>
 

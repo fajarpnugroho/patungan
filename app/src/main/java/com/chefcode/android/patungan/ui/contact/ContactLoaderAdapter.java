@@ -1,4 +1,4 @@
-package com.chefcode.android.patungan.ui.mycontact;
+package com.chefcode.android.patungan.ui.contact;
 
 import android.database.Cursor;
 import android.support.annotation.LayoutRes;
@@ -15,7 +15,6 @@ import android.widget.Checkable;
 import android.widget.TextView;
 
 import com.chefcode.android.patungan.R;
-import com.chefcode.android.patungan.firebase.model.Contact;
 import com.chefcode.android.patungan.ui.widget.RecyclerViewLoader;
 import com.chefcode.android.patungan.utils.ContactQuery;
 import com.chefcode.android.patungan.utils.StringUtils;
@@ -23,11 +22,11 @@ import com.chefcode.android.patungan.utils.StringUtils;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
-public class MyContactAdapter extends RecyclerViewLoader<RecyclerView.ViewHolder> {
+public class ContactLoaderAdapter extends RecyclerViewLoader<RecyclerView.ViewHolder> {
 
     private Listener listener;
 
-    public MyContactAdapter(Listener listener) {
+    public ContactLoaderAdapter(Listener listener) {
         this.listener = listener;
     }
 

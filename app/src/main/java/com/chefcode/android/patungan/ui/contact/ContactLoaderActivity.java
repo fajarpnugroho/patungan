@@ -1,4 +1,4 @@
-package com.chefcode.android.patungan.ui.mycontact;
+package com.chefcode.android.patungan.ui.contact;
 
 import android.database.Cursor;
 import android.net.Uri;
@@ -24,13 +24,13 @@ import butterknife.ButterKnife;
 import timber.log.Timber;
 
 public class ContactLoaderActivity extends BaseActivity implements
-        LoaderManager.LoaderCallbacks<Cursor>, MyContactAdapter.Listener {
+        LoaderManager.LoaderCallbacks<Cursor>, ContactLoaderAdapter.Listener {
 
     @Bind(R.id.toolbar) Toolbar toolbar;
     @Bind(R.id.contact_list) RecyclerView contactList;
     @Bind(R.id.edit_text_contact_name) EditText contactNameEdit;
 
-    private MyContactAdapter adapter;
+    private ContactLoaderAdapter adapter;
     private String keyword;
 
     @Override
@@ -40,7 +40,7 @@ public class ContactLoaderActivity extends BaseActivity implements
         setContentView(R.layout.activity_contact);
         ButterKnife.bind(this);
 
-        adapter = new MyContactAdapter(this);
+        adapter = new ContactLoaderAdapter(this);
 
         setToolbar();
         setContent();
@@ -161,6 +161,8 @@ public class ContactLoaderActivity extends BaseActivity implements
     public void invitedMember(boolean invited, String phoneNumber) {
         if (invited) {
             Timber.i("INVITE " + phoneNumber);
+        } else {
+            Timber.i("UNINVITED " + phoneNumber);
         }
     }
 }

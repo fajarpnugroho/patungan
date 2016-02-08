@@ -13,7 +13,7 @@ import android.widget.Toast;
 import com.chefcode.android.patungan.BaseActivity;
 import com.chefcode.android.patungan.Injector;
 import com.chefcode.android.patungan.R;
-import com.chefcode.android.patungan.ui.mycontact.ContactLoaderActivity;
+import com.chefcode.android.patungan.ui.contact.ContactLoaderActivity;
 import com.chefcode.android.patungan.ui.widget.ErrorDialogFragment;
 import com.chefcode.android.patungan.utils.Constants;
 
