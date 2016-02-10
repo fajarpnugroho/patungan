@@ -1,6 +1,5 @@
 package com.chefcode.android.patungan.ui.contact;
 
-import com.chefcode.android.patungan.firebase.model.PaymentGroup;
 import com.chefcode.android.patungan.firebase.model.User;
 import com.chefcode.android.patungan.utils.Constants;
 import com.chefcode.android.patungan.utils.MD5Utils;
@@ -23,7 +22,6 @@ public class ContactLoaderPresenter {
 
     private Firebase rootRef;
     private Firebase userRef;
-    private PaymentGroup activePaymentGroup;
     private HashMap<String, User> listInvitedMember;
 
     @Inject
@@ -35,8 +33,10 @@ public class ContactLoaderPresenter {
         userRef = new Firebase(Constants.FIREBASE_USER_URL);
     }
 
-    public void createNewUser(final String emailOwnerPaymentGroup, final String paymentGroupId,
-                              final String phoneNumber) {
+    public void updateUserData(final boolean invited,
+                               final String paymentGroupId,
+                               final String phoneNumber) {
+
         final String phoneMail = phoneNumber + "@patungan.com";
         final String encodedEmail = StringUtils.encodedEmail(phoneMail);
 
@@ -70,7 +70,7 @@ public class ContactLoaderPresenter {
                     return;
                 }
 
-                inviteMember(emailOwnerPaymentGroup, paymentGroupId, user);
+                updateInvitedMember(invited, paymentGroupId, user);
             }
 
             @Override
@@ -80,20 +80,32 @@ public class ContactLoaderPresenter {
         });
     }
 
-    public void inviteMember(String emailOwnerPaymentGroup, String paymentGroupId, User user) {
+    public void updateInvitedMember(boolean invited, String paymentGroupId, User user) {
         HashMap<String, Object> updatedUserData = new HashMap<String, Object>();
 
-        HashMap<String, Object> paymentGroupForFirebase = (HashMap<String, Object>)
-                new ObjectMapper().convertValue(activePaymentGroup, Map.class);
+        if (invited) {
 
-        HashMap<String, Object> invitedMemberForFirebase = (HashMap<String, Object>)
-                new ObjectMapper().convertValue(user, Map.class);
+            /*HashMap<String, Object> paymentGroupForFirebase = (HashMap<String, Object>)
+                new ObjectMapper().convertValue(activePaymentGroup, Map.class);*/
 
-        updatedUserData.put("/" + Constants.FIREBASE_INVITED_MEMBER_LOCATION + "/"
-                + paymentGroupId + "/" + user.getEmail(), invitedMemberForFirebase);
+            /*updatedUserData.put("/" + Constants.FIREBASE_PAYMENT_GROUP_LOCATION + "/"
+                + user.getEmail() + "/" + paymentGroupId, paymentGroupForFirebase);*/
 
-        updatedUserData.put("/" + Constants.FIREBASE_PAYMENT_GROUP_LOCATION + "/"
-                + user.getEmail() + "/" + paymentGroupId, paymentGroupForFirebase);
+            HashMap<String, Object> invitedMemberForFirebase = (HashMap<String, Object>)
+                    new ObjectMapper().convertValue(user, Map.class);
+
+            updatedUserData.put("/" + Constants.FIREBASE_INVITED_MEMBER_LOCATION + "/"
+                    + paymentGroupId + "/" + user.getEmail(), invitedMemberForFirebase);
+
+
+        } else {
+            HashMap<String, User> newInvitedMember = new HashMap<>(listInvitedMember);
+
+            updatedUserData.put("/" + Constants.FIREBASE_INVITED_MEMBER_LOCATION + "/"
+                    + paymentGroupId + "/" + user.getEmail(), null);
+
+            newInvitedMember.remove(user.getEmail());
+        }
 
         rootRef.updateChildren(updatedUserData, new Firebase.CompletionListener() {
             @Override
@@ -103,15 +115,6 @@ public class ContactLoaderPresenter {
                 }
             }
         });
-
-    }
-
-    public void uninvitedMember(String paymentGroupId, String phoneNumber) {
-
-    }
-
-    public void setActivePaymentGroup(PaymentGroup activePaymentGroup) {
-        this.activePaymentGroup = activePaymentGroup;
     }
 
     public void setListInvitedMember(HashMap<String, User> listInvitedMember) {

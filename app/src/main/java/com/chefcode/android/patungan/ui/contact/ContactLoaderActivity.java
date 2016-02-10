@@ -74,13 +74,13 @@ public class ContactLoaderActivity extends BaseActivity implements
 
         getSupportLoaderManager().initLoader(ContactQuery.QUERY_ID, null, this);
 
-        handleIntent();
     }
 
     @Override
     protected void onResume() {
         super.onResume();
         presenter.init();
+        handleIntent();
     }
 
     private void handleIntent() {
@@ -93,7 +93,7 @@ public class ContactLoaderActivity extends BaseActivity implements
         paymentGroupId = bundle.getString(Constants.PAYMENT_GROUP_ID, "");
 
         // get object payment group
-        activePaymentGroupRef = new Firebase(Constants.FIREBASE_PAYMENT_GROUP_URL)
+        /*activePaymentGroupRef = new Firebase(Constants.FIREBASE_PAYMENT_GROUP_URL)
                 .child(encodedEmail).child(paymentGroupId);
 
         activePaymentGroupListener = activePaymentGroupRef
@@ -111,7 +111,7 @@ public class ContactLoaderActivity extends BaseActivity implements
                     public void onCancelled(FirebaseError firebaseError) {
                         Timber.e(firebaseError.getMessage());
                     }
-                });
+                });*/
 
         // get list of invited member
         invitedMemberRef = new Firebase(Constants.FIREBASE_INVITED_MEMBER_URL)
@@ -135,7 +135,6 @@ public class ContactLoaderActivity extends BaseActivity implements
 
     @Override
     protected void onPause() {
-        activePaymentGroupRef.removeEventListener(activePaymentGroupListener);
         invitedMemberRef.removeEventListener(invitedMemberListener);
         super.onPause();
     }
@@ -251,12 +250,6 @@ public class ContactLoaderActivity extends BaseActivity implements
 
     @Override
     public void invitedMember(boolean invited, String phoneNumber) {
-        if (invited) {
-            Timber.i("INVITE " + phoneNumber);
-            String ownerEncodedEmail = preferences.getString(Constants.ENCODED_EMAIL, "");
-            presenter.createNewUser(ownerEncodedEmail, paymentGroupId, phoneNumber);
-        } else {
-            Timber.i("UNINVITED " + phoneNumber);
-        }
+        presenter.updateUserData(invited, paymentGroupId, phoneNumber);
     }
 }

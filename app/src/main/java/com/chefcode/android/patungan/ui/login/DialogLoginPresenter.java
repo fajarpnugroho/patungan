@@ -145,7 +145,7 @@ public class DialogLoginPresenter {
             @Override
             public void onAuthenticated(AuthData authData) {
                 if (authData != null) {
-                    String encodedEmail  = StringUtils.encodedEmail(phoneMail);
+                    String encodedEmail = StringUtils.encodedEmail(phoneMail);
                     createUserWithFirebaseHelper(encodedEmail, phoneMail);
 
                     preferences.edit().putString(Constants.ENCODED_EMAIL, encodedEmail).apply();
@@ -180,6 +180,9 @@ public class DialogLoginPresenter {
                             timestampJoin);
 
                     userLocation.setValue(user);
+                } else {
+                    User user = dataSnapshot.getValue(User.class);
+                    preferences.edit().putString(Constants.AVATAR, user.getProfilePict()).apply();
                 }
 
                 view.onLogin(false);
