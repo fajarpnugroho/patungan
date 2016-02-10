@@ -1,5 +1,6 @@
 package com.chefcode.android.patungan.ui.contact;
 
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
@@ -15,9 +16,21 @@ import android.view.MenuItem;
 import android.widget.EditText;
 
 import com.chefcode.android.patungan.BaseActivity;
+import com.chefcode.android.patungan.Injector;
 import com.chefcode.android.patungan.R;
+import com.chefcode.android.patungan.firebase.model.PaymentGroup;
+import com.chefcode.android.patungan.firebase.model.User;
 import com.chefcode.android.patungan.ui.widget.DividerItemDecoration;
+import com.chefcode.android.patungan.utils.Constants;
 import com.chefcode.android.patungan.utils.ContactQuery;
+import com.firebase.client.DataSnapshot;
+import com.firebase.client.Firebase;
+import com.firebase.client.FirebaseError;
+import com.firebase.client.ValueEventListener;
+
+import java.util.HashMap;
+
+import javax.inject.Inject;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -30,12 +43,26 @@ public class ContactLoaderActivity extends BaseActivity implements
     @Bind(R.id.contact_list) RecyclerView contactList;
     @Bind(R.id.edit_text_contact_name) EditText contactNameEdit;
 
+    @Inject ContactLoaderPresenter presenter;
+    @Inject SharedPreferences preferences;
+
     private ContactLoaderAdapter adapter;
     private String keyword;
+    private String paymentGroupId;
+
+    private Firebase activePaymentGroupRef;
+    private ValueEventListener activePaymentGroupListener;
+    private PaymentGroup activePaymentGroup;
+
+    private Firebase invitedMemberRef;
+    private ValueEventListener invitedMemberListener;
+    private HashMap<String, User> invitedMember;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        Injector.INSTANCE.getApplicationGraph().inject(this);
 
         setContentView(R.layout.activity_contact);
         ButterKnife.bind(this);
@@ -46,6 +73,71 @@ public class ContactLoaderActivity extends BaseActivity implements
         setContent();
 
         getSupportLoaderManager().initLoader(ContactQuery.QUERY_ID, null, this);
+
+        handleIntent();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        presenter.init();
+    }
+
+    private void handleIntent() {
+        if (getIntent().getExtras() == null) {
+            finish();
+            return;
+        }
+
+        Bundle bundle = getIntent().getExtras();
+        paymentGroupId = bundle.getString(Constants.PAYMENT_GROUP_ID, "");
+
+        // get object payment group
+        activePaymentGroupRef = new Firebase(Constants.FIREBASE_PAYMENT_GROUP_URL)
+                .child(encodedEmail).child(paymentGroupId);
+
+        activePaymentGroupListener = activePaymentGroupRef
+                .addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        activePaymentGroup = dataSnapshot.getValue(PaymentGroup.class);
+                        presenter.setActivePaymentGroup(activePaymentGroup);
+                        if (activePaymentGroup == null) {
+                            finish();
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(FirebaseError firebaseError) {
+                        Timber.e(firebaseError.getMessage());
+                    }
+                });
+
+        // get list of invited member
+        invitedMemberRef = new Firebase(Constants.FIREBASE_INVITED_MEMBER_URL)
+                .child(paymentGroupId);
+        invitedMemberListener = invitedMemberRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                invitedMember = new HashMap<>();
+                for (DataSnapshot user : dataSnapshot.getChildren()) {
+                    invitedMember.put(user.getKey(), user.getValue(User.class));
+                }
+                presenter.setListInvitedMember(invitedMember);
+            }
+
+            @Override
+            public void onCancelled(FirebaseError firebaseError) {
+                Timber.e(firebaseError.getMessage());
+            }
+        });
+    }
+
+    @Override
+    protected void onPause() {
+        activePaymentGroupRef.removeEventListener(activePaymentGroupListener);
+        invitedMemberRef.removeEventListener(invitedMemberListener);
+        super.onPause();
     }
 
     private void setToolbar() {
@@ -161,6 +253,8 @@ public class ContactLoaderActivity extends BaseActivity implements
     public void invitedMember(boolean invited, String phoneNumber) {
         if (invited) {
             Timber.i("INVITE " + phoneNumber);
+            String ownerEncodedEmail = preferences.getString(Constants.ENCODED_EMAIL, "");
+            presenter.createNewUser(ownerEncodedEmail, paymentGroupId, phoneNumber);
         } else {
             Timber.i("UNINVITED " + phoneNumber);
         }

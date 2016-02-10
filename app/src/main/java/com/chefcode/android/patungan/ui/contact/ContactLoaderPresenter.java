@@ -1,9 +1,11 @@
 package com.chefcode.android.patungan.ui.contact;
 
+import com.chefcode.android.patungan.firebase.model.PaymentGroup;
 import com.chefcode.android.patungan.firebase.model.User;
 import com.chefcode.android.patungan.utils.Constants;
 import com.chefcode.android.patungan.utils.MD5Utils;
 import com.chefcode.android.patungan.utils.StringUtils;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
@@ -11,6 +13,7 @@ import com.firebase.client.ServerValue;
 import com.firebase.client.ValueEventListener;
 
 import java.util.HashMap;
+import java.util.Map;
 
 import javax.inject.Inject;
 
@@ -18,16 +21,18 @@ import timber.log.Timber;
 
 public class ContactLoaderPresenter {
 
+    private Firebase rootRef;
     private Firebase userRef;
-    private Firebase paymentGroupRef;
+    private PaymentGroup activePaymentGroup;
+    private HashMap<String, User> listInvitedMember;
 
     @Inject
     public ContactLoaderPresenter() {
     }
 
     public void init() {
+        rootRef = new Firebase(Constants.FIREBASE_BASE_URL);
         userRef = new Firebase(Constants.FIREBASE_USER_URL);
-        paymentGroupRef = new Firebase(Constants.FIREBASE_PAYMENT_GROUP_URL);
     }
 
     public void createNewUser(final String emailOwnerPaymentGroup, final String paymentGroupId,
@@ -41,7 +46,7 @@ public class ContactLoaderPresenter {
             public void onDataChange(DataSnapshot dataSnapshot) {
                 User user;
 
-                if (dataSnapshot == null) {
+                if (dataSnapshot.getValue() == null) {
 
                     String generatedProfilePict = String.format(Constants.DEFAULT_PROFILE_IMAGES,
                             MD5Utils.md5Hex(phoneMail));
@@ -76,11 +81,40 @@ public class ContactLoaderPresenter {
     }
 
     public void inviteMember(String emailOwnerPaymentGroup, String paymentGroupId, User user) {
+        HashMap<String, Object> updatedUserData = new HashMap<String, Object>();
 
+        HashMap<String, Object> paymentGroupForFirebase = (HashMap<String, Object>)
+                new ObjectMapper().convertValue(activePaymentGroup, Map.class);
+
+        HashMap<String, Object> invitedMemberForFirebase = (HashMap<String, Object>)
+                new ObjectMapper().convertValue(user, Map.class);
+
+        updatedUserData.put("/" + Constants.FIREBASE_INVITED_MEMBER_LOCATION + "/"
+                + paymentGroupId + "/" + user.getEmail(), invitedMemberForFirebase);
+
+        updatedUserData.put("/" + Constants.FIREBASE_PAYMENT_GROUP_LOCATION + "/"
+                + user.getEmail() + "/" + paymentGroupId, paymentGroupForFirebase);
+
+        rootRef.updateChildren(updatedUserData, new Firebase.CompletionListener() {
+            @Override
+            public void onComplete(FirebaseError firebaseError, Firebase firebase) {
+                if (firebaseError != null) {
+                    Timber.e(firebaseError.getMessage());
+                }
+            }
+        });
 
     }
 
     public void uninvitedMember(String paymentGroupId, String phoneNumber) {
 
+    }
+
+    public void setActivePaymentGroup(PaymentGroup activePaymentGroup) {
+        this.activePaymentGroup = activePaymentGroup;
+    }
+
+    public void setListInvitedMember(HashMap<String, User> listInvitedMember) {
+        this.listInvitedMember = listInvitedMember;
     }
 }

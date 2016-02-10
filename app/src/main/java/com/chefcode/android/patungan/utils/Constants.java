@@ -10,11 +10,11 @@ public class Constants {
     public static final String ACCOUNT_BALANCE = "account_balance";
     public static final String EXTRA_ERROR_MESSAGE = "extra_error_message";
     public static final String DEFAULT_PROFILE_IMAGES = "http://www.gravatar.com/avatar/%s?s=45&d=wavatar";
-    public static final String PUSH_ID = "push_id";
     public static final String FIREBASE_GROUP_NAME_PROPERTY = "groupName";
     public static final String FIREBASE_INVOICE_PROPERTY = "invoice";
     public static final String FIREBASE_TIMESTAMP_MODIFIED_PROPERTY = "timestampModified";
     public static final String AVATAR = "avatar";
+    public static final String PAYMENT_GROUP_ID = "payment_group_id";
 
 
     public Constants() {}
@@ -25,10 +25,12 @@ public class Constants {
     // location
     public static final String FIREBASE_USER_LOCATION = "users";
     public static final String FIREBASE_PAYMENT_GROUP_LOCATION = "paymentGroup";
+    public static final String FIREBASE_INVITED_MEMBER_LOCATION = "invitedMember";
 
     // url
     public static final String FIREBASE_USER_URL = FIREBASE_BASE_URL + "/" + FIREBASE_USER_LOCATION;
     public static final String FIREBASE_PAYMENT_GROUP_URL = FIREBASE_BASE_URL + "/" + FIREBASE_PAYMENT_GROUP_LOCATION;
+    public static final String FIREBASE_INVITED_MEMBER_URL = FIREBASE_BASE_URL + "/" + FIREBASE_INVITED_MEMBER_LOCATION;
 
     // property
     public static final String FIREBASE_TIMESTAMP_PROPERTY = "timestamp";

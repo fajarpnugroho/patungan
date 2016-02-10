@@ -43,6 +43,7 @@ public class ContactLoaderAdapter extends RecyclerViewLoader<RecyclerView.ViewHo
         }
     }
 
+
     public static class Holder extends RecyclerView.ViewHolder {
         public Holder(@LayoutRes int resId, ViewGroup parent) {
             super(LayoutInflater.from(parent.getContext()).inflate(resId, parent, false));

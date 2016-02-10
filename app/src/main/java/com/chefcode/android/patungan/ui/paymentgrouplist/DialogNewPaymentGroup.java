@@ -106,7 +106,7 @@ public class DialogNewPaymentGroup extends DialogFragment implements DialogNewPa
 
     private void navigateToEditPaymentGroupDetail(String key) {
         Intent intent = new Intent(getActivity(), EditPaymentGroupActivity.class);
-        intent.putExtra(Constants.PUSH_ID, key);
+        intent.putExtra(Constants.PAYMENT_GROUP_ID, key);
         startActivity(intent);
         dismiss();
     }

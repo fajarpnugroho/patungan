@@ -1,5 +1,6 @@
 package com.chefcode.android.patungan;
 
+import com.chefcode.android.patungan.ui.contact.ContactLoaderActivity;
 import com.chefcode.android.patungan.ui.login.DialogLoginFragment;
 import com.chefcode.android.patungan.ui.paymentgroupedit.EditPaymentGroupActivity;
 import com.chefcode.android.patungan.ui.paymentgrouplist.ContentViewComponent;
@@ -20,4 +21,6 @@ public interface ApplicationGraph {
     void inject(DialogNewPaymentGroup dialogNewPaymentGroup);
 
     void inject(EditPaymentGroupActivity activity);
+
+    void inject(ContactLoaderActivity activity);
 }

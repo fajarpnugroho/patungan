@@ -33,6 +33,7 @@ public class EditPaymentGroupActivity extends BaseActivity implements EditPaymen
     @Inject EditPaymentGroupPresenter presenter;
 
     private Bundle bundle;
+    private String paymentGroupId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,6 +55,7 @@ public class EditPaymentGroupActivity extends BaseActivity implements EditPaymen
     @OnClick(R.id.button_invite_member)
     void onInviteMemberClick() {
         Intent intent = new Intent(this, ContactLoaderActivity.class);
+        intent.putExtra(Constants.PAYMENT_GROUP_ID, paymentGroupId);
         startActivity(intent);
     }
 
@@ -63,8 +65,8 @@ public class EditPaymentGroupActivity extends BaseActivity implements EditPaymen
         if (bundle == null) {
             return;
         }
-        String pushId = bundle.getString(Constants.PUSH_ID, null);
-        presenter.valueListenerPaymentGroup(pushId);
+        paymentGroupId = bundle.getString(Constants.PAYMENT_GROUP_ID, null);
+        presenter.valueListenerPaymentGroup(paymentGroupId);
     }
 
     @Override
