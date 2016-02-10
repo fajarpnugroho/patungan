@@ -42,6 +42,7 @@ public class DialogNewPaymentGroupPresenter {
                 sharedPreferences.getString(Constants.AVATAR, null),
                 0,
                 0,
+                0,
                 timestampCreated);
 
         Firebase pushId = userPaymentGroupRef.push();

@@ -35,6 +35,6 @@ public class Constants {
     // property
     public static final String FIREBASE_TIMESTAMP_PROPERTY = "timestamp";
     public static final String FIREBASE_ACCOUNT_BALANCE_PROPERTY = "accountBalance";
-
+    public static final String FIREBASE_MINIMUM_PAYMENT_PROPERTY = "minimumPayment";
 
 }

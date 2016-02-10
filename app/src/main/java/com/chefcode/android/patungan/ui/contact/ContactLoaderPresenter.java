@@ -1,5 +1,6 @@
 package com.chefcode.android.patungan.ui.contact;
 
+import com.chefcode.android.patungan.firebase.model.PaymentGroup;
 import com.chefcode.android.patungan.firebase.model.User;
 import com.chefcode.android.patungan.utils.Constants;
 import com.chefcode.android.patungan.utils.MD5Utils;
@@ -23,6 +24,7 @@ public class ContactLoaderPresenter {
     private Firebase rootRef;
     private Firebase userRef;
     private HashMap<String, User> listInvitedMember;
+    private PaymentGroup activePaymentGroup;
 
     @Inject
     public ContactLoaderPresenter() {
@@ -85,15 +87,13 @@ public class ContactLoaderPresenter {
 
         if (invited) {
 
-            /*HashMap<String, Object> paymentGroupForFirebase = (HashMap<String, Object>)
-                new ObjectMapper().convertValue(activePaymentGroup, Map.class);*/
-
-            /*updatedUserData.put("/" + Constants.FIREBASE_PAYMENT_GROUP_LOCATION + "/"
-                + user.getEmail() + "/" + paymentGroupId, paymentGroupForFirebase);*/
+            HashMap<String, Object> paymentGroupForFirebase = (HashMap<String, Object>)
+                new ObjectMapper().convertValue(activePaymentGroup, Map.class);
+            updatedUserData.put("/" + Constants.FIREBASE_PAYMENT_GROUP_LOCATION + "/"
+                + user.getEmail() + "/" + paymentGroupId, paymentGroupForFirebase);
 
             HashMap<String, Object> invitedMemberForFirebase = (HashMap<String, Object>)
                     new ObjectMapper().convertValue(user, Map.class);
-
             updatedUserData.put("/" + Constants.FIREBASE_INVITED_MEMBER_LOCATION + "/"
                     + paymentGroupId + "/" + user.getEmail(), invitedMemberForFirebase);
 
@@ -119,5 +119,9 @@ public class ContactLoaderPresenter {
 
     public void setListInvitedMember(HashMap<String, User> listInvitedMember) {
         this.listInvitedMember = listInvitedMember;
+    }
+
+    public void setActivePaymentGroup(PaymentGroup activePaymentGroup) {
+        this.activePaymentGroup = activePaymentGroup;
     }
 }

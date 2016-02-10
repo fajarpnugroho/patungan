@@ -12,6 +12,7 @@ public class PaymentGroup {
     public String avatarOwner;
     public int invoice;
     public int bucket;
+    public int minimumPayment;
     public HashMap<String, Object> timestampCreated;
     public HashMap<String, Object> timestampModified;
     public HashMap<String, User> member;
@@ -20,13 +21,14 @@ public class PaymentGroup {
     public PaymentGroup() {
     }
 
-    public PaymentGroup(String groupName, String owner, String avatarOwner, int invoice, int bucket,
-                        HashMap<String, Object> timestampCreated) {
+    public PaymentGroup(String groupName, String owner, String avatarOwner, int invoice,
+                        int bucket, int minimumPayment, HashMap<String, Object> timestampCreated) {
         this.groupName = groupName;
         this.owner = owner;
         this.avatarOwner = avatarOwner;
         this.invoice = invoice;
         this.bucket = bucket;
+        this.minimumPayment = minimumPayment;
         this.timestampCreated = timestampCreated;
 
         HashMap<String, Object> timestampNowObject = new HashMap<>();
@@ -50,6 +52,14 @@ public class PaymentGroup {
 
     public int getBucket() {
         return bucket;
+    }
+
+    public String getOwner() {
+        return owner;
+    }
+
+    public int getMinimumPayment() {
+        return minimumPayment;
     }
 
     public HashMap<String, Object> getTimestampCreated() {

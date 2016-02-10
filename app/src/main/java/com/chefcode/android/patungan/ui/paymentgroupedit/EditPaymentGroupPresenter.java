@@ -8,6 +8,7 @@ import com.chefcode.android.patungan.R;
 import com.chefcode.android.patungan.firebase.model.PaymentGroup;
 import com.chefcode.android.patungan.firebase.model.User;
 import com.chefcode.android.patungan.utils.Constants;
+import com.chefcode.android.patungan.utils.FirebaseUtils;
 import com.chefcode.android.patungan.utils.StringUtils;
 import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
@@ -111,10 +112,9 @@ public class EditPaymentGroupPresenter {
             return;
         }
 
-        // TODO get total invited member
         String accountBalance = sharedPreferences.getString(Constants.ACCOUNT_BALANCE, "");
         int splitAccountBalanceNumber = StringUtils.getNumberOfAccountBalance(accountBalance)
-                / TOTAL_INVITED_MEMBER;
+                / (invitedMember.size() + 1);
 
         if (splitAccountBalanceNumber < Integer.parseInt(view.getTotalCost())) {
             String message = String.format(context
@@ -124,16 +124,43 @@ public class EditPaymentGroupPresenter {
             return;
         }
 
+        int splitCost = Integer.parseInt(view.getTotalCost()) / (invitedMember.size() + 1);
 
         HashMap<String, Object> editPaymentGroup = new HashMap<>();
-        editPaymentGroup.put(Constants.FIREBASE_GROUP_NAME_PROPERTY, view.getPaymentGroupName());
-        editPaymentGroup.put(Constants.FIREBASE_INVOICE_PROPERTY, view.getTotalCost());
+
+        editPaymentGroup = FirebaseUtils.generatedUpdatedMap(invitedMember,
+                editPaymentGroup,
+                paymentGroupId,
+                encodedEmail,
+                Constants.FIREBASE_GROUP_NAME_PROPERTY,
+                view.getPaymentGroupName());
+
+        editPaymentGroup = FirebaseUtils.generatedUpdatedMap(invitedMember,
+                editPaymentGroup,
+                paymentGroupId,
+                encodedEmail,
+                Constants.FIREBASE_INVOICE_PROPERTY,
+                view.getTotalCost());
+
+
+        editPaymentGroup = FirebaseUtils.generatedUpdatedMap(invitedMember,
+                editPaymentGroup,
+                paymentGroupId,
+                encodedEmail,
+                Constants.FIREBASE_MINIMUM_PAYMENT_PROPERTY,
+                splitCost);
 
         HashMap<String, Object> timeModified = new HashMap<>();
         timeModified.put(Constants.FIREBASE_TIMESTAMP_PROPERTY, ServerValue.TIMESTAMP);
-        editPaymentGroup.put(Constants.FIREBASE_TIMESTAMP_MODIFIED_PROPERTY, timeModified);
 
-        paymentGroupRef.updateChildren(editPaymentGroup, new Firebase.CompletionListener() {
+        editPaymentGroup = FirebaseUtils.generatedUpdatedMap(invitedMember,
+                editPaymentGroup,
+                paymentGroupId,
+                encodedEmail,
+                Constants.FIREBASE_TIMESTAMP_MODIFIED_PROPERTY,
+                timeModified);
+
+        rootRef.updateChildren(editPaymentGroup, new Firebase.CompletionListener() {
             @Override
             public void onComplete(FirebaseError firebaseError, Firebase firebase) {
                 if (firebaseError == null) {
