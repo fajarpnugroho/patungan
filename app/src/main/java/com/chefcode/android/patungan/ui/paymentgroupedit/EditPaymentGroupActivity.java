@@ -13,9 +13,12 @@ import android.widget.Toast;
 import com.chefcode.android.patungan.BaseActivity;
 import com.chefcode.android.patungan.Injector;
 import com.chefcode.android.patungan.R;
+import com.chefcode.android.patungan.firebase.model.User;
 import com.chefcode.android.patungan.ui.contact.ContactLoaderActivity;
 import com.chefcode.android.patungan.ui.widget.ErrorDialogFragment;
 import com.chefcode.android.patungan.utils.Constants;
+
+import java.util.HashMap;
 
 import javax.inject.Inject;
 
@@ -23,7 +26,8 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class EditPaymentGroupActivity extends BaseActivity implements EditPaymentGroupView {
+public class EditPaymentGroupActivity extends BaseActivity implements EditPaymentGroupView,
+        InvitedMemberView.Listener {
 
     @Bind(R.id.toolbar) Toolbar toolbar;
     @Bind(R.id.edit_text_payment_group_name) EditText paymentGroupNameEdit;
@@ -32,7 +36,6 @@ public class EditPaymentGroupActivity extends BaseActivity implements EditPaymen
 
     @Inject EditPaymentGroupPresenter presenter;
 
-    private Bundle bundle;
     private String paymentGroupId;
 
     @Override
@@ -44,12 +47,16 @@ public class EditPaymentGroupActivity extends BaseActivity implements EditPaymen
 
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
 
-        paymentGroupNameEdit.requestFocus();
+        totalCostEdit.requestFocus();
 
-        bundle = getIntent().getExtras();
         setToolbar();
 
-        presenter.init(this);
+        Bundle bundle = getIntent().getExtras();
+        if (bundle == null) {
+            return;
+        }
+        paymentGroupId = bundle.getString(Constants.PAYMENT_GROUP_ID, null);
+        presenter.init(this, paymentGroupId);
     }
 
     @OnClick(R.id.button_invite_member)
@@ -62,16 +69,14 @@ public class EditPaymentGroupActivity extends BaseActivity implements EditPaymen
     @Override
     protected void onResume() {
         super.onResume();
-        if (bundle == null) {
-            return;
-        }
-        paymentGroupId = bundle.getString(Constants.PAYMENT_GROUP_ID, null);
-        presenter.valueListenerPaymentGroup(paymentGroupId);
+        presenter.valueListenerPaymentGroup();
+        presenter.valueListenerInvitedMember();
     }
 
     @Override
     protected void onPause() {
-        presenter.removeValueListener();
+        presenter.removePaymentGroupValueListener();
+        presenter.removeInvitedMemberListener();
         super.onPause();
     }
 
@@ -162,5 +167,22 @@ public class EditPaymentGroupActivity extends BaseActivity implements EditPaymen
     public void showErrorDialog(String message) {
         ErrorDialogFragment fragment = ErrorDialogFragment.newInstance(message);
         fragment.show(getSupportFragmentManager(), "ShowErrorDialog");
+    }
+
+    @Override
+    public void showInvitedMember(HashMap<String, User> invitedMember) {
+        iniviteMemberContainer.removeAllViews();
+
+        for (User user : invitedMember.values()) {
+            InvitedMemberView view = new InvitedMemberView(this);
+            view.setListener(this);
+            view.populate(user);
+            iniviteMemberContainer.addView(view);
+        }
+    }
+
+    @Override
+    public void onItemClickListener(String encodedMail) {
+        presenter.uninvitedMember(paymentGroupId, encodedMail);
     }
 }

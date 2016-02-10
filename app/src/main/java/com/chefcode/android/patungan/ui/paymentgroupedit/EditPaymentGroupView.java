@@ -1,5 +1,9 @@
 package com.chefcode.android.patungan.ui.paymentgroupedit;
 
+import com.chefcode.android.patungan.firebase.model.User;
+
+import java.util.HashMap;
+
 public interface EditPaymentGroupView {
     void setPaymentGroupName(String value);
 
@@ -20,4 +24,6 @@ public interface EditPaymentGroupView {
     void finishEdit();
 
     void showErrorDialog(String message);
+
+    void showInvitedMember(HashMap<String, User> invitedMember);
 }
