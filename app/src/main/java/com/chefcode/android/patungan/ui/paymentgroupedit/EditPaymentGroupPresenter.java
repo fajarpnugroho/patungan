@@ -128,14 +128,14 @@ public class EditPaymentGroupPresenter {
 
         HashMap<String, Object> editPaymentGroup = new HashMap<>();
 
-        editPaymentGroup = FirebaseUtils.generatedUpdatedMap(invitedMember,
+        editPaymentGroup = FirebaseUtils.generatedPaymentUpdateMap(invitedMember,
                 editPaymentGroup,
                 paymentGroupId,
                 encodedEmail,
                 Constants.FIREBASE_GROUP_NAME_PROPERTY,
                 view.getPaymentGroupName());
 
-        editPaymentGroup = FirebaseUtils.generatedUpdatedMap(invitedMember,
+        editPaymentGroup = FirebaseUtils.generatedPaymentUpdateMap(invitedMember,
                 editPaymentGroup,
                 paymentGroupId,
                 encodedEmail,
@@ -143,7 +143,7 @@ public class EditPaymentGroupPresenter {
                 view.getTotalCost());
 
 
-        editPaymentGroup = FirebaseUtils.generatedUpdatedMap(invitedMember,
+        editPaymentGroup = FirebaseUtils.generatedPaymentUpdateMap(invitedMember,
                 editPaymentGroup,
                 paymentGroupId,
                 encodedEmail,
@@ -153,7 +153,7 @@ public class EditPaymentGroupPresenter {
         HashMap<String, Object> timeModified = new HashMap<>();
         timeModified.put(Constants.FIREBASE_TIMESTAMP_PROPERTY, ServerValue.TIMESTAMP);
 
-        editPaymentGroup = FirebaseUtils.generatedUpdatedMap(invitedMember,
+        editPaymentGroup = FirebaseUtils.generatedPaymentUpdateMap(invitedMember,
                 editPaymentGroup,
                 paymentGroupId,
                 encodedEmail,
@@ -172,15 +172,14 @@ public class EditPaymentGroupPresenter {
 
     public void deleteGroupIfNotComplete() {
         if (TextUtils.isEmpty(view.getTotalCost()) || Integer.parseInt(view.getTotalCost()) <= 0) {
-            HashMap<String, Object> deletePaymentGroup = new HashMap<>();
-            deletePaymentGroup.put("/"
-                    + Constants.FIREBASE_PAYMENT_GROUP_LOCATION + "/"
-                    + encodedEmail + "/"
-                    + paymentGroupId, null);
 
-            deletePaymentGroup.put("/"
-                    + Constants.FIREBASE_INVITED_MEMBER_LOCATION + "/"
-                    + paymentGroupId, null);
+            HashMap<String, Object> deletePaymentGroup = new HashMap<>();
+
+            deletePaymentGroup = FirebaseUtils.generatedPaymentUpdateMap(invitedMember,
+                    deletePaymentGroup, paymentGroupId, encodedEmail, "", null);
+
+            deletePaymentGroup = FirebaseUtils.generatedInvitedMember(invitedMember,
+                    deletePaymentGroup, paymentGroupId, null);
 
             rootRef.updateChildren(deletePaymentGroup);
         }
