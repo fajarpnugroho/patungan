@@ -1,7 +1,6 @@
-package com.chefcode.android.patungan.ui.paymentgrouplist;
+package com.chefcode.android.patungan.ui.list;
 
 import android.content.Context;
-import android.support.v4.content.ContextCompat;
 import android.util.AttributeSet;
 import android.widget.FrameLayout;
 import android.widget.ProgressBar;

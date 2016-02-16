@@ -1,4 +1,4 @@
-package com.chefcode.android.patungan.ui.paymentgrouplist;
+package com.chefcode.android.patungan.ui.list;
 
 import android.content.SharedPreferences;
 
@@ -7,10 +7,6 @@ import com.chefcode.android.patungan.firebase.model.PaymentGroup;
 import com.chefcode.android.patungan.utils.Constants;
 import com.firebase.client.Firebase;
 import com.firebase.client.Query;
-import com.firebase.client.ServerValue;
-
-import java.util.HashMap;
-import java.util.Random;
 
 import javax.inject.Inject;
 

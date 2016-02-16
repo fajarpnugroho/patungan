@@ -1,4 +1,4 @@
-package com.chefcode.android.patungan.ui.paymentgrouplist;
+package com.chefcode.android.patungan.ui.list;
 
 import android.annotation.SuppressLint;
 import android.app.Dialog;
@@ -15,7 +15,7 @@ import android.widget.EditText;
 
 import com.chefcode.android.patungan.Injector;
 import com.chefcode.android.patungan.R;
-import com.chefcode.android.patungan.ui.paymentgroupedit.EditPaymentGroupActivity;
+import com.chefcode.android.patungan.ui.edit.EditPaymentGroupActivity;
 import com.chefcode.android.patungan.utils.Constants;
 import com.firebase.client.Firebase;
 

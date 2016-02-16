@@ -1,4 +1,4 @@
-package com.chefcode.android.patungan.ui.paymentgrouplist;
+package com.chefcode.android.patungan.ui.list;
 
 import android.support.v7.widget.RecyclerView;
 import android.text.Spannable;
@@ -10,7 +10,6 @@ import android.widget.TextView;
 
 import com.chefcode.android.patungan.R;
 import com.chefcode.android.patungan.firebase.model.PaymentGroup;
-import com.chefcode.android.patungan.utils.Constants;
 import com.chefcode.android.patungan.utils.StringUtils;
 import com.chefcode.android.patungan.utils.TimeUtils;
 import com.squareup.picasso.Picasso;

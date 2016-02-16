@@ -5,7 +5,7 @@ import android.os.Bundle;
 
 import com.chefcode.android.patungan.BaseActivity;
 import com.chefcode.android.patungan.ui.login.LoginActivity;
-import com.chefcode.android.patungan.ui.paymentgrouplist.MainActivity;
+import com.chefcode.android.patungan.ui.list.MainActivity;
 import com.chefcode.android.patungan.utils.Constants;
 import com.firebase.client.AuthData;
 import com.firebase.client.Firebase;

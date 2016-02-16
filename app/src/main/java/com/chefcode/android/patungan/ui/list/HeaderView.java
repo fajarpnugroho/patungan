@@ -1,4 +1,4 @@
-package com.chefcode.android.patungan.ui.paymentgrouplist;
+package com.chefcode.android.patungan.ui.list;
 
 public interface HeaderView {
     void onLoading(boolean loading);

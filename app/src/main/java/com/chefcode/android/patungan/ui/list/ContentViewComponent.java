@@ -1,4 +1,4 @@
-package com.chefcode.android.patungan.ui.paymentgrouplist;
+package com.chefcode.android.patungan.ui.list;
 
 import android.content.Context;
 import android.support.v7.widget.LinearLayoutManager;
@@ -8,13 +8,11 @@ import android.widget.FrameLayout;
 
 import com.chefcode.android.patungan.Injector;
 import com.chefcode.android.patungan.R;
-import com.chefcode.android.patungan.ui.widget.DividerItemDecoration;
 
 import javax.inject.Inject;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
-import butterknife.OnClick;
 
 public class ContentViewComponent extends FrameLayout implements ContentView {
     @Bind(R.id.recyclerview) RecyclerView recyclerView;

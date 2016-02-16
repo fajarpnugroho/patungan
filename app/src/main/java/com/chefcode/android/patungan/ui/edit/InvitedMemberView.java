@@ -1,4 +1,4 @@
-package com.chefcode.android.patungan.ui.paymentgroupedit;
+package com.chefcode.android.patungan.ui.edit;
 
 import android.annotation.SuppressLint;
 import android.content.Context;

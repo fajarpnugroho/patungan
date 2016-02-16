@@ -1,4 +1,4 @@
-package com.chefcode.android.patungan.ui.paymentgroupedit;
+package com.chefcode.android.patungan.ui.edit;
 
 import com.chefcode.android.patungan.firebase.model.User;
 
