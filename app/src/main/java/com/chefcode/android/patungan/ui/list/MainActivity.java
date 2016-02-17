@@ -1,5 +1,6 @@
 package com.chefcode.android.patungan.ui.list;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
@@ -7,6 +8,8 @@ import android.widget.FrameLayout;
 
 import com.chefcode.android.patungan.BaseActivity;
 import com.chefcode.android.patungan.R;
+import com.chefcode.android.patungan.ui.detail.PaymentDetailActivity;
+import com.chefcode.android.patungan.utils.Constants;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;

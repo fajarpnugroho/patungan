@@ -60,4 +60,16 @@
         <item name="android:fontFamily" tools:ignore="NewApi">sans-serif-light</item>
     </style>
 
+    <style name="Label">
+        <item name="android:textSize">12sp</item>
+        <item name="android:textColor">@color/soft_black</item>
+        <item name="android:lineSpacingMultiplier">1.1</item>
+    </style>
+
+    <style name="PriceNumber">
+        <item name="android:textSize">18sp</item>
+        <item name="android:textColor">@color/thin_black</item>
+        <item name="android:lineSpacingMultiplier">1.1</item>
+    </style>
+
 </resources>

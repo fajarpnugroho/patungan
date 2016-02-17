@@ -31,6 +31,7 @@ public class PaymentGroupViewHolder extends RecyclerView.ViewHolder {
 
     private TextAppearanceSpan paymentGroupNameTextAppearance;
     private TextAppearanceSpan dateCreatedTextAppearance;
+    private ContentViewAdapter.ItemCLickListener itemClickListener;
 
     public PaymentGroupViewHolder(View itemView) {
         super(itemView);
@@ -43,7 +44,7 @@ public class PaymentGroupViewHolder extends RecyclerView.ViewHolder {
                 R.style.PaymentGroupCreatedDate);
     }
 
-    public void populate(PaymentGroup paymentGroup) {
+    public void populate(final PaymentGroup paymentGroup, final String groupKey) {
         // TODO change with real encoded email
         List<String> fake = new ArrayList<>();
         fake.add("b70979cdb6958d768e413eb2504ec009");
@@ -76,5 +77,40 @@ public class PaymentGroupViewHolder extends RecyclerView.ViewHolder {
         memberText.setText(String.valueOf(fake.size()));
 
         transferText.setText("2");
+
+        itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (itemClickListener == null) {
+                    throw new IllegalStateException("Must set item click listener");
+                }
+                itemClickListener.openDetail(groupKey);
+            }
+        });
+
+        memberText.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (itemClickListener == null) {
+                    throw new IllegalStateException("Must set item click listener");
+                }
+                itemClickListener.openMemberPaymentGroupDialog(groupKey);
+            }
+        });
+
+        transferText.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (itemClickListener == null) {
+                    throw new IllegalStateException("Must set item click listener");
+                }
+                itemClickListener.openPaidMemberDialog(groupKey);
+            }
+        });
+    }
+
+
+    public void setItemClickListener(ContentViewAdapter.ItemCLickListener itemClickListener) {
+        this.itemClickListener = itemClickListener;
     }
 }

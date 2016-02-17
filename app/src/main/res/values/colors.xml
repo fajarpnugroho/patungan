@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <color name="light_grey">#EEEEEE</color>
     <color name="grey">#EDEEEF</color>
     <color name="dark_green">#388E3C</color>
 
@@ -15,8 +16,10 @@
     <color name="secondary_dark">#927B0D</color>
     <color name="secondary_light">#FADF83</color>
 
+    <color name="thin_black">#BBBBBB</color>
     <color name="light_black">#747474</color>
     <color name="black">#616161</color>
+    <color name="soft_black">#333333</color>
     <color name="black_black">#212121</color>
     <color name="google">#C6412C</color>
 

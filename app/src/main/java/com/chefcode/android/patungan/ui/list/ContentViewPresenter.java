@@ -27,14 +27,14 @@ public class ContentViewPresenter {
         this.encodedMail = sharedPreferences.getString(Constants.ENCODED_EMAIL, "");
     }
 
-    public void loadContentThenSetAdapter() {
+    public void loadContentThenSetAdapter(ContentViewAdapter.ItemCLickListener itemCLickListener) {
         Firebase userPaymentGroupRef = paymentGroupRef.child(encodedMail);
         Query orderedUserPaymentGroupRef = userPaymentGroupRef.orderByKey();
 
         ContentViewAdapter adapter =
                 new ContentViewAdapter(PaymentGroup.class,
                         R.layout.view_content_list_item, PaymentGroupViewHolder.class,
-                        orderedUserPaymentGroupRef);
+                        orderedUserPaymentGroupRef, itemCLickListener);
 
         view.getRecyclerView().setAdapter(adapter);
     }
