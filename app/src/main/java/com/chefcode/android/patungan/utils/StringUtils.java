@@ -34,4 +34,9 @@ public class StringUtils {
         phoneNumber = phoneNumber.replace("+62", "0");
         return phoneNumber;
     }
+
+    public static String getPhoneNumberFromEncodedEmail(String paymentGroupOwner) {
+        String[] tmp = paymentGroupOwner.split("@");
+        return tmp[0];
+    }
 }

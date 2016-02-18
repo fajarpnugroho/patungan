@@ -49,5 +49,6 @@
     <string name="label_hint_contact">Enter your contact name</string>
     <string name="title_invite_member">Invite member</string>
     <string name="label_member">Member</string>
+    <string name="button_transfer">TRANSFER WITH E-CASH</string>
 
 </resources>

@@ -1,6 +1,8 @@
 package com.chefcode.android.patungan.ui.detail;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.support.v7.widget.CardView;
 import android.text.SpannableString;
 import android.text.Spanned;
@@ -9,12 +11,16 @@ import android.text.style.TextAppearanceSpan;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.widget.FrameLayout;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.chefcode.android.patungan.Injector;
 import com.chefcode.android.patungan.R;
 import com.chefcode.android.patungan.firebase.model.PaymentGroup;
+import com.chefcode.android.patungan.utils.Constants;
 import com.chefcode.android.patungan.utils.StringUtils;
+
+import java.util.Objects;
 
 import javax.inject.Inject;
 
@@ -24,10 +30,12 @@ import butterknife.ButterKnife;
 public class PaymentGroupDetailViewImp extends FrameLayout implements PaymentGroupDetailView {
 
     @Inject PaymentGroupPresenter presenter;
+    @Inject SharedPreferences sharedPreferences;
 
     @Bind(R.id.payment_group_name) TextView paymentGroupText;
     @Bind(R.id.bucket) TextView bucketText;
     @Bind(R.id.invoice) TextView invoiceText;
+    @Bind(R.id.action_container) LinearLayout actionContainer;
 
     private TextAppearanceSpan labelTextAppearance;
     private TextAppearanceSpan priceNumberTextAppearance;
@@ -65,17 +73,31 @@ public class PaymentGroupDetailViewImp extends FrameLayout implements PaymentGro
         super.onDetachedFromWindow();
     }
 
+    @SuppressLint("NewApi")
     @Override
     public void populate(PaymentGroup paymentGroup) {
 
         paymentGroupText.setText(paymentGroup.getGroupName());
 
-        String bucketString = StringUtils.convertToRupiah(paymentGroup.getBucket());
-        String invoiceString = StringUtils.convertToRupiah(paymentGroup.getInvoice());
+        if (!Objects.equals(paymentGroup.getOwner(),
+                sharedPreferences.getString(Constants.ENCODED_EMAIL, ""))) {
+            String bucketString = StringUtils.getPhoneNumberFromEncodedEmail(paymentGroup.getOwner())
+                    + " mengajukan Rp. 50.000, 00 dari kamu "
+                    + "dan 6 anggota lainnya";
+            bucketText.setText(bucketString, TextView.BufferType.SPANNABLE);
+            bucketText.setMovementMethod(new LinkMovementMethod());
 
-        bucketText.setText(setAppearanceBucketText("Dana terkumpul\n", bucketString),
-                TextView.BufferType.SPANNABLE);
-        bucketText.setMovementMethod(new LinkMovementMethod());
+            actionContainer.setVisibility(VISIBLE);
+        } else {
+            String bucketString = StringUtils.convertToRupiah(paymentGroup.getBucket());
+            bucketText.setText(setAppearanceBucketText("Dana terkumpul\n", bucketString),
+                    TextView.BufferType.SPANNABLE);
+            bucketText.setMovementMethod(new LinkMovementMethod());
+
+            actionContainer.setVisibility(GONE);
+        }
+
+        String invoiceString = StringUtils.convertToRupiah(paymentGroup.getInvoice());
 
         invoiceText.setText(setAppearanceBucketText("Total biaya\n", invoiceString));
         invoiceText.setMovementMethod(new LinkMovementMethod());
