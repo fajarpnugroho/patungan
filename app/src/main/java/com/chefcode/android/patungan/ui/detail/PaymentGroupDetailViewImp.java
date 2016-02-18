@@ -85,7 +85,7 @@ public class PaymentGroupDetailViewImp extends FrameLayout implements PaymentGro
         SpannableString bucket = new SpannableString(label + number);
 
         bucket.setSpan(labelTextAppearance, 0, label.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-        bucket.setSpan(priceNumberTextAppearance, label.length()+1, bucket.length(),
+        bucket.setSpan(priceNumberTextAppearance, label.length(), bucket.length(),
                 Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
 
         return bucket;

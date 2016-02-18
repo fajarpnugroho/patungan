@@ -1,6 +1,8 @@
 package com.chefcode.android.patungan;
 
 import com.chefcode.android.patungan.ui.contact.ContactLoaderActivity;
+import com.chefcode.android.patungan.ui.detail.InvitedMemberItemView;
+import com.chefcode.android.patungan.ui.detail.InvitedMemberViewImp;
 import com.chefcode.android.patungan.ui.detail.PaymentGroupDetailViewImp;
 import com.chefcode.android.patungan.ui.login.DialogLoginFragment;
 import com.chefcode.android.patungan.ui.edit.EditPaymentGroupActivity;
@@ -26,4 +28,8 @@ public interface ApplicationGraph {
     void inject(ContactLoaderActivity activity);
 
     void inject(PaymentGroupDetailViewImp paymentGroupDetailViewImp);
+
+    void inject(InvitedMemberViewImp invitedMemberViewImp);
+
+    void inject(InvitedMemberItemView invitedMemberItemView);
 }

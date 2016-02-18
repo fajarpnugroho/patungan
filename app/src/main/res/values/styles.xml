@@ -72,4 +72,13 @@
         <item name="android:lineSpacingMultiplier">1.1</item>
     </style>
 
+    <style name="InvitedMemberPhone">
+        <item name="android:textSize">18sp</item>
+        <item name="android:textColor">@color/soft_black</item>
+    </style>
+
+    <style name="TransferInfo">
+        <item name="android:textSize">14sp</item>
+        <item name="android:textColor">@color/gray</item>
+    </style>
 </resources>
