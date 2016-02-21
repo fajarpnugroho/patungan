@@ -43,8 +43,9 @@ public class PaymentDetailActivity extends BaseActivity {
             finish();
             return;
         }
-        paymentGroupDetailView.loadPaymentDetail(bundle.getString(Constants.PAYMENT_GROUP_ID));
-        invitedMemberView.loadInvitedMember(bundle.getString(Constants.PAYMENT_GROUP_ID));
+        String paymentGroupId = bundle.getString(Constants.PAYMENT_GROUP_ID);
+        paymentGroupDetailView.loadPaymentDetail(paymentGroupId);
+        invitedMemberView.loadInvitedMember(paymentGroupId);
     }
 
     @Override

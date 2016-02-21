@@ -82,6 +82,8 @@ public class DialogLoginPresenter {
                                 loginResponse.token).apply();
                         preferences.edit().putString(Constants.MSISDN,
                                 loginResponse.msisdn).apply();
+                        preferences.edit().putString(Constants.MY_CREDENTIALS,
+                                view.getInputPassword()).apply();
 
                         // Convert number to email
                         final String phoneMail = view.getInputPhoneNumber() + "@patungan.com";

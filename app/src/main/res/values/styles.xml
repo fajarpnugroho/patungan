@@ -81,4 +81,9 @@
         <item name="android:textSize">14sp</item>
         <item name="android:textColor">@color/gray</item>
     </style>
+
+    <style name="HightlightText">
+        <item name="android:textColor">@color/primary</item>
+        <item name="android:textStyle">bold</item>
+    </style>
 </resources>

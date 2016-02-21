@@ -15,6 +15,7 @@ public class Constants {
     public static final String FIREBASE_TIMESTAMP_MODIFIED_PROPERTY = "timestampModified";
     public static final String AVATAR = "avatar";
     public static final String PAYMENT_GROUP_ID = "payment_group_id";
+    public static final String MY_CREDENTIALS = "myCredentials";
 
 
     public Constants() {}

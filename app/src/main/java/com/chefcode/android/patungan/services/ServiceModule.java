@@ -2,6 +2,7 @@ package com.chefcode.android.patungan.services;
 
 import com.chefcode.android.patungan.services.api.LoginService;
 import com.chefcode.android.patungan.services.api.LogoutService;
+import com.chefcode.android.patungan.services.api.TransferService;
 import com.chefcode.android.patungan.services.api.UserService;
 import com.google.gson.FieldNamingPolicy;
 import com.google.gson.Gson;
@@ -60,6 +61,12 @@ public class ServiceModule {
     @Provides
     UserService provideUserService(Retrofit retrofit) {
         return retrofit.create(UserService.class);
+    }
+
+    @Singleton
+    @Provides
+    TransferService provideTransferService(Retrofit retrofit) {
+        return retrofit.create(TransferService.class);
     }
 
 }

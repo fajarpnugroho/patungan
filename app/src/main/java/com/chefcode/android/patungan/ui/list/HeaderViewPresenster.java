@@ -28,17 +28,17 @@ public class HeaderViewPresenster {
     private Context context;
     private UserService service;
     private SharedPreferences sharedPreferences;
-
-    @Inject
-    AccountManager patunganAccount;
+    private AccountManager patunganAccount;
 
     @Inject
     public HeaderViewPresenster(Context context, UserService service,
-                                SharedPreferences sharedPreferences) {
+                                SharedPreferences sharedPreferences,
+                                AccountManager patunganAccount) {
 
         this.context = context;
         this.service = service;
         this.sharedPreferences = sharedPreferences;
+        this.patunganAccount = patunganAccount;
     }
 
     public void init(HeaderView view) {

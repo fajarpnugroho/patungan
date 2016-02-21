@@ -32,12 +32,16 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="7dp"
-            tools:text="Dana terkumpul\nRp 150.000, 00" />
+            android:textColor="@color/medium_dark"
+            android:fontFamily="sans-serif-light"
+            tools:text="Dana terkumpul\nRp 150.000, 00"
+            tools:ignore="UnusedAttribute" />
 
         <TextView
             android:id="@+id/invoice"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:textColor="@color/medium_dark"
             tools:text="Total biaya\nRp 150.000, 00" />
 
         <LinearLayout
