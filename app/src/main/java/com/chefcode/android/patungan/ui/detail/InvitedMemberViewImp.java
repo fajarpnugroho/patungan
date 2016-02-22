@@ -1,6 +1,5 @@
 package com.chefcode.android.patungan.ui.detail;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
@@ -20,9 +19,11 @@ import butterknife.ButterKnife;
 
 public class InvitedMemberViewImp extends FrameLayout implements InvitedMemberView {
 
-    @Inject InvitedMemberPresenter presenter;
-
     @Bind(R.id.content_container) LinearLayout contentContainer;
+
+    @Inject InvitedMemberPresenter presenter;
+    private List<User> paidMember;
+    private List<User> invitedMembers;
 
     public InvitedMemberViewImp(Context context) {
         this(context, null);
@@ -43,22 +44,45 @@ public class InvitedMemberViewImp extends FrameLayout implements InvitedMemberVi
         }
     }
 
-    public void loadInvitedMember(String paymentGroupId) {
-        presenter.getListInvitedMember(paymentGroupId);
+    public void loadPaidMember(String paymentGroupId) {
+        presenter.loadPaidMember(paymentGroupId);
+    }
+
+    @Override
+    public void listPaidMember(List<User> paidMember) {
+        this.paidMember = paidMember;
+        reloadView();
+    }
+
+    private void reloadView() {
+        contentContainer.removeAllViews();
+        if (this.invitedMembers != null && this.paidMember != null) {
+            for (User user : invitedMembers) {
+                InvitedMemberItemView view = new InvitedMemberItemView(getContext());
+                view.populate(
+                        user.getProfilePict(),
+                        user.getMsisdn(),
+                        alreadyPaid(user.getEmail()));
+                contentContainer.addView(view);
+            }
+        }
+    }
+
+    private boolean alreadyPaid(String email) {
+        for (User user : paidMember) {
+            if (email.equals(user.getEmail())) {
+                return true;
+            }
+        }
+        return false;
     }
 
     @Override
     public void showListInvitedMember(List<User> invitedMembers) {
-        for (User user : invitedMembers) {
-            InvitedMemberItemView view = new InvitedMemberItemView(getContext());
-            view.populate(user.getProfilePict(), user.getMsisdn(), false);
-            contentContainer.addView(view);
-        }
+        this.invitedMembers = invitedMembers;
+        reloadView();
     }
 
-    @Override
-    protected void onDetachedFromWindow() {
-        presenter.removeValueEventListener();
-        super.onDetachedFromWindow();
-    }
+
+
 }

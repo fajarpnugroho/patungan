@@ -1,6 +1,5 @@
 package com.chefcode.android.patungan.ui.detail;
 
-import com.chefcode.android.patungan.firebase.model.InvitedMember;
 import com.chefcode.android.patungan.firebase.model.User;
 import com.chefcode.android.patungan.utils.Constants;
 import com.firebase.client.DataSnapshot;
@@ -14,46 +13,45 @@ import java.util.List;
 import javax.inject.Inject;
 
 public class InvitedMemberPresenter {
-
     private InvitedMemberView view;
-    private Firebase invitedMemberRef;
-    private Firebase paymentGroupInvitedMemberRef;
-    private ValueEventListener invitedMemberValueListener;
+
+    private Firebase paidMemberRef;
+    private Firebase paymentGroupPaidMemberRef;
+    private ValueEventListener paidMemberValueListener;
 
     @Inject
     public InvitedMemberPresenter() {}
 
     public void init(InvitedMemberView view) {
         this.view = view;
-
-        this.invitedMemberRef = new Firebase(Constants.FIREBASE_INVITED_MEMBER_URL);
+        this.paidMemberRef = new Firebase(Constants.FIREBASE_PAID_MEMBER_URL);
     }
 
-    public void getListInvitedMember(String paymentGroupId) {
-        paymentGroupInvitedMemberRef = invitedMemberRef.child(paymentGroupId);
-        invitedMemberValueListener = paymentGroupInvitedMemberRef
+    public void loadPaidMember(String paymentGroupId) {
+        this.paymentGroupPaidMemberRef = paidMemberRef.child(paymentGroupId);
+        this.paidMemberValueListener = paymentGroupPaidMemberRef
                 .addValueEventListener(new ValueEventListener() {
-                                           @Override
-                                           public void onDataChange(DataSnapshot dataSnapshot) {
-                                               List<User> invitedMembers =
-                                                       new ArrayList<User>();
-                                               for (DataSnapshot child
-                                                       : dataSnapshot.getChildren()) {
-                                                   User user = child.getValue(User.class);
-                                                   invitedMembers.add(user);
-                                               }
-                                               view.showListInvitedMember(invitedMembers);
-                                           }
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        List<User> paidMember =
+                                new ArrayList<User>();
+                        for (DataSnapshot child
+                                : dataSnapshot.getChildren()) {
+                            User user = child.getValue(User.class);
+                            paidMember.add(user);
+                        }
+                        view.listPaidMember(paidMember);
+                    }
 
-                                           @Override
-                                           public void onCancelled(FirebaseError firebaseError) {
+                    @Override
+                    public void onCancelled(FirebaseError firebaseError) {
 
-                                           }
-                                       }
-                );
+                    }
+                });
     }
 
-    public void removeValueEventListener() {
-        paymentGroupInvitedMemberRef.removeEventListener(invitedMemberValueListener);
+    public void removeValueListener() {
+        this.paymentGroupPaidMemberRef.removeEventListener(paidMemberValueListener);
     }
+
 }

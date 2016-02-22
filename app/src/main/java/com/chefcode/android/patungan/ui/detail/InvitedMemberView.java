@@ -7,4 +7,6 @@ import java.util.List;
 
 public interface InvitedMemberView {
     void showListInvitedMember(List<User> invitedMember);
+
+    void listPaidMember(List<User> paidMember);
 }

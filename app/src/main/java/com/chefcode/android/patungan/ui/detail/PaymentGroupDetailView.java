@@ -6,4 +6,8 @@ public interface PaymentGroupDetailView {
     void populate(PaymentGroup paymentGroup);
 
     void errorTransfer(String message);
+
+    void successTransfer();
+
+    void onTransfering(boolean transfering);
 }

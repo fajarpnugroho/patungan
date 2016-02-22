@@ -16,13 +16,18 @@ import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.chefcode.android.patungan.Injector;
 import com.chefcode.android.patungan.R;
 import com.chefcode.android.patungan.firebase.model.PaymentGroup;
+import com.chefcode.android.patungan.firebase.model.User;
+import com.chefcode.android.patungan.ui.widget.LoadingView;
+import com.chefcode.android.patungan.ui.widget.ProgressDialogFragment;
 import com.chefcode.android.patungan.utils.Constants;
 import com.chefcode.android.patungan.utils.StringUtils;
 
+import java.util.List;
 import java.util.Objects;
 
 import javax.inject.Inject;
@@ -43,9 +48,11 @@ public class PaymentGroupDetailViewImp extends FrameLayout implements PaymentGro
 
     private TextAppearanceSpan labelTextAppearance;
     private TextAppearanceSpan priceNumberTextAppearance;
-    private TextAppearanceSpan highlightTextAppearance;
+    private TextAppearanceSpan ownerHighlightTextAppearance;
+    private TextAppearanceSpan minPaymentHighlightTextAppearance;
 
     private String paymentGroupId;
+    private List<User> invitedMembers;
 
     public PaymentGroupDetailViewImp(Context context) {
         this(context, null);
@@ -67,12 +74,16 @@ public class PaymentGroupDetailViewImp extends FrameLayout implements PaymentGro
 
             labelTextAppearance = new TextAppearanceSpan(getContext(), R.style.Label);
             priceNumberTextAppearance = new TextAppearanceSpan(getContext(), R.style.PriceNumber);
-            highlightTextAppearance = new TextAppearanceSpan(getContext(), R.style.HightlightText);
+            ownerHighlightTextAppearance = new TextAppearanceSpan(getContext(),
+                    R.style.HightlightText);
+            minPaymentHighlightTextAppearance = new TextAppearanceSpan(getContext(),
+                    R.style.HightlightText);
         }
     }
 
-    public void loadPaymentDetail(String paymentGroupId) {
+    public void loadPaymentDetail(String paymentGroupId, List<User> invitedMembers) {
         this.paymentGroupId = paymentGroupId;
+        this.invitedMembers = invitedMembers;
         presenter.getPaymentDetail(paymentGroupId);
     }
 
@@ -97,10 +108,13 @@ public class PaymentGroupDetailViewImp extends FrameLayout implements PaymentGro
                     .convertToRupiah(paymentGroup.getMinimumPayment());
 
             SpannableString bucketString = new SpannableString(ownerString
-                    + " mengajukan " + minTransferString
-                    + " dari kamu dan 6 anggota lainnya");
+                    + " mengajukan " + minTransferString + countingInvitedMember());
 
-            bucketString.setSpan(highlightTextAppearance, 0, ownerString.length(),
+            bucketString.setSpan(ownerHighlightTextAppearance, 0, ownerString.length(),
+                    Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+
+            bucketString.setSpan(minPaymentHighlightTextAppearance, ownerString.length() + 12,
+                    ownerString.length() + 12 + minTransferString.length(),
                     Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
 
             bucketText.setText(bucketString, TextView.BufferType.SPANNABLE);
@@ -130,26 +144,53 @@ public class PaymentGroupDetailViewImp extends FrameLayout implements PaymentGro
         invoiceText.setMovementMethod(new LinkMovementMethod());
     }
 
+    private String countingInvitedMember() {
+        String temp = " dari kamu";
+        if (invitedMembers.size() > 3) {
+            temp += " dan " + (invitedMembers.size()-1) + " orang lainnya";
+        }
+        return temp;
+    }
+
     @Override
     public void errorTransfer(String message) {
+        Toast.makeText(getContext(), message, Toast.LENGTH_SHORT).show();
+    }
 
+    @Override
+    public void successTransfer() {
+        actionContainer.setVisibility(GONE);
+        Toast.makeText(getContext(), "Transfer berhasil dilakukan", Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onTransfering(boolean transfering) {
+        actionContainer.removeAllViews();
+        if (transfering) {
+            LoadingView loadingView = new LoadingView(getContext());
+            actionContainer.addView(loadingView);
+        }
     }
 
     private void showAlertDialog(final PaymentGroup paymentGroup) {
         AlertDialog.Builder passwordBuilder = new AlertDialog.Builder(getContext());
         final View view = LayoutInflater.from(getContext()).inflate(R.layout.dialog_confirm_password,
                 null);
+        passwordBuilder.setTitle("MASUKAN PIN ANDA");
         passwordBuilder.setView(view);
         passwordBuilder.setPositiveButton("CONFIRM", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
+
                 EditText editText = (EditText) view.findViewById(R.id.edit_text_password);
+
                 String myPassword = editText.getText().toString();
                 presenter.transferToOwnerPaymentGroup(paymentGroupId,
                         paymentGroup.getMinimumPayment(),
-                        StringUtils.getPhoneNumberFromEncodedEmail(paymentGroup.getOwner()),
+                        paymentGroup.getOwner(),
                         "Bayar patungan " + paymentGroup.getGroupName(),
-                        myPassword
+                        myPassword,
+                        invitedMembers
                 );
             }
         });

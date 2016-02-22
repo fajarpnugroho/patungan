@@ -27,21 +27,30 @@
             tools:ignore="UnusedAttribute"
             tools:text="nonton Bareng Kungfu Panda 3" />
 
+        <android.support.v4.widget.Space
+            android:layout_width="match_parent"
+            android:layout_height="8dp" />
+
         <TextView
             android:id="@+id/bucket"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="7dp"
             android:textColor="@color/medium_dark"
-            android:fontFamily="sans-serif-light"
+            android:textSize="16sp"
             tools:text="Dana terkumpul\nRp 150.000, 00"
             tools:ignore="UnusedAttribute" />
+
+        <android.support.v4.widget.Space
+            android:layout_width="match_parent"
+            android:layout_height="8dp" />
 
         <TextView
             android:id="@+id/invoice"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textColor="@color/medium_dark"
+            android:textSize="16sp"
             tools:text="Total biaya\nRp 150.000, 00" />
 
         <LinearLayout
