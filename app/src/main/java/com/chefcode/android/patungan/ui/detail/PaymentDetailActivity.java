@@ -7,6 +7,7 @@ import android.view.MenuItem;
 import com.chefcode.android.patungan.BaseActivity;
 import com.chefcode.android.patungan.Injector;
 import com.chefcode.android.patungan.R;
+import com.chefcode.android.patungan.firebase.model.PaymentGroup;
 import com.chefcode.android.patungan.firebase.model.User;
 import com.chefcode.android.patungan.utils.Constants;
 
@@ -26,6 +27,9 @@ public class PaymentDetailActivity extends BaseActivity implements PaymentDetail
     @Inject PaymentDetailPresenter presenter;
 
     private String paymentGroupId;
+    private PaymentGroup paymentGroup;
+    private List<User> invitedMembers;
+    private List<User> paidMember;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,7 +75,9 @@ public class PaymentDetailActivity extends BaseActivity implements PaymentDetail
         }
 
         paymentGroupId = bundle.getString(Constants.PAYMENT_GROUP_ID);
+        presenter.getPaymentDetail(paymentGroupId);
         presenter.getListInvitedMember(paymentGroupId);
+        presenter.getPaidMember(paymentGroupId);
     }
 
     @Override
@@ -86,8 +92,37 @@ public class PaymentDetailActivity extends BaseActivity implements PaymentDetail
 
     @Override
     public void listInvitedMember(List<User> invitedMembers) {
-        paymentGroupDetailView.loadPaymentDetail(paymentGroupId, invitedMembers);
-        invitedMemberView.showListInvitedMember(invitedMembers);
-        invitedMemberView.loadPaidMember(paymentGroupId);
+        this.invitedMembers = invitedMembers;
+        refreshContent();
+    }
+
+    @Override
+    public void listPaidMember(List<User> paidMember) {
+        this.paidMember = paidMember;
+        refreshContent();
+    }
+
+    @Override
+    public void paymentGroupDetail(PaymentGroup paymentGroup) {
+        this.paymentGroup = paymentGroup;
+        refreshContent();
+    }
+
+    private void refreshContent() {
+        if (isNotNull(paymentGroup) && isNotNull(invitedMembers) && isNotNull(paidMember)) {
+            paymentGroupDetailView.setPaymentGroupId(paymentGroupId);
+            paymentGroupDetailView.setInvitedMembers(invitedMembers);
+            paymentGroupDetailView.setPaidMembers(paidMember);
+            paymentGroupDetailView.populate(paymentGroup);
+        }
+
+        if (isNotNull(invitedMembers) && isNotNull(paidMember)) {
+            invitedMemberView.showListInvitedMember(invitedMembers);
+            invitedMemberView.listPaidMember(paidMember);
+        }
+    }
+
+    private boolean isNotNull(Object object) {
+        return object != null;
     }
 }

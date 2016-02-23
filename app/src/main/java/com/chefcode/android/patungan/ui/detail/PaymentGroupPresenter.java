@@ -4,7 +4,6 @@ import android.annotation.SuppressLint;
 import android.content.SharedPreferences;
 
 import com.chefcode.android.patungan.delegate.AccountManager;
-import com.chefcode.android.patungan.firebase.model.PaymentGroup;
 import com.chefcode.android.patungan.firebase.model.User;
 import com.chefcode.android.patungan.services.ServiceConfigs;
 import com.chefcode.android.patungan.services.api.TransferService;
@@ -12,16 +11,13 @@ import com.chefcode.android.patungan.services.response.TransferResponse;
 import com.chefcode.android.patungan.utils.Constants;
 import com.chefcode.android.patungan.utils.StringUtils;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
 import com.firebase.client.ServerValue;
-import com.firebase.client.ValueEventListener;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 
 import javax.inject.Inject;
 
@@ -34,9 +30,7 @@ public class PaymentGroupPresenter {
     private PaymentGroupDetailView view;
 
     private Firebase rootRef;
-    private Firebase userPaymentGroupRef;
-    private Firebase paymentGroupRef;
-    private ValueEventListener userPaymentGroupListener;
+
 
     private SharedPreferences sharedPreferences;
     private TransferService transferService;
@@ -54,42 +48,7 @@ public class PaymentGroupPresenter {
     @SuppressLint("NewApi")
     public void init(PaymentGroupDetailView view) {
         this.view = view;
-        String encodedEmail = sharedPreferences.getString(Constants.ENCODED_EMAIL, "");
-
-        if (Objects.equals(encodedEmail, "")) return;
-
         rootRef = new Firebase(Constants.FIREBASE_BASE_URL);
-
-        userPaymentGroupRef = rootRef.child(Constants.FIREBASE_PAYMENT_GROUP_LOCATION)
-                .child(encodedEmail);
-    }
-
-    public void getPaymentDetail(String paymentGroupId) {
-        // show loading
-        paymentGroupRef = userPaymentGroupRef.child(paymentGroupId);
-        // call service
-        userPaymentGroupListener = paymentGroupRef
-                .addValueEventListener(new ValueEventListener() {
-                                           @Override
-                                           public void onDataChange(DataSnapshot dataSnapshot) {
-                                               if (dataSnapshot.getValue() != null) {
-                                                   PaymentGroup paymentGroup = dataSnapshot
-                                                           .getValue(PaymentGroup.class);
-                                                   view.populate(paymentGroup);
-                                               }
-                                           }
-
-                                           @Override
-                                           public void onCancelled(FirebaseError firebaseError) {
-
-                                           }
-                                       }
-                );
-
-    }
-
-    public void removeListener() {
-        paymentGroupRef.removeEventListener(userPaymentGroupListener);
     }
 
     public void transferToOwnerPaymentGroup(final String groupId,
@@ -148,6 +107,7 @@ public class PaymentGroupPresenter {
                 ServerValue.TIMESTAMP);
 
         String userEncodedEmail = sharedPreferences.getString(Constants.ENCODED_EMAIL,"");
+        final int amountTransfer = StringUtils.getNumberOfAccountBalance(transferResponse.amount);
 
         for (User user : invitedMembers) {
             if (userEncodedEmail.equals(user.getEmail())) {
@@ -170,8 +130,7 @@ public class PaymentGroupPresenter {
             updatedData.put("/" + Constants.FIREBASE_PAYMENT_GROUP_LOCATION + "/"
                             + user.getEmail() + "/"
                             + paymentGroupId + "/"
-                            + Constants.FIREBASE_BUCKET_PROPERTY,
-                    StringUtils.getNumberOfAccountBalance(transferResponse.amount));
+                            + Constants.FIREBASE_BUCKET_PROPERTY, amountTransfer);
 
         }
 
@@ -185,18 +144,32 @@ public class PaymentGroupPresenter {
         updatedData.put("/" + Constants.FIREBASE_PAYMENT_GROUP_LOCATION + "/"
                         + recipient + "/"
                         + paymentGroupId + "/"
-                        + Constants.FIREBASE_BUCKET_PROPERTY,
-                StringUtils.getNumberOfAccountBalance(transferResponse.amount));
+                        + Constants.FIREBASE_BUCKET_PROPERTY, amountTransfer);
 
         rootRef.updateChildren(updatedData, new Firebase.CompletionListener() {
             @Override
             public void onComplete(FirebaseError firebaseError, Firebase firebase) {
                 if (firebaseError == null) {
+                    updateAccountBalance(amountTransfer);
                     view.onTransfering(false);
                     view.successTransfer();
                 }
             }
         });
 
+    }
+
+    private void updateAccountBalance(int ammountTransfer) {
+        String accountBalanceString = sharedPreferences.getString(Constants.ACCOUNT_BALANCE,
+                "Rp 0, 00");
+
+        int accountBalanceNum = StringUtils.getNumberOfAccountBalance(accountBalanceString);
+        int diffAccountBalanceTransfer = accountBalanceNum - ammountTransfer;
+
+        String diffAccountBalanceTransferString = StringUtils
+                .convertToRupiah(diffAccountBalanceTransfer);
+
+        sharedPreferences.edit().putString(Constants.ACCOUNT_BALANCE,
+                diffAccountBalanceTransferString).apply();
     }
 }

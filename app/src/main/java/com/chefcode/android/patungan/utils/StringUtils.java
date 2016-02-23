@@ -20,7 +20,7 @@ public class StringUtils {
         NumberFormat rupiahFormat = NumberFormat.getInstance(Locale.CANADA);
         return "Rp "
                 + rupiahFormat.format(Double.parseDouble(invoiceString)).replace(",", ".")
-                + ", 00";
+                + ",00";
     }
 
     public static int getNumberOfAccountBalance(String accountBalance) {

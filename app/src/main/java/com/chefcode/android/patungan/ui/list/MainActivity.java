@@ -29,6 +29,11 @@ public class MainActivity extends BaseActivity implements MainView {
         ButterKnife.bind(this);
 
         setToolbar();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
         setContent();
     }
 

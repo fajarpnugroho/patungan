@@ -40,12 +40,7 @@ public class InvitedMemberViewImp extends FrameLayout implements InvitedMemberVi
         if (!isInEditMode()) {
             Injector.INSTANCE.getApplicationGraph().inject(this);
             ButterKnife.bind(this);
-            presenter.init(this);
         }
-    }
-
-    public void loadPaidMember(String paymentGroupId) {
-        presenter.loadPaidMember(paymentGroupId);
     }
 
     @Override

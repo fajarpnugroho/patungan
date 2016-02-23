@@ -23,7 +23,6 @@ import com.chefcode.android.patungan.R;
 import com.chefcode.android.patungan.firebase.model.PaymentGroup;
 import com.chefcode.android.patungan.firebase.model.User;
 import com.chefcode.android.patungan.ui.widget.LoadingView;
-import com.chefcode.android.patungan.ui.widget.ProgressDialogFragment;
 import com.chefcode.android.patungan.utils.Constants;
 import com.chefcode.android.patungan.utils.StringUtils;
 
@@ -50,9 +49,9 @@ public class PaymentGroupDetailViewImp extends FrameLayout implements PaymentGro
     private TextAppearanceSpan priceNumberTextAppearance;
     private TextAppearanceSpan ownerHighlightTextAppearance;
     private TextAppearanceSpan minPaymentHighlightTextAppearance;
-
     private String paymentGroupId;
     private List<User> invitedMembers;
+    private List<User> paidMembers;
 
     public PaymentGroupDetailViewImp(Context context) {
         this(context, null);
@@ -81,16 +80,16 @@ public class PaymentGroupDetailViewImp extends FrameLayout implements PaymentGro
         }
     }
 
-    public void loadPaymentDetail(String paymentGroupId, List<User> invitedMembers) {
+    public void setPaymentGroupId(String paymentGroupId) {
         this.paymentGroupId = paymentGroupId;
-        this.invitedMembers = invitedMembers;
-        presenter.getPaymentDetail(paymentGroupId);
     }
 
-    @Override
-    protected void onDetachedFromWindow() {
-        presenter.removeListener();
-        super.onDetachedFromWindow();
+    public void setInvitedMembers(List<User> invitedMembers) {
+        this.invitedMembers = invitedMembers;
+    }
+
+    public void setPaidMembers(List<User> paidMembers) {
+        this.paidMembers = paidMembers;
     }
 
     @SuppressLint("NewApi")
@@ -122,12 +121,16 @@ public class PaymentGroupDetailViewImp extends FrameLayout implements PaymentGro
 
             actionContainer.setVisibility(VISIBLE);
 
-            buttonTransfer.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    showAlertDialog(paymentGroup);
-                }
-            });
+            if (havePaidPaymentGroup()) {
+                actionContainer.removeAllViews();
+            } else {
+                buttonTransfer.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        showAlertDialog(paymentGroup);
+                    }
+                });
+            }
 
         } else {
             String bucketString = StringUtils.convertToRupiah(paymentGroup.getBucket());
@@ -142,6 +145,16 @@ public class PaymentGroupDetailViewImp extends FrameLayout implements PaymentGro
 
         invoiceText.setText(setAppearanceBucketText("Total biaya\n", invoiceString));
         invoiceText.setMovementMethod(new LinkMovementMethod());
+    }
+
+    private boolean havePaidPaymentGroup() {
+        String encodedEmail = sharedPreferences.getString(Constants.ENCODED_EMAIL, "");
+        for (User user : paidMembers) {
+            if (encodedEmail.equals(user.getEmail())) {
+                return true;
+            }
+        }
+        return false;
     }
 
     private String countingInvitedMember() {
@@ -212,5 +225,4 @@ public class PaymentGroupDetailViewImp extends FrameLayout implements PaymentGro
 
         return bucket;
     }
-
 }
