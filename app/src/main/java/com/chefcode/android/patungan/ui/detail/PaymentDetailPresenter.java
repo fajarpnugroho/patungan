@@ -11,6 +11,7 @@ import com.firebase.client.FirebaseError;
 import com.firebase.client.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -31,6 +32,10 @@ public class PaymentDetailPresenter {
     private Firebase paymentGroupPaidMemberRef;
     private ValueEventListener paidMemberValueListener;
 
+    private Firebase discussionRef;
+    private Firebase paymentGroupDiscussionRef;
+    private ValueEventListener paymentGroupDiscussionListener;
+
     @Inject
     public PaymentDetailPresenter(SharedPreferences sharedPreferences) {
         this.sharedPreferences = sharedPreferences;
@@ -44,6 +49,8 @@ public class PaymentDetailPresenter {
         String encodedEmail = sharedPreferences.getString(Constants.ENCODED_EMAIL, "");
         this.userPaymentGroupRef = new Firebase(Constants.FIREBASE_PAYMENT_GROUP_URL)
                 .child(encodedEmail);
+
+        this.discussionRef = new Firebase(Constants.FIREBASE_PAYMENT_GROUP_DISCUSSION_URL);
     }
 
     public void getPaymentDetail(String paymentGroupId) {
@@ -118,5 +125,26 @@ public class PaymentDetailPresenter {
         this.paymentGroupInvitedMemberRef.removeEventListener(invitedMemberValueListener);
         this.paymentGroupPaidMemberRef.removeEventListener(paidMemberValueListener);
         this.paymentGroupRef.removeEventListener(userPaymentGroupListener);
+        this.paymentGroupDiscussionRef.removeEventListener(paymentGroupDiscussionListener);
+    }
+
+    public void getDiscussion(String paymentGroupId) {
+        this.paymentGroupDiscussionRef = discussionRef.child(paymentGroupId);
+        this.paymentGroupDiscussionListener = paymentGroupDiscussionRef
+                .addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        HashMap<String, Object> discussionItem = new HashMap<String, Object>();
+                        for (DataSnapshot child : dataSnapshot.getChildren()) {
+                            discussionItem.put(child.getKey(), child.getValue());
+                        }
+                        view.listOfMessage(discussionItem);
+                    }
+
+                    @Override
+                    public void onCancelled(FirebaseError firebaseError) {
+
+                    }
+                });
     }
 }

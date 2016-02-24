@@ -91,7 +91,7 @@ public class EditPaymentGroupActivity extends BaseActivity implements EditPaymen
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_detail, menu);
+        getMenuInflater().inflate(R.menu.menu_edit, menu);
         return super.onCreateOptionsMenu(menu);
     }
 

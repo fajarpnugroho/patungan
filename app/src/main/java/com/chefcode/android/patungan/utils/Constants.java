@@ -28,13 +28,14 @@ public class Constants {
     public static final String FIREBASE_PAYMENT_GROUP_LOCATION = "paymentGroup";
     public static final String FIREBASE_INVITED_MEMBER_LOCATION = "invitedMember";
     public static final String FIREBASE_PAID_MEMBER_LOCATION = "paidMember";
+    public static final String FIREBASE_PAYMENT_GROUP_DISCUSSION_LOCATION = "groupDiscussion";
 
     // url
     public static final String FIREBASE_USER_URL = FIREBASE_BASE_URL + "/" + FIREBASE_USER_LOCATION;
     public static final String FIREBASE_PAYMENT_GROUP_URL = FIREBASE_BASE_URL + "/" + FIREBASE_PAYMENT_GROUP_LOCATION;
     public static final String FIREBASE_INVITED_MEMBER_URL = FIREBASE_BASE_URL + "/" + FIREBASE_INVITED_MEMBER_LOCATION;
     public static final String FIREBASE_PAID_MEMBER_URL = FIREBASE_BASE_URL + "/" + FIREBASE_PAID_MEMBER_LOCATION;
-
+    public static final String FIREBASE_PAYMENT_GROUP_DISCUSSION_URL = FIREBASE_BASE_URL + "/" + FIREBASE_PAYMENT_GROUP_DISCUSSION_LOCATION;
     // property
     public static final String FIREBASE_TIMESTAMP_PROPERTY = "timestamp";
     public static final String FIREBASE_ACCOUNT_BALANCE_PROPERTY = "accountBalance";

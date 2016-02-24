@@ -2,6 +2,7 @@ package com.chefcode.android.patungan.ui.detail;
 
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.view.Menu;
 import android.view.MenuItem;
 
 import com.chefcode.android.patungan.BaseActivity;
@@ -11,6 +12,7 @@ import com.chefcode.android.patungan.firebase.model.PaymentGroup;
 import com.chefcode.android.patungan.firebase.model.User;
 import com.chefcode.android.patungan.utils.Constants;
 
+import java.util.HashMap;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -30,6 +32,7 @@ public class PaymentDetailActivity extends BaseActivity implements PaymentDetail
     private PaymentGroup paymentGroup;
     private List<User> invitedMembers;
     private List<User> paidMember;
+    private HashMap<String, Object> discussionItem = new HashMap<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -78,6 +81,24 @@ public class PaymentDetailActivity extends BaseActivity implements PaymentDetail
         presenter.getPaymentDetail(paymentGroupId);
         presenter.getListInvitedMember(paymentGroupId);
         presenter.getPaidMember(paymentGroupId);
+        presenter.getDiscussion(paymentGroupId);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_detail, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
+        MenuItem message = menu.findItem(R.id.action_message);
+        if (discussionItem.size() > 0) {
+            message.setIcon(R.drawable.ic_message_with_notif);
+        } else {
+            message.setIcon(R.drawable.ic_message);
+        }
+        return true;
     }
 
     @Override
@@ -86,8 +107,17 @@ public class PaymentDetailActivity extends BaseActivity implements PaymentDetail
             case android.R.id.home:
                 onBackPressed();
                 break;
+            case R.id.action_message:
+                discussionItem.clear();
+                invalidateOptionsMenu();
+                openMessageActivity();
+                break;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    private void openMessageActivity() {
+
     }
 
     @Override
@@ -106,6 +136,12 @@ public class PaymentDetailActivity extends BaseActivity implements PaymentDetail
     public void paymentGroupDetail(PaymentGroup paymentGroup) {
         this.paymentGroup = paymentGroup;
         refreshContent();
+    }
+
+    @Override
+    public void listOfMessage(HashMap<String, Object> discussionItem) {
+        this.discussionItem = discussionItem;
+        invalidateOptionsMenu();
     }
 
     private void refreshContent() {

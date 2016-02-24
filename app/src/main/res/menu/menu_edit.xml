@@ -2,8 +2,8 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
-        android:id="@+id/action_message"
-        android:icon="@drawable/ic_message"
-        android:title="@string/title_action_message"
+        android:id="@+id/action_done"
+        android:icon="@drawable/ic_done_white_24dp"
+        android:title="@string/action_title_done"
         app:showAsAction="always" />
 </menu>

@@ -3,6 +3,7 @@ package com.chefcode.android.patungan.ui.detail;
 import com.chefcode.android.patungan.firebase.model.PaymentGroup;
 import com.chefcode.android.patungan.firebase.model.User;
 
+import java.util.HashMap;
 import java.util.List;
 
 public interface PaymentDetailView {
@@ -11,4 +12,6 @@ public interface PaymentDetailView {
     void listPaidMember(List<User> paidMember);
 
     void paymentGroupDetail(PaymentGroup paymentGroup);
+
+    void listOfMessage(HashMap<String, Object> discussionItem);
 }
