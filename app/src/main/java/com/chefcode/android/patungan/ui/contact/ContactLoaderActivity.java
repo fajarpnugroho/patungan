@@ -12,6 +12,7 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.EditText;
 
@@ -57,6 +58,7 @@ public class ContactLoaderActivity extends BaseActivity implements
     private Firebase invitedMemberRef;
     private ValueEventListener invitedMemberListener;
     private HashMap<String, User> invitedMember;
+    private HashMap<String, Boolean> invited = new HashMap<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -149,16 +151,6 @@ public class ContactLoaderActivity extends BaseActivity implements
         getSupportActionBar().setTitle(R.string.title_invite_member);
     }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case android.R.id.home:
-                onBackPressed();
-                break;
-        }
-        return super.onOptionsItemSelected(item);
-    }
-
     private void setContent() {
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
@@ -175,7 +167,7 @@ public class ContactLoaderActivity extends BaseActivity implements
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if (s.length() > 0 ){
+                if (s.length() > 0) {
                     keyword = s.toString();
                     filterByName();
                 } else {
@@ -250,6 +242,42 @@ public class ContactLoaderActivity extends BaseActivity implements
 
     @Override
     public void invitedMember(boolean invited, String phoneNumber) {
+
+        if (invited) {
+            this.invited.put(phoneNumber, true);
+        } else {
+            this.invited.remove(phoneNumber);
+        }
+
         presenter.updateUserData(invited, paymentGroupId, phoneNumber);
+
+        invalidateOptionsMenu();
     }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_contact, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
+        if (this.invited.size() > 0) {
+            MenuItem actionDone = menu.findItem(R.id.action_done);
+            actionDone.setVisible(true);
+        }
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+            case R.id.action_done:
+                onBackPressed();
+                break;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
 }

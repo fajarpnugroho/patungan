@@ -1,5 +1,6 @@
 package com.chefcode.android.patungan.ui.list;
 
+import android.content.SharedPreferences;
 import android.support.v7.widget.RecyclerView;
 import android.text.Spannable;
 import android.text.SpannableString;
@@ -8,37 +9,39 @@ import android.text.style.TextAppearanceSpan;
 import android.view.View;
 import android.widget.TextView;
 
+import com.chefcode.android.patungan.Injector;
 import com.chefcode.android.patungan.R;
 import com.chefcode.android.patungan.firebase.model.PaymentGroup;
+import com.chefcode.android.patungan.utils.Constants;
 import com.chefcode.android.patungan.utils.StringUtils;
 import com.chefcode.android.patungan.utils.TimeUtils;
-import com.squareup.picasso.Picasso;
 
-import java.util.ArrayList;
-import java.util.List;
+import javax.inject.Inject;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
-import de.hdodenhof.circleimageview.CircleImageView;
 
 public class PaymentGroupViewHolder extends RecyclerView.ViewHolder {
 
-    @Bind(R.id.owner) CircleImageView ownerPict;
+    @Inject SharedPreferences sharedPreferences;
+
+    @Bind(R.id.owner) TextView ownerName;
     @Bind(R.id.payment_group) TextView paymentGroupName;
     @Bind(R.id.invoice) TextView invoiceText;
-    @Bind(R.id.member) TextView memberText;
-    @Bind(R.id.already_transfer) TextView transferText;
 
-    private TextAppearanceSpan paymentGroupNameTextAppearance;
+    private TextAppearanceSpan ownerTextApperance;
     private TextAppearanceSpan dateCreatedTextAppearance;
     private ContentViewAdapter.ItemCLickListener itemClickListener;
 
     public PaymentGroupViewHolder(View itemView) {
         super(itemView);
+
+        Injector.INSTANCE.getApplicationGraph().inject(this);
+
         ButterKnife.bind(this, itemView);
 
-        paymentGroupNameTextAppearance = new TextAppearanceSpan(itemView.getContext(),
-                R.style.PaymentGroupName);
+        ownerTextApperance = new TextAppearanceSpan(itemView.getContext(),
+                R.style.OwnerPaymentGroup);
 
         dateCreatedTextAppearance = new TextAppearanceSpan(itemView.getContext(),
                 R.style.PaymentGroupCreatedDate);
@@ -46,37 +49,32 @@ public class PaymentGroupViewHolder extends RecyclerView.ViewHolder {
 
     public void populate(final PaymentGroup paymentGroup, final String groupKey) {
         // TODO change with real encoded email
-        List<String> fake = new ArrayList<>();
-        fake.add("b70979cdb6958d768e413eb2504ec009");
-        fake.add("9cb69afa8d72c24d1ceaf63da11a4f6e");
-        fake.add("0bb6883c2b66289c7816c0c6bb9192fe");
-        fake.add("d3f1e22a5bff5f426ba960e4bbc7959a");
+
+        String owner = StringUtils.getPhoneNumberFromEncodedEmail(paymentGroup.getOwner())
+                .toUpperCase();
+
+        if (owner.equals(sharedPreferences.getString(Constants.MSISDN, ""))) {
+            owner = "You";
+        }
 
         String timeCreated = TimeUtils
                 .convertTimestamp(paymentGroup.getTimestampCreatedLong());
 
-        SpannableString paymentGroupHeaderText = new SpannableString(
-                paymentGroup.getGroupName().toUpperCase() + "\n" + timeCreated);
+        SpannableString ownerPaymentGroupString = new SpannableString(owner + "\n" + timeCreated);
 
-        paymentGroupHeaderText.setSpan(paymentGroupNameTextAppearance,
-                0, paymentGroup.getGroupName().length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+        ownerPaymentGroupString.setSpan(ownerTextApperance,
+                0, owner.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
 
-        paymentGroupHeaderText.setSpan(dateCreatedTextAppearance,
-                paymentGroup.getGroupName().length() + 1, paymentGroupHeaderText.length(),
+        ownerPaymentGroupString.setSpan(dateCreatedTextAppearance,
+                owner.length() + 1, ownerPaymentGroupString.length(),
                 Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
 
-        paymentGroupName.setText(paymentGroupHeaderText, TextView.BufferType.SPANNABLE);
-        paymentGroupName.setMovementMethod(new LinkMovementMethod());
+        ownerName.setText(ownerPaymentGroupString, TextView.BufferType.SPANNABLE);
+        ownerName.setMovementMethod(new LinkMovementMethod());
 
+        paymentGroupName.setText(paymentGroup.getGroupName().toUpperCase());
         invoiceText.setText(StringUtils.convertToRupiah(paymentGroup.getInvoice()));
 
-        Picasso.with(itemView.getContext())
-                .load(paymentGroup.getAvatarOwner())
-                .into(ownerPict);
-
-        memberText.setText(String.valueOf(fake.size()));
-
-        transferText.setText("2");
 
         itemView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -85,26 +83,6 @@ public class PaymentGroupViewHolder extends RecyclerView.ViewHolder {
                     throw new IllegalStateException("Must set item click listener");
                 }
                 itemClickListener.openDetail(groupKey);
-            }
-        });
-
-        memberText.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (itemClickListener == null) {
-                    throw new IllegalStateException("Must set item click listener");
-                }
-                itemClickListener.openMemberPaymentGroupDialog(groupKey);
-            }
-        });
-
-        transferText.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (itemClickListener == null) {
-                    throw new IllegalStateException("Must set item click listener");
-                }
-                itemClickListener.openPaidMemberDialog(groupKey);
             }
         });
     }

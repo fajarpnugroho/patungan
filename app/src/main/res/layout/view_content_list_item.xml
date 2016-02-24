@@ -1,9 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:paddingTop="6dp">
+    android:orientation="vertical"
+    android:padding="16dp">
+
+    <TextView
+        android:id="@+id/owner"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:lineSpacingMultiplier="1.1"
+        android:layout_marginLeft="2dp"
+        tools:text="082143207721\n20/02/2016 09:10:10 AM"
+        tools:ignore="RtlHardcoded" />
+
+    <android.support.v4.widget.Space
+        android:layout_width="match_parent"
+        android:layout_height="7dp" />
 
     <android.support.v7.widget.CardView
         android:layout_width="match_parent"
@@ -20,11 +35,14 @@
 
             <include layout="@layout/layout_card_header" />
 
-            <include layout="@layout/layout_card_invoice" />
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:background="@color/gray" />
 
-            <include layout="@layout/layout_card_action" />
+            <include layout="@layout/layout_card_invoice" />
 
         </LinearLayout>
     </android.support.v7.widget.CardView>
-</FrameLayout>
+</LinearLayout>
 

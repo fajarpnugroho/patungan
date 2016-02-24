@@ -19,12 +19,15 @@ import com.chefcode.android.patungan.ui.widget.RecyclerViewLoader;
 import com.chefcode.android.patungan.utils.ContactQuery;
 import com.chefcode.android.patungan.utils.StringUtils;
 
+import java.util.HashMap;
+
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
 public class ContactLoaderAdapter extends RecyclerViewLoader<RecyclerView.ViewHolder> {
 
     private Listener listener;
+    private HashMap<String, Boolean> invitedMember = new HashMap<>();
 
     public ContactLoaderAdapter(Listener listener) {
         this.listener = listener;
@@ -39,7 +42,13 @@ public class ContactLoaderAdapter extends RecyclerViewLoader<RecyclerView.ViewHo
     public void onBindViewHolder(RecyclerView.ViewHolder viewHolder, Cursor cursor) {
         if (viewHolder instanceof ContactViewHolder) {
             ContactViewHolder holder = (ContactViewHolder) viewHolder;
-            holder.populate(cursor);
+            boolean invited = false;
+            String phoneNumber = StringUtils
+                    .normalizePhoneNumber(cursor.getString(ContactQuery.NUMBER));
+            if (invitedMember.containsKey(phoneNumber)) {
+                invited = invitedMember.get(phoneNumber);
+            }
+            holder.populate(cursor, invited);
         }
     }
 
@@ -75,12 +84,15 @@ public class ContactLoaderAdapter extends RecyclerViewLoader<RecyclerView.ViewHo
                 public void onClick(View v) {
                     toggle();
                     checkBox.setChecked(checked);
-                    listener.invitedMember(checked, (String) itemView.getTag());
+
+                    String phoneNumber = (String) itemView.getTag();
+                    listener.invitedMember(checked, phoneNumber);
+                    invitedMember.put(phoneNumber, checked);
                 }
             });
         }
 
-        public void populate(Cursor cursor) {
+        public void populate(Cursor cursor, boolean invited) {
             String name = cursor.getString(ContactQuery.DISPLAY_NAME);
             String phoneNumber = StringUtils
                     .normalizePhoneNumber(cursor.getString(ContactQuery.NUMBER));
@@ -97,6 +109,9 @@ public class ContactLoaderAdapter extends RecyclerViewLoader<RecyclerView.ViewHo
             contactTextView.setMovementMethod(new LinkMovementMethod());
 
             itemView.setTag(phoneNumber);
+
+            setChecked(invited);
+            checkBox.setChecked(invited);
         }
 
         @Override

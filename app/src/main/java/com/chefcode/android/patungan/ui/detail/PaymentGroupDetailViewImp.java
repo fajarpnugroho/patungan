@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
+import android.graphics.drawable.Icon;
 import android.support.v7.app.AlertDialog;
 import android.text.SpannableString;
 import android.text.Spanned;
@@ -14,7 +15,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -172,7 +175,6 @@ public class PaymentGroupDetailViewImp extends FrameLayout implements PaymentGro
 
     @Override
     public void successTransfer() {
-        actionContainer.setVisibility(GONE);
         Toast.makeText(getContext(), "Transfer berhasil dilakukan", Toast.LENGTH_SHORT).show();
     }
 
@@ -180,8 +182,8 @@ public class PaymentGroupDetailViewImp extends FrameLayout implements PaymentGro
     public void onTransfering(boolean transfering) {
         actionContainer.removeAllViews();
         if (transfering) {
-            LoadingView loadingView = new LoadingView(getContext());
-            actionContainer.addView(loadingView);
+            ProgressBar progressBar = new ProgressBar(getContext());
+            actionContainer.addView(progressBar);
         }
     }
 

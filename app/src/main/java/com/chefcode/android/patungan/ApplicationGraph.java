@@ -5,6 +5,7 @@ import com.chefcode.android.patungan.ui.detail.InvitedMemberItemView;
 import com.chefcode.android.patungan.ui.detail.InvitedMemberViewImp;
 import com.chefcode.android.patungan.ui.detail.PaymentDetailActivity;
 import com.chefcode.android.patungan.ui.detail.PaymentGroupDetailViewImp;
+import com.chefcode.android.patungan.ui.list.PaymentGroupViewHolder;
 import com.chefcode.android.patungan.ui.login.DialogLoginFragment;
 import com.chefcode.android.patungan.ui.edit.EditPaymentGroupActivity;
 import com.chefcode.android.patungan.ui.list.ContentViewComponent;
@@ -35,4 +36,6 @@ public interface ApplicationGraph {
     void inject(InvitedMemberItemView invitedMemberItemView);
 
     void inject(PaymentDetailActivity activity);
+
+    void inject(PaymentGroupViewHolder paymentGroupViewHolder);
 }

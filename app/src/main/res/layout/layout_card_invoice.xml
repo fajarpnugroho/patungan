@@ -4,26 +4,16 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin">
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textSize="12sp"
-        android:textColor="@color/black_black"
-        android:fontFamily="sans-serif-thin"
-        android:text="@string/label_jmlh_dibayar"
-        tools:ignore="UnusedAttribute" />
+    android:padding="@dimen/activity_horizontal_margin">
 
     <TextView
         android:id="@+id/invoice"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="5dp"
-        android:fontFamily="sans-serif-thin"
+        android:fontFamily="sans-serif-condensed"
         android:textColor="@color/light_black"
-        android:textSize="32sp"
+        android:textSize="24sp"
         tools:text="Rp 250.000,00"
         tools:ignore="UnusedAttribute" />
 

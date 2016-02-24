@@ -38,9 +38,9 @@
         <item name="backgroundTint">@color/secondary</item>
     </style>
 
-    <style name="PaymentGroupName">
+    <style name="OwnerPaymentGroup">
         <item name="android:textSize">@dimen/title_payment_group_name</item>
-        <item name="android:textColor">@color/black_black</item>
+        <item name="android:textColor">@color/primary</item>
         <item name="android:textStyle">bold</item>
     </style>
 
