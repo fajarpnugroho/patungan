@@ -23,7 +23,7 @@
     <include layout="@layout/layout_recyclerview" />
 
     <android.support.design.widget.TextInputLayout
-        android:id="@+id/til_payment_group_name"
+        android:id="@+id/til_message"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/lists_title_bottom_margin"
@@ -31,19 +31,18 @@
         app:hintTextAppearance="@style/HintText">
 
         <EditText
-            android:id="@+id/edit_text_contact_name"
+            android:id="@+id/edit_text_message"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/grey"
-            android:hint="@string/label_hint_contact"
-            android:inputType="text"
-            android:imeOptions="actionSearch"
+            android:hint="@string/hint_type_your_message"
+            android:inputType="textMultiLine"
             android:padding="@dimen/edit_text_padding"
-            android:drawableLeft="@drawable/ic_search_black_24dp"
-            android:drawablePadding="8dp"
             android:textColor="@color/black"
             android:textColorHint="@color/dark_grey"
             android:textSize="@dimen/login_buttons_text_size"
+            android:singleLine="false"
+            android:drawableRight="@drawable/ic_send_black_24dp"
             tools:ignore="RtlHardcoded" />
     </android.support.design.widget.TextInputLayout>
 

@@ -51,5 +51,6 @@
     <string name="label_member">Member</string>
     <string name="button_transfer">TRANSFER WITH E-CASH</string>
     <string name="title_action_message">Message</string>
+    <string name="hint_type_your_message">Type your message</string>
 
 </resources>

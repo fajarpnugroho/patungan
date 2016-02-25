@@ -1,5 +1,6 @@
 package com.chefcode.android.patungan.ui.detail;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
@@ -10,6 +11,7 @@ import com.chefcode.android.patungan.Injector;
 import com.chefcode.android.patungan.R;
 import com.chefcode.android.patungan.firebase.model.PaymentGroup;
 import com.chefcode.android.patungan.firebase.model.User;
+import com.chefcode.android.patungan.ui.discussion.DiscussionActivity;
 import com.chefcode.android.patungan.utils.Constants;
 
 import java.util.HashMap;
@@ -117,7 +119,8 @@ public class PaymentDetailActivity extends BaseActivity implements PaymentDetail
     }
 
     private void openMessageActivity() {
-
+        Intent intent = new  Intent(this, DiscussionActivity.class);
+        startActivity(intent);
     }
 
     @Override
