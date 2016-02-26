@@ -15,7 +15,7 @@
 
     <application
         android:name="com.chefcode.android.patungan.PatunganApp"
-        android:allowBackup="false"
+        android:allowBackup="true"
         android:fullBackupContent="false"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"

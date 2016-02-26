@@ -6,7 +6,13 @@ import android.content.SharedPreferences;
 import com.chefcode.android.patungan.delegate.AccountManager;
 import com.chefcode.android.patungan.firebase.model.User;
 import com.chefcode.android.patungan.services.ServiceConfigs;
+import com.chefcode.android.patungan.services.api.PushService;
 import com.chefcode.android.patungan.services.api.TransferService;
+import com.chefcode.android.patungan.services.request.Message;
+import com.chefcode.android.patungan.services.request.SendMessageBody;
+import com.chefcode.android.patungan.services.request.Settings;
+import com.chefcode.android.patungan.services.request.TagNames;
+import com.chefcode.android.patungan.services.request.Target;
 import com.chefcode.android.patungan.services.response.TransferResponse;
 import com.chefcode.android.patungan.utils.Constants;
 import com.chefcode.android.patungan.utils.StringUtils;
@@ -15,6 +21,7 @@ import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
 import com.firebase.client.ServerValue;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -36,13 +43,16 @@ public class PaymentGroupPresenter {
     private TransferService transferService;
     private AccountManager patunganAccount;
 
+    private PushService service;
 
     @Inject
     public PaymentGroupPresenter(SharedPreferences sharedPreferences,
-                                 TransferService transferService, AccountManager patunganAccount) {
+                                 TransferService transferService, AccountManager patunganAccount,
+                                 PushService service) {
         this.sharedPreferences = sharedPreferences;
         this.transferService = transferService;
         this.patunganAccount = patunganAccount;
+        this.service = service;
     }
 
     @SuppressLint("NewApi")
@@ -54,7 +64,7 @@ public class PaymentGroupPresenter {
     public void transferToOwnerPaymentGroup(final String groupId,
                                             int minimumPayment,
                                             final String recipient,
-                                            String description,
+                                            final String description,
                                             String credential,
                                             final List<User> invitedMembers) {
 
@@ -75,7 +85,8 @@ public class PaymentGroupPresenter {
                         TransferResponse transferResponse = response.body();
                         // success
                         if (transferResponse.status.equals("PROCESSED")) {
-                            saveDataToFirebase(groupId, recipient, transferResponse, invitedMembers);
+                            saveDataToFirebase(groupId, recipient, transferResponse,
+                                    invitedMembers, description);
                         } else if (transferResponse.status
                                 .equals(ServiceConfigs.RESPONSE_TOKEN_EXPIRED)) {
                             patunganAccount.forceLogout();
@@ -95,10 +106,10 @@ public class PaymentGroupPresenter {
         }
     }
 
-    private void saveDataToFirebase(String paymentGroupId,
+    private void saveDataToFirebase(final String paymentGroupId,
                                     String recipient,
-                                    TransferResponse transferResponse,
-                                    List<User> invitedMembers) {
+                                    final TransferResponse transferResponse,
+                                    List<User> invitedMembers, final String description) {
 
         HashMap<String, Object> updatedData = new HashMap<>();
 
@@ -153,10 +164,29 @@ public class PaymentGroupPresenter {
                     updateAccountBalance(amountTransfer);
                     view.onTransfering(false);
                     view.successTransfer();
+
+                    sendMessagePush(paymentGroupId, transferResponse.amount, description);
                 }
             }
         });
 
+    }
+
+    private void sendMessagePush(String paymentGroupId, String amount, String description) {
+        String alert = sharedPreferences.getString(Constants.MSISDN, "")
+                + " telah mengirimkan uang sebesar " + amount
+                + " untuk " + description;
+
+        Message message = new Message(alert);
+
+        List<String> tags = new ArrayList<>();
+        tags.add(paymentGroupId);
+
+        TagNames tagNames = new TagNames(tags);
+        Target target = new Target(tagNames);
+
+        service.sendMessagePush(ServiceConfigs.BLUEMIX_APP_ID,
+                new SendMessageBody(message, target, new Settings("", "")));
     }
 
     private void updateAccountBalance(int ammountTransfer) {

@@ -26,4 +26,6 @@ public interface EditPaymentGroupView {
     void showErrorDialog(String message);
 
     void showInvitedMember(HashMap<String, User> invitedMember);
+
+    void loading(boolean loading);
 }

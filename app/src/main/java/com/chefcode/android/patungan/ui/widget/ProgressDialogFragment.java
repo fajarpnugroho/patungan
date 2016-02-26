@@ -19,6 +19,12 @@ public class ProgressDialogFragment extends DialogFragment {
         return dialogFragment;
     }
 
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setCancelable(false);
+    }
+
     public static void show(CharSequence message, FragmentManager fragmentManager, String tag) {
         ProgressDialogFragment progressDialogFragment = ProgressDialogFragment.newInstance(message);
         progressDialogFragment.show(fragmentManager, tag);

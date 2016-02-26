@@ -7,23 +7,33 @@ import android.text.TextUtils;
 import com.chefcode.android.patungan.R;
 import com.chefcode.android.patungan.firebase.model.PaymentGroup;
 import com.chefcode.android.patungan.firebase.model.User;
+import com.chefcode.android.patungan.services.ServiceConfigs;
+import com.chefcode.android.patungan.services.api.PushService;
+import com.chefcode.android.patungan.services.request.CreateTagBody;
+import com.chefcode.android.patungan.services.response.PushnotifResponse;
 import com.chefcode.android.patungan.utils.Constants;
 import com.chefcode.android.patungan.utils.FirebaseUtils;
+import com.chefcode.android.patungan.utils.PushUtils;
 import com.chefcode.android.patungan.utils.StringUtils;
 import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
 import com.firebase.client.ServerValue;
 import com.firebase.client.ValueEventListener;
+import com.ibm.mobilefirstplatform.clientsdk.android.push.api.MFPPush;
 
 import java.util.HashMap;
 
 import javax.inject.Inject;
 
+import retrofit.Call;
+import retrofit.Callback;
+import retrofit.Response;
+import retrofit.Retrofit;
 import timber.log.Timber;
 
 public class EditPaymentGroupPresenter {
-    public static final int TOTAL_INVITED_MEMBER = 4;
+
     private EditPaymentGroupView view;
     private SharedPreferences sharedPreferences;
     private Firebase rootRef;
@@ -39,10 +49,16 @@ public class EditPaymentGroupPresenter {
     private Context context;
     private HashMap<String, User> invitedMember;
 
+    private MFPPush push;
+
+    private PushService service;
+
     @Inject
-    public EditPaymentGroupPresenter(Context context, SharedPreferences sharedPreferences) {
+    public EditPaymentGroupPresenter(Context context, SharedPreferences sharedPreferences,
+                                     PushService service) {
         this.context = context;
         this.sharedPreferences = sharedPreferences;
+        this.service = service;
     }
 
     public void init(EditPaymentGroupView view, String paymentGroupId) {
@@ -55,6 +71,8 @@ public class EditPaymentGroupPresenter {
                 .child(encodedEmail).child(paymentGroupId);
         this.invitedMemberRef = new Firebase(Constants.FIREBASE_INVITED_MEMBER_URL)
                 .child(paymentGroupId);
+
+        this.push = MFPPush.getInstance();
     }
 
     public void valueListenerPaymentGroup() {
@@ -102,6 +120,7 @@ public class EditPaymentGroupPresenter {
     }
 
     public void saveEditedPaymentGroup() {
+        view.loading(true);
         if (TextUtils.isEmpty(view.getPaymentGroupName())) {
             view.showPaymentGroupError("Payment group name cannot be empty");
             return;
@@ -164,8 +183,25 @@ public class EditPaymentGroupPresenter {
             @Override
             public void onComplete(FirebaseError firebaseError, Firebase firebase) {
                 if (firebaseError == null) {
+                    view.loading(false);
                     view.finishEdit();
                 }
+            }
+        });
+
+        createPushTag();
+    }
+
+    private void createPushTag() {
+        Call<PushnotifResponse> call = service.createTag(ServiceConfigs.BLUEMIX_APP_ID,
+                new CreateTagBody(paymentGroupId, "Patungan group of " + paymentGroupId));
+        call.enqueue(new Callback<PushnotifResponse>() {
+            @Override
+            public void onResponse(Response<PushnotifResponse> response, Retrofit retrofit) {
+            }
+
+            @Override
+            public void onFailure(Throwable t) {
             }
         });
     }

@@ -16,7 +16,11 @@ import com.chefcode.android.patungan.R;
 import com.chefcode.android.patungan.firebase.model.User;
 import com.chefcode.android.patungan.ui.contact.ContactLoaderActivity;
 import com.chefcode.android.patungan.ui.widget.ErrorDialogFragment;
+import com.chefcode.android.patungan.ui.widget.ProgressDialogFragment;
 import com.chefcode.android.patungan.utils.Constants;
+import com.ibm.mobilefirstplatform.clientsdk.android.push.api.MFPPush;
+import com.ibm.mobilefirstplatform.clientsdk.android.push.api.MFPPushException;
+import com.ibm.mobilefirstplatform.clientsdk.android.push.api.MFPPushResponseListener;
 
 import java.util.HashMap;
 
@@ -25,6 +29,7 @@ import javax.inject.Inject;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import timber.log.Timber;
 
 public class EditPaymentGroupActivity extends BaseActivity implements EditPaymentGroupView,
         InvitedMemberView.Listener {
@@ -37,6 +42,7 @@ public class EditPaymentGroupActivity extends BaseActivity implements EditPaymen
     @Inject EditPaymentGroupPresenter presenter;
 
     private String paymentGroupId;
+    private MFPPush push;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,6 +63,8 @@ public class EditPaymentGroupActivity extends BaseActivity implements EditPaymen
         }
         paymentGroupId = bundle.getString(Constants.PAYMENT_GROUP_ID, null);
         presenter.init(this, paymentGroupId);
+
+        push = MFPPush.getInstance();
     }
 
     @OnClick(R.id.button_invite_member)
@@ -102,6 +110,17 @@ public class EditPaymentGroupActivity extends BaseActivity implements EditPaymen
                 onBackPressed();
                 break;
             case R.id.action_done:
+                push.subscribe(paymentGroupId, new MFPPushResponseListener<String>() {
+                    @Override
+                    public void onSuccess(String response) {
+                        Timber.v("Subscribe tag " + paymentGroupId + ", response" + response);
+                    }
+
+                    @Override
+                    public void onFailure(MFPPushException exception) {
+
+                    }
+                });
                 presenter.saveEditedPaymentGroup();
                 break;
         }
@@ -178,6 +197,15 @@ public class EditPaymentGroupActivity extends BaseActivity implements EditPaymen
             view.setListener(this);
             view.populate(user);
             iniviteMemberContainer.addView(view);
+        }
+    }
+
+    @Override
+    public void loading(boolean loading) {
+        if (loading) {
+            ProgressDialogFragment.show("Loading", getSupportFragmentManager(), "onLoading");
+        } else {
+            ProgressDialogFragment.dismiss(getSupportFragmentManager(), "onLoading");
         }
     }
 

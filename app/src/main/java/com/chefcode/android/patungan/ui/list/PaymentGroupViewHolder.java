@@ -13,6 +13,7 @@ import com.chefcode.android.patungan.Injector;
 import com.chefcode.android.patungan.R;
 import com.chefcode.android.patungan.firebase.model.PaymentGroup;
 import com.chefcode.android.patungan.utils.Constants;
+import com.chefcode.android.patungan.utils.PushUtils;
 import com.chefcode.android.patungan.utils.StringUtils;
 import com.chefcode.android.patungan.utils.TimeUtils;
 
@@ -48,7 +49,6 @@ public class PaymentGroupViewHolder extends RecyclerView.ViewHolder {
     }
 
     public void populate(final PaymentGroup paymentGroup, final String groupKey) {
-        // TODO change with real encoded email
 
         String owner = StringUtils.getPhoneNumberFromEncodedEmail(paymentGroup.getOwner())
                 .toUpperCase();
@@ -85,6 +85,8 @@ public class PaymentGroupViewHolder extends RecyclerView.ViewHolder {
                 itemClickListener.openDetail(groupKey);
             }
         });
+
+        PushUtils.subscribeTags(groupKey);
     }
 
 
