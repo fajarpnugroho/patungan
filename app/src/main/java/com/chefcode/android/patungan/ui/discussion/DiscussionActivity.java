@@ -1,6 +1,7 @@
 package com.chefcode.android.patungan.ui.discussion;
 
 import android.os.Bundle;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -22,6 +23,7 @@ import butterknife.OnClick;
 public class DiscussionActivity extends BaseActivity implements DiscussionView {
 
     @Bind(R.id.toolbar) Toolbar toolbar;
+    @Bind(R.id.swipe_to_refresh) SwipeRefreshLayout swipeRefreshLayout;
     @Bind(R.id.contact_list) RecyclerView messageList;
     @Bind(R.id.edit_text_message) EditText messageEditText;
 
@@ -80,6 +82,8 @@ public class DiscussionActivity extends BaseActivity implements DiscussionView {
         linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         messageList.setLayoutManager(linearLayoutManager);
         messageList.setAdapter(null);
+
+        swipeRefreshLayout.setEnabled(false);
     }
 
     @Override
@@ -90,6 +94,12 @@ public class DiscussionActivity extends BaseActivity implements DiscussionView {
                 break;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    protected void onPause() {
+        presenter.unregisterValueListener();
+        super.onPause();
     }
 
     @Override

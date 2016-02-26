@@ -6,4 +6,6 @@ public interface AccountHistoryView {
     void showListHistory(HistoryResponse historyResponse);
 
     void HandleError();
+
+    void loading(boolean loading);
 }

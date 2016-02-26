@@ -37,12 +37,14 @@ public class AccountHistoryPresenter {
     }
 
     public void loadAccountHistory(String page) {
+        view.loading(true);
         String token = sharedPreferences.getString(Constants.MANDIRI_TOKEN, "");
         String msisdn = sharedPreferences.getString(Constants.MSISDN, "");
         Call<HistoryResponse> call = userService.accountHistory(MAX_PAGE, token, msisdn, page);
         call.enqueue(new Callback<HistoryResponse>() {
             @Override
             public void onResponse(Response<HistoryResponse> response, Retrofit retrofit) {
+                view.loading(false);
                 if (response.isSuccess()) {
                     HistoryResponse historyResponse = response.body();
                     if (historyResponse.status.equals(ServiceConfigs.RESPONSE_TOKEN_EXPIRED)) {
@@ -57,6 +59,7 @@ public class AccountHistoryPresenter {
 
             @Override
             public void onFailure(Throwable t) {
+                view.loading(false);
                 view.HandleError();
             }
         });

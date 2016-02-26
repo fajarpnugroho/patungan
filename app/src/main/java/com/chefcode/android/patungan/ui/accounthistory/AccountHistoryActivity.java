@@ -1,10 +1,10 @@
 package com.chefcode.android.patungan.ui.accounthistory;
 
 import android.os.Bundle;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.view.Menu;
 import android.view.MenuItem;
 
 import com.chefcode.android.patungan.BaseActivity;
@@ -22,6 +22,7 @@ public class AccountHistoryActivity extends BaseActivity implements AccountHisto
 
     @Bind(R.id.toolbar) Toolbar toolbar;
     @Bind(R.id.contact_list) RecyclerView historyList;
+    @Bind(R.id.swipe_to_refresh) SwipeRefreshLayout swipeRefreshLayout;
 
     @Inject AccountHistoryPresenter presenter;
 
@@ -67,6 +68,13 @@ public class AccountHistoryActivity extends BaseActivity implements AccountHisto
                 presenter.loadAccountHistory(String.valueOf(page));
             }
         });
+
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                presenter.loadAccountHistory(page);
+            }
+        });
     }
 
     @Override
@@ -79,6 +87,19 @@ public class AccountHistoryActivity extends BaseActivity implements AccountHisto
 
     }
 
+    @Override
+    public void loading(boolean loading) {
+        if (loading) {
+            swipeRefreshLayout.post(new Runnable() {
+                @Override
+                public void run() {
+                    swipeRefreshLayout.setRefreshing(true);
+                }
+            });
+        } else {
+            swipeRefreshLayout.setRefreshing(false);
+        }
+    }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {

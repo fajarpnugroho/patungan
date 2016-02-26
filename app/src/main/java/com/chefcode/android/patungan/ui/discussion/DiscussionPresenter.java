@@ -5,9 +5,12 @@ import android.content.SharedPreferences;
 import com.chefcode.android.patungan.R;
 import com.chefcode.android.patungan.firebase.model.Discussion;
 import com.chefcode.android.patungan.utils.Constants;
+import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
+import com.firebase.client.FirebaseError;
 import com.firebase.client.Query;
 import com.firebase.client.ServerValue;
+import com.firebase.client.ValueEventListener;
 
 import java.util.HashMap;
 
@@ -19,6 +22,7 @@ public class DiscussionPresenter {
     private Firebase rootRef;
     private Firebase discussionRef;
     private Firebase paymentGroupDiscussinRef;
+    private ValueEventListener paymentGroupDiscussionListener;
 
     private SharedPreferences sharedPreferences;
 
@@ -37,10 +41,27 @@ public class DiscussionPresenter {
         this.paymentGroupDiscussinRef = discussionRef.child(paymentGroupId);
         Query paymentGroupDiscussionQuery = paymentGroupDiscussinRef.orderByKey();
 
-        DiscussionViewAdapter adapter = new DiscussionViewAdapter(Discussion.class,
+        final DiscussionViewAdapter adapter = new DiscussionViewAdapter(Discussion.class,
                 R.layout.view_discussion_item, DiscussionViewHolder.class,
                 paymentGroupDiscussionQuery);
         view.getRecyclerView().setAdapter(adapter);
+
+        this.paymentGroupDiscussionListener =
+                paymentGroupDiscussinRef.addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        view.getRecyclerView().smoothScrollToPosition(adapter.getItemCount());
+                    }
+
+                    @Override
+                    public void onCancelled(FirebaseError firebaseError) {
+
+                    }
+                });
+    }
+
+    public void unregisterValueListener() {
+        this.paymentGroupDiscussinRef.removeEventListener(paymentGroupDiscussionListener);
     }
 
     public void sendMessage(String paymentGroupId) {
