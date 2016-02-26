@@ -57,6 +57,8 @@
         <activity android:name=".ui.detail.PaymentDetailActivity" />
 
         <activity android:name=".ui.discussion.DiscussionActivity" />
+
+        <activity android:name=".ui.accounthistory.AccountHistoryActivity" />
     </application>
 
 </manifest>

@@ -4,10 +4,13 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.widget.FrameLayout;
 
 import com.chefcode.android.patungan.BaseActivity;
 import com.chefcode.android.patungan.R;
+import com.chefcode.android.patungan.ui.accounthistory.AccountHistoryActivity;
 import com.chefcode.android.patungan.ui.detail.PaymentDetailActivity;
 import com.chefcode.android.patungan.utils.Constants;
 
@@ -67,4 +70,24 @@ public class MainActivity extends BaseActivity implements MainView {
         dialogNewPaymentGroup.show(getSupportFragmentManager(), "ShowDialogNewPaymentGroup");
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_main, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_history:
+                navigateToAccountHistory();
+                break;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    private void navigateToAccountHistory() {
+        Intent intent = new Intent(this, AccountHistoryActivity.class);
+        startActivity(intent);
+    }
 }

@@ -18,19 +18,21 @@
             app:expandedTitleMarginStart="48dp"
             app:layout_scrollFlags="scroll|exitUntilCollapsed">
 
+            <FrameLayout
+                android:id="@+id/header_container"
+                android:layout_width="match_parent"
+                android:layout_height="150dp"
+                app:layout_collapseMode="parallax"
+                android:layout_marginTop="?actionBarSize"/>
+
             <android.support.v7.widget.Toolbar
                 android:id="@+id/toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
                 android:background="?attr/colorPrimary"
+                app:layout_collapseMode="pin"
                 app:layout_scrollFlags="scroll|enterAlways" />
 
-            <FrameLayout
-                android:id="@+id/header_container"
-                android:layout_width="match_parent"
-                android:layout_height="170dp"
-                app:layout_collapseMode="parallax"
-                app:layout_scrollFlags="scroll|enterAlways|enterAlwaysCollapsed" />
         </android.support.design.widget.CollapsingToolbarLayout>
 
     </android.support.design.widget.AppBarLayout>

@@ -52,5 +52,7 @@
     <string name="button_transfer">TRANSFER WITH E-CASH</string>
     <string name="title_action_message">Message</string>
     <string name="hint_type_your_message">Type your message</string>
+    <string name="label_action_history">History</string>
+    <string name="title_account_history">Account History</string>
 
 </resources>

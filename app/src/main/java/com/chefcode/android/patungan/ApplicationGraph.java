@@ -1,5 +1,6 @@
 package com.chefcode.android.patungan;
 
+import com.chefcode.android.patungan.ui.accounthistory.AccountHistoryActivity;
 import com.chefcode.android.patungan.ui.contact.ContactLoaderActivity;
 import com.chefcode.android.patungan.ui.detail.InvitedMemberItemView;
 import com.chefcode.android.patungan.ui.detail.InvitedMemberViewImp;
@@ -44,4 +45,6 @@ public interface ApplicationGraph {
     void inject(DiscussionActivity activity);
 
     void inject(DiscussionViewHolder discussionViewHolder);
+
+    void inject(AccountHistoryActivity accountHistoryActivity);
 }
