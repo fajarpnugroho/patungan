@@ -1,6 +1,7 @@
 package com.chefcode.android.patungan.ui.detail;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
@@ -29,6 +30,7 @@ public class PaymentDetailActivity extends BaseActivity implements PaymentDetail
     @Bind(R.id.invite_member_container) InvitedMemberViewImp invitedMemberView;
 
     @Inject PaymentDetailPresenter presenter;
+    @Inject SharedPreferences sharedPreferences;
 
     private String paymentGroupId;
     private PaymentGroup paymentGroup;
@@ -95,7 +97,7 @@ public class PaymentDetailActivity extends BaseActivity implements PaymentDetail
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
         MenuItem message = menu.findItem(R.id.action_message);
-        if (discussionItem.size() > 0) {
+        if (discussionItem.size() > sharedPreferences.getInt(Constants.READ_MESSAGE, 0)) {
             message.setIcon(R.drawable.ic_message_with_notif);
         } else {
             message.setIcon(R.drawable.ic_message);
@@ -110,7 +112,8 @@ public class PaymentDetailActivity extends BaseActivity implements PaymentDetail
                 onBackPressed();
                 break;
             case R.id.action_message:
-                discussionItem.clear();
+                sharedPreferences.edit().putInt(Constants.READ_MESSAGE,
+                        discussionItem.size()).apply();
                 invalidateOptionsMenu();
                 openMessageActivity();
                 break;
@@ -120,6 +123,8 @@ public class PaymentDetailActivity extends BaseActivity implements PaymentDetail
 
     private void openMessageActivity() {
         Intent intent = new  Intent(this, DiscussionActivity.class);
+        intent.putExtra(Constants.EXTRA_PAYMENT_GROUP_NAME, paymentGroup.getGroupName());
+        intent.putExtra(Constants.PAYMENT_GROUP_ID, paymentGroupId);
         startActivity(intent);
     }
 
@@ -143,6 +148,7 @@ public class PaymentDetailActivity extends BaseActivity implements PaymentDetail
 
     @Override
     public void listOfMessage(HashMap<String, Object> discussionItem) {
+        this.discussionItem.clear();
         this.discussionItem = discussionItem;
         invalidateOptionsMenu();
     }

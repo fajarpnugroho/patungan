@@ -16,6 +16,8 @@ public class Constants {
     public static final String AVATAR = "avatar";
     public static final String PAYMENT_GROUP_ID = "payment_group_id";
     public static final String MY_CREDENTIALS = "myCredentials";
+    public static final String EXTRA_PAYMENT_GROUP_NAME = "extra_payment_group_name";
+    public static final String READ_MESSAGE = "new_message";
 
 
     public Constants() {}

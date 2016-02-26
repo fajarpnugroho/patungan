@@ -85,4 +85,13 @@
     <style name="HightlightText">
         <item name="android:textColor">@color/primary</item>
     </style>
+
+    <style name="AuthorText">
+        <item name="android:textColor">@color/primary</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="DateText">
+        <item name="android:textColor">@color/thin_black</item>
+    </style>
 </resources>
