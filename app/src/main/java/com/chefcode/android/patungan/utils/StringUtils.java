@@ -31,6 +31,7 @@ public class StringUtils {
     }
 
     public static String normalizePhoneNumber(String phoneNumber) {
+        if (phoneNumber == null) { return ""; }
         phoneNumber = phoneNumber.replace("+62", "0");
         return phoneNumber;
     }

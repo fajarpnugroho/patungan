@@ -42,6 +42,11 @@ public class ContactLoaderAdapter extends RecyclerViewLoader<RecyclerView.ViewHo
     public void onBindViewHolder(RecyclerView.ViewHolder viewHolder, Cursor cursor) {
         if (viewHolder instanceof ContactViewHolder) {
             ContactViewHolder holder = (ContactViewHolder) viewHolder;
+
+            if (cursor == null) {
+                return;
+            }
+
             boolean invited = false;
             String phoneNumber = StringUtils
                     .normalizePhoneNumber(cursor.getString(ContactQuery.NUMBER));
