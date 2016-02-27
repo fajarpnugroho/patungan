@@ -13,6 +13,7 @@ import com.chefcode.android.patungan.services.request.SendMessageBody;
 import com.chefcode.android.patungan.services.request.Settings;
 import com.chefcode.android.patungan.services.request.TagNames;
 import com.chefcode.android.patungan.services.request.Target;
+import com.chefcode.android.patungan.services.response.MessagePushResponse;
 import com.chefcode.android.patungan.services.response.TransferResponse;
 import com.chefcode.android.patungan.utils.Constants;
 import com.chefcode.android.patungan.utils.StringUtils;
@@ -20,6 +21,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
 import com.firebase.client.ServerValue;
+
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -182,11 +185,20 @@ public class PaymentGroupPresenter {
         List<String> tags = new ArrayList<>();
         tags.add(paymentGroupId);
 
-        TagNames tagNames = new TagNames(tags);
-        Target target = new Target(tagNames);
+        Target target = new Target(tags);
 
-        service.sendMessagePush(ServiceConfigs.BLUEMIX_APP_ID,
-                new SendMessageBody(message, target, new Settings("", "")));
+        Call<MessagePushResponse> call = service.sendMessagePush(ServiceConfigs.BLUEMIX_APP_ID,
+                new SendMessageBody(message, target, new Settings(new Object(),
+                        new Object())));
+        call.enqueue(new Callback<MessagePushResponse>() {
+            @Override
+            public void onResponse(Response<MessagePushResponse> response, Retrofit retrofit) {
+            }
+
+            @Override
+            public void onFailure(Throwable t) {
+            }
+        });
     }
 
     private void updateAccountBalance(int ammountTransfer) {

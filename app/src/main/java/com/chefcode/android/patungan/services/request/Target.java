@@ -1,9 +1,11 @@
 package com.chefcode.android.patungan.services.request;
 
-public class Target {
-    public final TagNames tagNames;
+import java.util.List;
 
-    public Target(TagNames tagNames) {
+public class Target {
+    public final List<String> tagNames;
+
+    public Target(List<String> tagNames) {
         this.tagNames = tagNames;
     }
 }

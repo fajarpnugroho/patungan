@@ -3,6 +3,7 @@ package com.chefcode.android.patungan;
 import android.app.Application;
 import android.os.Build;
 import android.provider.Settings;
+import android.support.multidex.MultiDexApplication;
 
 import com.firebase.client.Firebase;
 import com.firebase.client.Logger;
@@ -15,7 +16,7 @@ import java.net.MalformedURLException;
 
 import timber.log.Timber;
 
-public class PatunganApp extends Application {
+public class PatunganApp extends MultiDexApplication {
 
     private static final String APP_ROUTE = "http://Patungan.mybluemix.net";
     private static final String APP_GUID = "0fa70150-6494-4f74-b56e-070d6eb84dd5";

@@ -85,8 +85,6 @@ public class PaymentGroupViewHolder extends RecyclerView.ViewHolder {
                 itemClickListener.openDetail(groupKey);
             }
         });
-
-        PushUtils.subscribeTags(groupKey);
     }
 
 
